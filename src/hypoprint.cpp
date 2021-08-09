@@ -830,7 +830,7 @@ void GraphWindow3::PrintEPS(double xb, double yb, TextFile *ofp)
 	}
 
 	for(i=0; i<=xlabels && xlabels > 0; i++) {
-		xcoord = i * xplot / xlabels;
+		xcoord = i * (double)xplot / xlabels;
 		if(graph->xtickmode == 2) xcoord = xplotstep * i;
 		if(graph->xtickmode && xcoord <= xaxislength) out->DrawLine(xbase + xcoord, ybase, xbase + xcoord, ybase - xticklength);
 	}
@@ -848,7 +848,7 @@ void GraphWindow3::PrintEPS(double xb, double yb, TextFile *ofp)
 	}
 
 	for(i=0; i<=ylabels && ylabels > 0; i++) {
-		ycoord = i * yplot / ylabels;
+		ycoord = i * (double)yplot / ylabels;
 		if(graph->ytickmode == 2) ycoord = yplotstep * i;
 		out->DrawLine(xbase, ybase + ycoord, xbase - yticklength, ybase + ycoord);
 	}

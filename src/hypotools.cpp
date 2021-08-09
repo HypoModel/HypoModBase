@@ -136,6 +136,9 @@ void TextGrid::SetCell(int row, int col, wxString data)
 	if(col >= numcols) {
 		AppendCols(col - numcols + 10);
 	}
+
+	//if(row == 0) diagbox->Write(text.Format("SetCell row %d col %d data %s\n", row, col, data));
+
 	SetCellValue(row, col, data);
 }
 

@@ -477,17 +477,35 @@ void PlotBox::OnPlotXY(wxCommandEvent& event)
 
 	//plotlayer = 0; // temp
 
-	if(graphdisp->numplots > plotset.dispcount[dispindex]) graphdisp->Remove(0);   // clear existing graph on new GraphDisp
+	graphdisp->Display();
 
-	if(plotset.dispcount[dispindex] == 0 || event.GetId() == ID_AddPlot) {
-		diagbox->Write(text.Format("\nAdd Plot numplots %d\n", graphdisp->numplots));
+	diagbox->Write(text.Format("PlotXY disp %d dispcount %d plotcount %d\n", dispindex, plotset.dispcount[dispindex], graphdisp->numplots));
+
+	//if(graphdisp->numplots > plotset.dispcount[dispindex])
+	if(plotset.dispcount[dispindex] == 0) {
+		graphdisp->Remove(0);   // clear existing graph on new GraphDisp
+		//diagbox->Write(text.Format("\nAdd Plot numplots %d\n", graphdisp->numplots));
+		graph = mod->graphbase->GetGraph(tag.Format("gridplot%d", plotcount++));
+		graphdisp->Add(graph);
+		graphdisp->sdex = graph->sdex;
+		mod->gcodes[graphindex] = mod->graphbase->GetSetTag(graphdisp->sdex);
+
+		graph->type = 2;  // default to XY line/scatter plot
+		plotindex = plotset.dispcount[dispindex];
+		diagbox->Write(text.Format("Add Plot numplots %d OK\n", graphdisp->numplots));
+	}
+	
+	//diagbox->Write(text.Format("PlotXY disp %d plotcount %d\n", dispindex, graphdisp->numplots));
+
+	else if(event.GetId() == ID_AddPlot) {
+		//diagbox->Write(text.Format("\nAdd Plot numplots %d\n", graphdisp->numplots));
 		graph = mod->graphbase->GetGraph(tag.Format("gridplot%d", plotcount++));
 		graphdisp->Add(graph);
 		graphdisp->XYSynch();
 		//graph->type = graphdisp->plot[0]->type;
 		graph->type = 2;  // default to XY line/scatter plot
 		plotindex = plotset.dispcount[dispindex];
-		diagbox->Write(text.Format("Add Plot numplots %d OK\n", graphdisp->numplots));
+		//diagbox->Write(text.Format("Add Plot numplots %d OK\n", graphdisp->numplots));
 	}
 	else {
 		graph = graphdisp->plot[plotlayer];
@@ -503,6 +521,8 @@ void PlotBox::OnPlotXY(wxCommandEvent& event)
 	else plotset.SetPlot(plotset.GetIndex(dispindex, plotindex), PlotDat(dispindex, graph->gtag, graph->type, xcol, ycol, errcol, errmode));
 
 	diagbox->Write(text.Format("Plot xcol %d ycol %d\n", xcol , ycol));
+
+	graphdisp->Display();
 
 	mainwin->scalebox->GraphUpdate();
 	//mod->PlotStore();

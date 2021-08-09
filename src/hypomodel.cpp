@@ -113,6 +113,8 @@ HypoMain::HypoMain(const wxString& title, const wxPoint& pos, const wxSize& size
 
 	gpos = new GraphDisp[numgraphs];
 
+	for(int i=0; i<numgraphs; i++) gpos[i].diagbox = diagbox;   // Add DiagBox link to GraphDisp objects
+
 	filebase = new FileBase(100);
 
 
@@ -203,7 +205,7 @@ HypoMain::HypoMain(const wxString& title, const wxPoint& pos, const wxSize& size
 			numdraw = mod->gcount;
 		}
 
-		for(graph = 0; graph<numdraw; graph++) {
+		for(graph=0; graph<numdraw; graph++) {
 			//fprintf(ofp, "graph %d  numplots %d  plot0 title %s  gparam %d\n", graph,
 			//gpos[graph].numplots, gpos[graph].plot[0]->gname.mb_str(), gpos[graph].plot[0]->gparam);
 			//outline.Printf("graph %d  numplots %d  plot0 title %s  gparam %d\n",

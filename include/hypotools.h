@@ -41,6 +41,7 @@ public:
 	wxTextCtrl *vdu;
 	GridBox *gridbox;
 	wxGauge *gauge;
+	wxString text;
 
 	TextGrid(wxWindow *parent, wxSize size);
 	~TextGrid();

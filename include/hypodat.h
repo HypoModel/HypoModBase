@@ -782,6 +782,7 @@ public:
 	wxString labelfontstring; 
 	int fillmode, fillstroke;
 	int errmode;  // error bars mode, currently 0 off, 1 on
+	int oversync; // overlay sync mode, 0 no axes sync, 1 sync axes (default)
 
 	BurstDat *burstdata;
 	SpikeDat *spikedata;
@@ -948,6 +949,7 @@ public:
 	int currentplot;
 	int spikedisp;
 	int gdex, sdex;
+	DiagBox *diagbox;
 	
 	GraphDisp();
 	void Add(GraphDat *);
@@ -956,6 +958,7 @@ public:
 	GraphDat *GetFront();
 	void Set(int index, GraphDat *newplot);   // Set(0, newplot) equivalent to Front(newplot)
 	void XYSynch(GraphDat *graph = NULL);
+	void Display();
 };
 
 

@@ -658,7 +658,7 @@ void GraphWindow3::UpdateScroll(int pos)
 		return;
 	}
 
-	if(graph->type == 2) max = graph->gdatax->max;
+	if(graph->type == 2 && graph->gdatax) max = graph->gdatax->max;
 
 	//mod->diagbox->Write(text.Format("UpdateScroll plot %s datamax %d xscale %.2f\n", graph->gname, graph->gdatadv->max, graph->xscale));
 

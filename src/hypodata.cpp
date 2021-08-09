@@ -1927,6 +1927,7 @@ void GridBox::GridLoadAll()
 
 		readline.Trim();
 		celldata = readline;
+		//diagbox->Write(text.Format("row %d col %d data: %s end\n", row, col, celldata));
 		textgrid[gindex]->SetCell(row, col, celldata);
 		cellcount++;
 		linecount++;

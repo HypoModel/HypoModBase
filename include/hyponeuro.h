@@ -10,6 +10,7 @@ enum {
 	ID_polymode,
 	ID_synthmode,
 	ID_transmode,
+	ID_decaymode,
 	ID_VSflag,
 	ID_transflag,
 	ID_Synth,

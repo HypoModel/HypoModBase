@@ -145,7 +145,7 @@ GraphBox::GraphBox(GraphWindow3 *graphw, const wxString & title)
 	
 	numwidth = 50;
 	paramset.AddNum("xshift", "XShift", graph->xshift, 2, labelwidth, numwidth);
-	paramset.AddNum("xscale", "XScale", graph->xunitscale, 3, labelwidth, numwidth);
+	paramset.AddNum("xscale", "XScale", graph->xunitscale, 4, labelwidth, numwidth);
 	paramset.AddNum("xdscale", "XDScale", graph->xunitdscale, 1, labelwidth, numwidth);
 	paramset.AddNum("xplot", "Width", graph->xplot, 0, labelwidth, numwidth);
 	paramset.AddNum("xlogbase", "XLogB", graph->xlogbase, 4, labelwidth, numwidth);
@@ -153,7 +153,7 @@ GraphBox::GraphBox(GraphWindow3 *graphw, const wxString & title)
 	paramset.AddNum("xlabelplaces", "X Places", graph->xlabelplaces, 0, labelwidth, numwidth);
 	paramset.AddNum("barwidth", "Bar Wid", graph->barwidth, 0, labelwidth, numwidth);
 	paramset.AddNum("yshift", "YShift", graph->yshift, 2, labelwidth, numwidth);
-	paramset.AddNum("yscale", "YScale", graph->yunitscale, 3, labelwidth, numwidth);
+	paramset.AddNum("yscale", "YScale", graph->yunitscale, 4, labelwidth, numwidth);
 	paramset.AddNum("ydscale", "YDScale", graph->yunitdscale, 1, labelwidth, numwidth);
 	paramset.AddNum("yplot", "Height", graph->yplot, 0, labelwidth, numwidth);
 	paramset.AddNum("ylogbase", "YLogB", graph->ylogbase, 4, labelwidth, numwidth);

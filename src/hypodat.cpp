@@ -1063,6 +1063,8 @@ void GraphDat::Init()
 
 	errmode = 0;
 	gdataerr = NULL;
+
+	oversync = 0;
 }
 
 
@@ -1071,6 +1073,7 @@ GraphDisp::GraphDisp()
 	numplots = 0;
 	currentplot = 0;
 	spikedisp = 0;
+	diagbox = NULL;
 }
 
 
@@ -1090,6 +1093,16 @@ void GraphDisp::Remove(int index)       // Remove plot layer from GraphDisp set
 	if(index >= numplots) return;
 	for(i=index; i<numplots-1; i++) plot[i] = plot[i+1];   // re-index
 	numplots--;	
+}
+
+
+void GraphDisp::Display() 
+{
+	int i;
+	wxString text;
+
+	diagbox->Write(text.Format("\nGraphDisp numplots %d\n", numplots));
+	for(i=0; i<numplots; i++) diagbox->Write(text.Format("GraphDisp plot %d graph %s\n", i, plot[i]->gname));
 }
 
 

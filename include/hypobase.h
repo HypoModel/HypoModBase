@@ -96,7 +96,8 @@ enum {
 	secdura,
 	pulse,
 	range,
-	gavage
+	gavage,
+	rampcurve
 };
 
 
@@ -219,6 +220,7 @@ enum {
 	ID_Spike,
 	ID_EvoFit,
 	ID_Ramp,
+	ID_RampCurve,
 	ID_Pulse,
 	ID_Range,
 	ID_antispikes,

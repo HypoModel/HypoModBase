@@ -1504,10 +1504,12 @@ void ScaleBox::PanelUpdate()
 
 			for(g=1; g<graphwin[i]->numdisps; g++) {
 				plot = graphwin[i]->dispset[g]->plot[0];
-				plot->yfrom = graph->yfrom; 
-				plot->yto = graph->yto; 
-				plot->xfrom = graph->xfrom; 
-				plot->xto = graph->xto; 
+				if(plot->oversync) {
+					plot->yfrom = graph->yfrom; 
+					plot->yto = graph->yto; 
+					plot->xfrom = graph->xfrom; 
+					plot->xto = graph->xto; 
+				}
 			}
 		}
 	}
@@ -1541,12 +1543,15 @@ void ScaleBox::OnOverlay(wxCommandEvent& event)
 		
 		// Synchronise axis scales in panel2
 		refgraph = graphwin[pan1]->dispset[0]->plot[0];
-		for(i=0; i<graphwin[pan2]->numdisps; i++) {
-			graph = graphwin[pan2]->dispset[i]->plot[0];
-			graph->yto = refgraph->yto;
-			graph->yfrom = refgraph->yfrom;
-			graph->xto = refgraph->xto;
-			graph->xfrom = refgraph->xfrom;
+		if(refgraph->oversync) {
+			mod->diagbox->Write("ScaleBox overlay synch\n");
+			for(i=0; i<graphwin[pan2]->numdisps; i++) {
+				graph = graphwin[pan2]->dispset[i]->plot[0];
+				graph->yto = refgraph->yto;
+				graph->yfrom = refgraph->yfrom;
+				graph->xto = refgraph->xto;
+				graph->xfrom = refgraph->xfrom;
+			}
 		}
 		
 		// Move GraphDisps down
@@ -1580,6 +1585,8 @@ void ScaleBox::OnOverlay(wxCommandEvent& event)
 
 	overlay->toggle = 1 - overlay->toggle;
 	
+	//if(refgraph->oversync) ScaleUpdate();
+	//else GraphUpdate();
 	ScaleUpdate();
 }
 
