@@ -555,13 +555,14 @@ void Model::ModLoad()
 	diagbox->Write("ModLoad....OK\n");
 }
 
-
+#ifdef HYPOSOUND
 int Model::SoundLink(SoundBox *soundbox)
 {
 	soundbox->spikedata = NULL;
 	soundbox->wavedata = NULL;
 	return -1;
 }
+#endif
 
 
 int Model::ModeSum(ParamStore *gflags)
