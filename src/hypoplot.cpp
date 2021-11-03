@@ -512,15 +512,18 @@ void PlotBox::OnPlotXY(wxCommandEvent& event)
 		plotindex = plotlayer;
 	}
 
-	gridbox->ColumnData(ycol, graph->gdatadv);
-	graph->xcount = gridbox->ColumnData(xcol, graph->gdatax);
+	//gridbox->ColumnData(ycol, graph->gdatadv);
+	//graph->xcount = gridbox->ColumnData(xcol, graph->gdatax);
+
+	graph->xcount = gridbox->ColumnDataXY(xcol, ycol, graph->gdatax, graph->gdatadv);
+
 	if(graph->gdataerr) gridbox->ColumnData(errcol, graph->gdataerr);
 	graph->errmode = errmode;
 
 	if(plotset.dispcount[dispindex] <= plotindex) plotset.AddPlot(PlotDat(dispindex, graph->gtag, graph->type, xcol, ycol, errcol, errmode));
 	else plotset.SetPlot(plotset.GetIndex(dispindex, plotindex), PlotDat(dispindex, graph->gtag, graph->type, xcol, ycol, errcol, errmode));
 
-	diagbox->Write(text.Format("Plot xcol %d ycol %d\n", xcol , ycol));
+	diagbox->Write(text.Format("Plot xcol %d ycol %d Xcount %d\n", xcol , ycol, graph->xcount));
 
 	graphdisp->Display();
 

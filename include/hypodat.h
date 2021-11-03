@@ -677,12 +677,12 @@ public:
 	int count;
 	std::vector<PlotDat>plotdata;
 	int dispindex;
-	int dispcount[10];
+	int dispcount[20];
 
 	PlotSet() {
 		dispindex = 0;
 		count = 0;
-		for(int i=0; i<10; i++) dispcount[i] = 0;
+		for(int i=0; i<20; i++) dispcount[i] = 0;
 	};
 
 	int AddPlot(PlotDat);
@@ -942,9 +942,9 @@ public:
 
 class GraphDisp{             // used for multiple layered plots for simultaneous display
 public:
-	GraphDat *plot[10];
+	GraphDat *plot[20];
 	//PlotSet plotset;
-	static const int maxplots = 10;
+	static const int maxplots = 20;
 	int numplots;
 	int currentplot;
 	int spikedisp;

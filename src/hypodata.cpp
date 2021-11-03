@@ -1631,6 +1631,36 @@ int GridBox::ColumnData(int col, datdouble *data)
 }
 
 
+int GridBox::ColumnDataXY(int xcol, int ycol, datdouble *dataX, datdouble *dataY)
+{
+	int row, count;
+	double valueX, valueY, maxX, maxY;
+	wxString celltextX, celltextY;
+
+	count = 0;
+	maxX = 0;
+	maxY = 0;
+
+	for(row=0; row<currgrid->GetNumberRows(); row++) {
+		celltextX = currgrid->GetCellValue(row, xcol);
+		celltextY = currgrid->GetCellValue(row, ycol);
+		if(celltextX != "" && celltextY != "") {
+			celltextX.ToDouble(&valueX);
+			celltextY.ToDouble(&valueY);
+			(*dataX)[count] = valueX;
+			if(valueX > maxX) maxX = valueX;
+			(*dataY)[count] = valueY;
+			if(valueY > maxY) maxY = valueY;
+			diagbox->Write(text.Format("Row %d X %.2f Y %.2f\n", row, valueX, valueY));
+			count++;
+		}
+	}
+	dataX->max = maxX;
+	dataY->max = maxY;
+	return count;
+}
+
+
 void GridBox::GridStoreAll()
 {
 	TextFile ofp;
@@ -1701,6 +1731,7 @@ void GridBox::GridStoreAll()
 		}
 	}
 
+	outfile << "\n";
 	outfile.close();
 	if(gauge) gauge->SetValue(0);
 	WriteVDU("OK\n");
@@ -1816,6 +1847,7 @@ void GridBox::GridLoadAll()
 	int newnumgrids;
 	int storeversion = 0;
 	int gindex;  // grid index
+	bool readdiag = true;
 
 	
 	filepath = mod->GetPath() + "/Grids";
@@ -1903,10 +1935,10 @@ void GridBox::GridLoadAll()
 
 	cellcount = 0;
 	while(getline(infile, line)) {
-		//diagbox->Write(text.Format(" line length %d first %d\n", (int)line.length(), (char)line[0]));
+		if(readdiag) diagbox->Write(text.Format(" line length %d first %d\n", (int)line.length(), (char)line[0]));
 		//wxString readline(line);
 		readline = StringConvert(line);
-		//diagbox->Write("readline: " + readline + "\n");
+		if(readdiag) diagbox->Write("readline: " + readline + "\n");
 
 		if(readline.IsEmpty() || !readline[0]) break;
 
@@ -1927,7 +1959,7 @@ void GridBox::GridLoadAll()
 
 		readline.Trim();
 		celldata = readline;
-		//diagbox->Write(text.Format("row %d col %d data: %s end\n", row, col, celldata));
+		if(readdiag) diagbox->Write(text.Format("row %d col %d data: %s end\n", row, col, celldata));
 		textgrid[gindex]->SetCell(row, col, celldata);
 		cellcount++;
 		linecount++;
