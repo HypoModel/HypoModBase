@@ -126,8 +126,10 @@ public:
 	virtual void ScaleSwitch(double xscale = 0) {};
 	virtual int ModeSum(ParamStore *gflags);
 	//virtual int SoundLink(SpikeDat **, datdouble **);
+#ifdef HYPOSOUND
 	virtual int SoundLink(SoundBox *);
 	virtual void SoundOn() {}; 
+#endif
 	virtual void ModStore();
 	virtual void ModLoad();
 	virtual void DataSelect(wxString, double, double) {};
