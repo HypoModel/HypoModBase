@@ -762,7 +762,7 @@ public:
 	double xticklength, yticklength;
 	double plotstroke;
 	wxColour strokecolour, fillcolour;
-	int xplot, yplot;
+	int xplot, yplot, xstart;
 	double xlabelgap, ylabelgap;
 	double labelfontsize, tickfontsize;
 	double xunitscale, xunitdscale;

@@ -1847,7 +1847,7 @@ void GridBox::GridLoadAll()
 	int newnumgrids;
 	int storeversion = 0;
 	int gindex;  // grid index
-	bool readdiag = true;
+	bool readdiag = false;
 
 	
 	filepath = mod->GetPath() + "/Grids";
@@ -1913,7 +1913,7 @@ void GridBox::GridLoadAll()
 		// code to add new grids
 		numgrids = newnumgrids;
 	}
-	diagbox->Write(text.Format("GridLoadAll  numgrids %d  newnumgrids %d\n", numgrids, newnumgrids));
+	if(readdiag) diagbox->Write(text.Format("GridLoadAll  numgrids %d  newnumgrids %d\n", numgrids, newnumgrids));
 
 	// Read and set grid sizes
 	for(i=0; i<newnumgrids; i++) {                 // use newnumgrids to match number of grids to load from file

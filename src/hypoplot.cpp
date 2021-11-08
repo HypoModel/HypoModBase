@@ -286,14 +286,18 @@ void PlotBox::DataEdit(int col)          // Update plots in response to edit in 
 }
 
 
-void PlotBox::SetLayer()
+void PlotBox::SetLayer(int layerdex)
 {
 	int xcol, ycol;
 	int errcol, errmode;
 	int dispcount;
 	PlotDat *plotdata;
 
-	plotlayer = paramset.GetCon("plotlayer")->GetValue();
+	if(layerdex == -1) plotlayer = paramset.GetCon("plotlayer")->GetValue();
+	else {
+		plotlayer = layerdex;
+		paramset.GetCon("plotlayer")->SetValue(layerdex);
+	}
 	//plotcount = plotset.count;
 	dispcount = plotset.dispcount[dispindex];
 
@@ -324,6 +328,10 @@ void PlotBox::SetLayer()
 	paramset.GetCon("ycol")->SetValue(ycol);
 	paramset.GetCon("errcol")->SetValue(errcol);
 	errcheck->SetValue(errmode);
+
+	// Highlight grid data
+	gridbox->textgrid[0]->SelectCol(ycol);
+	gridbox->textgrid[0]->MakeCellVisible(0, ycol);
 }
 
 
@@ -838,8 +846,9 @@ void PlotBox::PlotLoad(wxString filetag)
 		graph = mod->graphbase->GetGraph(plotset.plotdata[i].gtag); 
 		graph->plotdata = &plotset.plotdata[i];
 		graph->type = plotset.plotdata[i].gtype;
-		gridbox->ColumnData(plotset.plotdata[i].ycol, graph->gdatadv);
-		graph->xcount = gridbox->ColumnData(plotset.plotdata[i].xcol, graph->gdatax);
+		//gridbox->ColumnData(plotset.plotdata[i].ycol, graph->gdatadv);
+		//graph->xcount = gridbox->ColumnData(plotset.plotdata[i].xcol, graph->gdatax);
+		graph->xcount = gridbox->ColumnDataXY(plotset.plotdata[i].xcol, plotset.plotdata[i].ycol, graph->gdatax, graph->gdatadv);
 		gridbox->ColumnData(plotset.plotdata[i].errcol, graph->gdataerr);
 		graph->errmode = plotset.plotdata[i].errmode;
 		// Insert graph into graphdisp

@@ -184,6 +184,7 @@ public:
 	void SetControls();
 	void SetParams(GraphDat *setgraph=NULL);
 	void SetParamsCopy(GraphDat *setgraph);
+	void SetParamsCopyAxes(GraphDat *setgraph);
 	void SynchLayers();
 	void SynchPlotSize();
 };

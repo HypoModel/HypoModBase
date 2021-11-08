@@ -644,6 +644,8 @@ GraphDat::GraphDat()             // See more specific versions below
  
  yunitdscale - modifier for scaling down y-axis units (default 1 for no scaling)
 
+ xstart - start point for x-axis values (default 0)
+
  */
 
 
@@ -1065,6 +1067,7 @@ void GraphDat::Init()
 	gdataerr = NULL;
 
 	oversync = 0;
+	xstart = 0;
 }
 
 

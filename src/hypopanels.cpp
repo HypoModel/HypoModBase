@@ -442,6 +442,8 @@ void GraphBox::OnSpin(wxSpinEvent& event)
 		diagbox->Write(text.Format("Layer %d plot %s\n", layer, graph->gname));
 		SetControls();  // update params for new plot
 	}
+	
+	graphwin->mainwin->plotbox->SetLayer(layer);
 }
 
 
@@ -450,7 +452,8 @@ void GraphBox::SynchLayers() {
 	int i;
 
 	GraphDisp *graphdisp = graphwin->dispset[0];
-	for(i=0; i<graphdisp->numplots; i++) SetParamsCopy(graphdisp->plot[i]);
+	//for(i=0; i<graphdisp->numplots; i++) SetParamsCopy(graphdisp->plot[i]);
+	for(i=0; i<graphdisp->numplots; i++) SetParamsCopyAxes(graphdisp->plot[i]);
 
 	graphdisp->XYSynch(graph);
 
@@ -651,6 +654,65 @@ void GraphBox::SetParamsCopy(GraphDat *setgraph)
 	setgraph->xtag = paramset.GetCon("xtag")->GetString();
 	setgraph->ytag = paramset.GetCon("ytag")->GetString();
 	
+	setgraph->xtickmode = graph->xtickmode;
+	setgraph->ytickmode = graph->ytickmode;	
+
+	setgraph->xlabelmode = graph->xlabelmode;
+	setgraph->ylabelmode = graph->ylabelmode;
+
+	setgraph->xaxis = graph->xaxis;
+	setgraph->yaxis = graph->yaxis;	
+
+	setgraph->xscalemode = graph->xscalemode;
+	setgraph->yscalemode = graph->yscalemode;
+
+	setgraph->xlogbase = graph->xlogbase;
+	setgraph->ylogbase = graph->ylogbase;
+
+	setgraph->labelfont = graph->labelfont;
+}
+
+
+void GraphBox::SetParamsCopyAxes(GraphDat *setgraph)
+{
+	ParamStore *params = paramset.GetParamsNew(boxout);
+
+	setgraph->xlabels = (*params)["xlabels"];
+	setgraph->ylabels = (*params)["ylabels"];
+	setgraph->xstep = (*params)["xstep"];
+	setgraph->ystep = (*params)["ystep"];
+	setgraph->xplot = (*params)["xplot"];
+	setgraph->yplot = (*params)["yplot"];
+	setgraph->xshift = (*params)["xshift"];
+	setgraph->yshift = (*params)["yshift"];
+	setgraph->xsample = (*params)["xsample"];
+	setgraph->xunitscale = (*params)["xscale"];
+	setgraph->xunitdscale = (*params)["xdscale"];
+	setgraph->yunitscale = (*params)["yscale"];
+	setgraph->yunitdscale = (*params)["ydscale"];
+	setgraph->xlabelgap = (*params)["xlabelgap"];
+	setgraph->ylabelgap = (*params)["ylabelgap"];
+	setgraph->xlabelplaces = (*params)["xlabelplaces"];
+	setgraph->ylabelplaces = (*params)["ylabelplaces"];
+	setgraph->labelfontsize = (*params)["labelfontsize"];
+	
+	setgraph->barwidth = (*params)["barwidth"];
+	setgraph->bargap = (*params)["bargap"];
+
+	/*
+	setgraph->plotstroke = (*params)["plotstroke"];
+	setgraph->scattersize = (*params)["scattersize"];
+
+	setgraph->linemode = linecheck->GetValue();
+	setgraph->clipmode = clipcheck->GetValue();
+	setgraph->scattermode = scattercheck->GetValue();
+	setgraph->fillmode = fillcheck->GetValue();
+	setgraph->fillstroke = fillstrokecheck->GetValue();
+	*/
+
+	setgraph->xtag = paramset.GetCon("xtag")->GetString();
+	setgraph->ytag = paramset.GetCon("ytag")->GetString();
+
 	setgraph->xtickmode = graph->xtickmode;
 	setgraph->ytickmode = graph->ytickmode;	
 
