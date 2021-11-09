@@ -160,6 +160,8 @@ public:
 	wxCheckBox *clipcheck, *scattercheck, *linecheck;
 	wxCheckBox *fillcheck, *fillstrokecheck;
 
+	wxRadioButton *symbolrad[4];
+
 	ParamNum *numdrawcon;
 	ParamNum *viewheightcon;
 	ParamNum *ylabelcon;

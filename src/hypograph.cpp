@@ -1343,8 +1343,11 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 						else gc->SetPen(colourpen[black]);
 						if(graph->fillmode) gc->SetBrush(graph->fillcolour);
 
-						if(graph->scattermode) 
+						if(graph->scattermode == 1) 
 							gc->DrawEllipse((int)(xpos + xbase + xoffset - drawscatter/2), (int)(yplot + ybase - drawscatter/2 - yrange * (y - yfrom)), drawscatter, drawscatter);
+
+						if(graph->scattermode == 2) 
+							gc->DrawRectangle((int)(xpos + xbase + xoffset - drawscatter/2), (int)(yplot + ybase - drawscatter/2 - yrange * (y - yfrom)), drawscatter, drawscatter);
 
 						if(graph->errmode) {
 							errval = (*graph->gdataerr)[i] * yrange;
