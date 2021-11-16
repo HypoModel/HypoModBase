@@ -62,7 +62,7 @@ public:
 	void SpinClick(wxString tag);
 	void BoxEnter(wxString tag);
 	void SetColumn(int col);
-	void SetLayer();
+	void SetLayer(int layerdex = -1);
 	void DataEdit(int col);
 	void OnParamStore(wxCommandEvent& event);
 	void OnParamLoad(wxCommandEvent& event);

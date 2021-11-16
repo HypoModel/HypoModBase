@@ -160,6 +160,8 @@ public:
 	wxCheckBox *clipcheck, *scattercheck, *linecheck;
 	wxCheckBox *fillcheck, *fillstrokecheck;
 
+	wxRadioButton *symbolrad[4];
+
 	ParamNum *numdrawcon;
 	ParamNum *viewheightcon;
 	ParamNum *ylabelcon;
@@ -184,6 +186,7 @@ public:
 	void SetControls();
 	void SetParams(GraphDat *setgraph=NULL);
 	void SetParamsCopy(GraphDat *setgraph);
+	void SetParamsCopyAxes(GraphDat *setgraph);
 	void SynchLayers();
 	void SynchPlotSize();
 };

@@ -16,7 +16,7 @@
 
 GraphBox::GraphBox(GraphWindow3 *graphw, const wxString & title)
 	//: ParamBox(NULL, title, wxDefaultPosition, wxSize(450, 450), "Axes", 0)
-	: wxDialog(NULL, -1, title, wxDefaultPosition, wxSize(325, 910),
+	: wxDialog(NULL, -1, title, wxDefaultPosition, wxSize(325, 930),
 	wxFRAME_FLOAT_ON_PARENT | wxFRAME_TOOL_WINDOW | wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxRESIZE_BORDER)
 {
 	int i;
@@ -197,9 +197,18 @@ GraphBox::GraphBox(GraphWindow3 *graphw, const wxString & title)
 	linecheck->SetFont(confont);
 	linecheck->SetValue(graph->linemode);
 
-	scattercheck = new wxCheckBox(panel, ID_scatter, "");
-	scattercheck->SetFont(confont);
-	scattercheck->SetValue(graph->scattermode);
+	//scattercheck = new wxCheckBox(panel, ID_scatter, "");
+	//scattercheck->SetFont(confont);
+	//scattercheck->SetValue(graph->scattermode);
+
+	wxStaticBoxSizer *symbolbox = new wxStaticBoxSizer(wxVERTICAL, panel, "Symbol");
+	symbolrad[0] = new wxRadioButton(panel, 500, "Off", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	symbolrad[1] = new wxRadioButton(panel, 501, "Circle");
+	symbolrad[2] = new wxRadioButton(panel, 502, "Square");
+	symbolbox->Add(symbolrad[0], 1, wxTOP | wxBOTTOM, 3);
+	symbolbox->Add(symbolrad[1], 1, wxTOP | wxBOTTOM, 3);
+	symbolbox->Add(symbolrad[2], 1, wxTOP | wxBOTTOM, 3);
+	symbolrad[graph->scattermode]->SetValue(true);
 
 	//wxBoxSizer *checkbox = new wxBoxSizer(wxHORIZONTAL);
 	//scatterparams->Add(paramset.GetCon("scattersize"), 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL);
@@ -231,11 +240,11 @@ GraphBox::GraphBox(GraphWindow3 *graphw, const wxString & title)
 	strokebox->Add(fillstrokecheck, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
 
 	fillpicker = new wxColourPickerCtrl(panel, 0, graph->fillcolour, wxDefaultPosition, wxSize(70, 25), wxCLRP_SHOW_ALPHA);
-	paramset.AddNum("scattersize", "Scatter Size", graph->scattersize, 2, labelwidth);
+	paramset.AddNum("scattersize", "Scatter", graph->scattersize, 2, labelwidth);
 	wxBoxSizer *fillbox = new wxBoxSizer(wxHORIZONTAL);
 	fillbox->Add(paramset.con[paramset.GetID("scattersize")], wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
 	paramset.currlay++;
-	fillbox->Add(scattercheck, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
+	//fillbox->Add(scattercheck, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
 	fillbox->Add(fillpicker);
 
 	fillcheck = new wxCheckBox(panel, ID_fillmode, "");
@@ -304,6 +313,13 @@ GraphBox::GraphBox(GraphWindow3 *graphw, const wxString & title)
 	wxBoxSizer *statusbox = new wxBoxSizer(wxHORIZONTAL);
 	statusbox->Add(status, 1, wxEXPAND);
 
+	wxBoxSizer *drawbox = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer *drawbox2 = new wxBoxSizer(wxVERTICAL);
+	drawbox2->Add(strokebox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
+	drawbox2->Add(fillbox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
+	drawbox->Add(drawbox2);
+	drawbox->Add(symbolbox);
+
 	mainbox->AddSpacer(5);
 	mainbox->Add(tickparams, 1, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 0);
 	mainbox->AddStretchSpacer();
@@ -319,8 +335,9 @@ GraphBox::GraphBox(GraphWindow3 *graphw, const wxString & title)
 	//mainbox->Add(plotgrid, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 0);
 	mainbox->Add(fontbox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
 	mainbox->AddStretchSpacer();
-	mainbox->Add(strokebox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
-	mainbox->Add(fillbox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
+	//mainbox->Add(strokebox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
+	//mainbox->Add(fillbox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
+	mainbox->Add(drawbox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
 	mainbox->AddStretchSpacer();
 	mainbox->Add(layerbox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
 	mainbox->AddStretchSpacer();
@@ -384,9 +401,10 @@ void GraphBox::SetControls()
 
 	clipcheck->SetValue(graph->clipmode);
 	linecheck->SetValue(graph->linemode);
-	scattercheck->SetValue(graph->scattermode);
+	//scattercheck->SetValue(graph->scattermode);
 	fillcheck->SetValue(graph->fillmode);
 	fillstrokecheck->SetValue(graph->fillstroke);
+	symbolrad[graph->scattermode]->SetValue(true);
 
 	xtickrad[graph->xtickmode]->SetValue(true);
 	ytickrad[graph->ytickmode]->SetValue(true);
@@ -442,6 +460,8 @@ void GraphBox::OnSpin(wxSpinEvent& event)
 		diagbox->Write(text.Format("Layer %d plot %s\n", layer, graph->gname));
 		SetControls();  // update params for new plot
 	}
+	
+	graphwin->mainwin->plotbox->SetLayer(layer);
 }
 
 
@@ -450,7 +470,8 @@ void GraphBox::SynchLayers() {
 	int i;
 
 	GraphDisp *graphdisp = graphwin->dispset[0];
-	for(i=0; i<graphdisp->numplots; i++) SetParamsCopy(graphdisp->plot[i]);
+	//for(i=0; i<graphdisp->numplots; i++) SetParamsCopy(graphdisp->plot[i]);
+	for(i=0; i<graphdisp->numplots; i++) SetParamsCopyAxes(graphdisp->plot[i]);
 
 	graphdisp->XYSynch(graph);
 
@@ -554,6 +575,10 @@ void GraphBox::OnRadio(wxCommandEvent& event)
 	if(event.GetId() == 400) graph->yaxis = 0;
 	if(event.GetId() == 401) graph->yaxis = 1;
 
+	if(event.GetId() == 500) graph->scattermode = 0;
+	if(event.GetId() == 501) graph->scattermode = 1;
+	if(event.GetId() == 502) graph->scattermode = 2;
+
 	OnOK(event);
 }
 
@@ -597,7 +622,7 @@ void GraphBox::SetParams(GraphDat *setgraph)
 
 	graph->linemode = linecheck->GetValue();
 	graph->clipmode = clipcheck->GetValue();
-	graph->scattermode = scattercheck->GetValue();
+	//graph->scattermode = scattercheck->GetValue();
 	graph->fillmode = fillcheck->GetValue();
 
 	graph->fillstroke = fillstrokecheck->GetValue();
@@ -651,6 +676,65 @@ void GraphBox::SetParamsCopy(GraphDat *setgraph)
 	setgraph->xtag = paramset.GetCon("xtag")->GetString();
 	setgraph->ytag = paramset.GetCon("ytag")->GetString();
 	
+	setgraph->xtickmode = graph->xtickmode;
+	setgraph->ytickmode = graph->ytickmode;	
+
+	setgraph->xlabelmode = graph->xlabelmode;
+	setgraph->ylabelmode = graph->ylabelmode;
+
+	setgraph->xaxis = graph->xaxis;
+	setgraph->yaxis = graph->yaxis;	
+
+	setgraph->xscalemode = graph->xscalemode;
+	setgraph->yscalemode = graph->yscalemode;
+
+	setgraph->xlogbase = graph->xlogbase;
+	setgraph->ylogbase = graph->ylogbase;
+
+	setgraph->labelfont = graph->labelfont;
+}
+
+
+void GraphBox::SetParamsCopyAxes(GraphDat *setgraph)
+{
+	ParamStore *params = paramset.GetParamsNew(boxout);
+
+	setgraph->xlabels = (*params)["xlabels"];
+	setgraph->ylabels = (*params)["ylabels"];
+	setgraph->xstep = (*params)["xstep"];
+	setgraph->ystep = (*params)["ystep"];
+	setgraph->xplot = (*params)["xplot"];
+	setgraph->yplot = (*params)["yplot"];
+	setgraph->xshift = (*params)["xshift"];
+	setgraph->yshift = (*params)["yshift"];
+	setgraph->xsample = (*params)["xsample"];
+	setgraph->xunitscale = (*params)["xscale"];
+	setgraph->xunitdscale = (*params)["xdscale"];
+	setgraph->yunitscale = (*params)["yscale"];
+	setgraph->yunitdscale = (*params)["ydscale"];
+	setgraph->xlabelgap = (*params)["xlabelgap"];
+	setgraph->ylabelgap = (*params)["ylabelgap"];
+	setgraph->xlabelplaces = (*params)["xlabelplaces"];
+	setgraph->ylabelplaces = (*params)["ylabelplaces"];
+	setgraph->labelfontsize = (*params)["labelfontsize"];
+	
+	setgraph->barwidth = (*params)["barwidth"];
+	setgraph->bargap = (*params)["bargap"];
+
+	/*
+	setgraph->plotstroke = (*params)["plotstroke"];
+	setgraph->scattersize = (*params)["scattersize"];
+
+	setgraph->linemode = linecheck->GetValue();
+	setgraph->clipmode = clipcheck->GetValue();
+	setgraph->scattermode = scattercheck->GetValue();
+	setgraph->fillmode = fillcheck->GetValue();
+	setgraph->fillstroke = fillstrokecheck->GetValue();
+	*/
+
+	setgraph->xtag = paramset.GetCon("xtag")->GetString();
+	setgraph->ytag = paramset.GetCon("ytag")->GetString();
+
 	setgraph->xtickmode = graph->xtickmode;
 	setgraph->ytickmode = graph->ytickmode;	
 

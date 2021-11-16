@@ -111,7 +111,7 @@ public:
 	SpikeDat *expdata;
 	datdouble testhist[5], testhistx[5];
 	datdouble datahist[10], datahistx[10];
-	datdouble gridplot[10], gridplotx[10], gridploterr[10];
+	datdouble gridplot[20], gridplotx[20], gridploterr[20];
 
 
 	Model(int, wxString, HypoMain *);

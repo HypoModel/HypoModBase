@@ -432,11 +432,21 @@ void GraphWindow3::PrintEPS(double xb, double yb, TextFile *ofp)
 				for(i=0; i<graph->xcount; i++) {
 					xval = (*graph->gdatax)[i];
 					if(xval >= xfrom && xval <= xto) {
-						xpos = (xval - xfrom) * xrange;
-						y = (*gdatadv)[i];		
+						xpos = (xval - xfrom) * xrange + xbase + xoffset;
+						y = (*gdatadv)[i];	
 						out->WriteLine("newpath");
 						if(graph->fillstroke) out->WriteLine(text.Format("%s setrgbcolor", ColourString(graph->fillcolour))); 
-						out->WriteLine(text.Format("%.2f pu %.2f pu %.2f pu 0 360 arc", xpos + xbase + xoffset, ybase + yrange * (y - yfrom), graph->scattersize));
+						if(graph->scattermode == 1) {
+							out->WriteLine(text.Format("%.2f pu %.2f pu %.2f pu 0 360 arc", xpos, ybase + yrange * (y - yfrom), graph->scattersize));
+						}
+						if(graph->scattermode == 2) {
+							out->MoveTo(xpos - graph->scattersize, ybase + yrange * (y - yfrom) - graph->scattersize);
+							out->LineTo(xpos - graph->scattersize, ybase + yrange * (y - yfrom) + graph->scattersize);
+							out->LineTo(xpos + graph->scattersize, ybase + yrange * (y - yfrom) + graph->scattersize);
+							out->LineTo(xpos + graph->scattersize, ybase + yrange * (y - yfrom) - graph->scattersize);
+							out->WriteLine("closepath");
+						}
+
 						if(graph->fillmode) {
 							out->WriteLine("gsave");
 							out->WriteLine(text.Format("%s setrgbcolor", ColourString(graph->fillcolour))); 
@@ -824,14 +834,23 @@ void GraphWindow3::PrintEPS(double xb, double yb, TextFile *ofp)
 	double xplotstep, yplotstep;
 	double xlogrange, ylogrange;
 
+	// adjust tick positions for non-zero start position  (vaso synth paper, October 2021)  
+	double xtickstart = 0;
+	double xtickshift = 0;
+	if(xfrom != 0) xtickshift = xfrom;
+
 	if(graph->xtickmode == 2) {   // && graph->xstep > 0) {
 		xlabels = (int)((xto - xfrom) / (xscale * graph->xstep));
 		xplotstep = (xplot * graph->xstep) / (xto - xfrom);  
+		xtickstart = abs(xtickshift) * xplotstep;
 	}
+
+	mod->diagbox->Write(text.Format("EPS xtickshift %.2f  xplotstep %.2f  xtickstart %.2f  xlabels %d\n", xtickshift, xplotstep, xtickstart, xlabels));
 
 	for(i=0; i<=xlabels && xlabels > 0; i++) {
 		xcoord = i * (double)xplot / xlabels;
-		if(graph->xtickmode == 2) xcoord = xplotstep * i;
+		//if(graph->xtickmode == 2) xcoord = xplotstep * i;
+		if(graph->xtickmode == 2) xcoord = xplotstep * i + xtickstart;
 		if(graph->xtickmode && xcoord <= xaxislength) out->DrawLine(xbase + xcoord, ybase, xbase + xcoord, ybase - xticklength);
 	}
 
@@ -861,19 +880,32 @@ void GraphWindow3::PrintEPS(double xb, double yb, TextFile *ofp)
 	// Problems with text in EPS import into Illustrator, use new path for each label on x-axis, results in extra blank path but correct spacing
 	// still need to solve incorrect behaviour with decimals, get split into two paths with incorrect spacing
 
+
+	xcoord = xtickstart;
+	mod->diagbox->Write(text.Format("EPS Labels  xlabels %d  xlabelmode %d  xcoord %.2f  xaxislength %d\n", xlabels, xlabelmode, xcoord, xaxislength));
+
+
 	// Draw Tick Labels
 	//out->WriteLine("newpath");
 	for(i=0; i<=xlabels && xlabels > 0; i++) {
+		mod->diagbox->Write(text.Format("xlabels %d %d\n", xlabels, i));
 		if(graph->xlabelmode == 0) break;
+		xcoord = i * xplot / xlabels + xtickstart;
 		//if(graph->xlabelmode == 2 && i > 0 && i < xlabels) continue;
+		//mod->diagbox->Write(text.Format("xlabels %d %d\n", xlabels, i));
 		if(!graph->xlabelmode || xcoord > xaxislength || (graph->xlabelmode == 2 && i > 0 && i < xlabels)) continue;
+		
+		mod->diagbox->Write(text.Format("xlabels %d %d\n", xlabels, i));
 		out->WriteLine("newpath");
-		xcoord = i * xplot / xlabels;
-		if(graph->xtickmode == 2) xcoord = xplotstep * i;
+		//if(graph->xtickmode == 2) xcoord = xplotstep * i;
+		if(graph->xtickmode == 2) xcoord = xplotstep * i + xtickstart;
 		xval = ((double)((xto - xfrom) / xlabels*i + xfrom) / xscale) * graph->xunitscale / graph->xunitdscale - xshift;
-		if(graph->xtickmode == 2) xval = (xfrom + graph->xstep * i) * graph->xunitscale / graph->xunitdscale - xshift;
+		//if(graph->xtickmode == 2) xval = (xfrom + graph->xstep * i) * graph->xunitscale / graph->xunitdscale - xshift;
+		if(graph->xtickmode == 2) xval = (xfrom + graph->xstep * i) * graph->xunitscale / graph->xunitdscale - xshift - xtickshift;
 		if(graph->xscalemode == 1) xval = xfrom * pow(logbase, xlogmax * xval / xto);
 		srangex = abs((xto - xfrom) / xscale * graph->xunitscale / graph->xunitdscale);
+
+		mod->diagbox->Write(text.Format("EPS label %d  xval %.2f\n", i, xval));
 
 		if(graph->xlabelplaces == -1) {
 			if(srangex < 0.1) snum.Printf("%.3f", xval + xdis);

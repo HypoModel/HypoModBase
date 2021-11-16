@@ -257,6 +257,7 @@ public:
 	void OnButton(wxCommandEvent& event);
 
 	int ColumnData(int, datdouble *);
+	int ColumnDataXY(int xcol, int ycol, datdouble *xdata, datdouble *ydata);
 	TextGrid *AddGrid(wxString label, wxSize size);
 	void SetCurrentGrid();
 	void ParamButton();
