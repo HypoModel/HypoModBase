@@ -4,6 +4,8 @@
 #include "hypograph.h"
 #include "hypodata.h"
 
+#ifdef HYPOSOUND
+
 #include "SineWave.h"
 #include "Noise.h"
 #include "RtWvOut.h"
@@ -12,9 +14,6 @@
 
 using namespace stk;
 
-
-
-#ifdef HYPOSOUND
 
 SoundBox::SoundBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *sdat)
 	: ParamBox(model, title, pos, size, "soundbox")
@@ -318,10 +317,6 @@ void SoundBox::SoundTest()
 cleanup:
 	delete dac;
 }
-
-
-
-#endif
 
 
 
@@ -726,4 +721,4 @@ void SoundGen::PlaySpikesTimeTrace()
 }
 
 
-
+#endif

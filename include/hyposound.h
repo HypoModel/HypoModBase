@@ -5,6 +5,9 @@
 #include "hypodat.h"
 #include "hypopanels.h"
 
+
+#ifdef HYPOSOUND
+
 #include "RtWvOut.h"
 #include "FileWvOut.h"
 
@@ -77,3 +80,6 @@ public:
 	void SetSpikeData(SpikeDat *);
 	void SetWaveData(datdouble *);
 };
+
+
+#endif
