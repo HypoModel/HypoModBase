@@ -54,6 +54,7 @@ TextGrid::TextGrid(wxWindow *parent, wxSize size)
 	rightmenu->Append(ID_Paste, "Paste", "Paste Clipboard", wxITEM_NORMAL);
 	rightmenu->Append(ID_PasteTranspose, "Paste Transpose", "Paste Clipboard", wxITEM_NORMAL);
 	rightmenu->Append(ID_Undo, "Undo", "Undo", wxITEM_NORMAL);
+	rightmenu->Append(ID_Insert, "Insert Col", "Insert Column", wxITEM_NORMAL);
 	//rightmenu->Append(ID_Bold, "Bold", "Set Bold", wxITEM_NORMAL);
 	//for(i=0; i<mod->graphbase->numgraphs; i++) menuPlot->AppendRadioItem(1000 + i, (*mod->graphbase)[i]->gname);
 
@@ -70,6 +71,8 @@ TextGrid::TextGrid(wxWindow *parent, wxSize size)
 	Connect(ID_Bold, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(TextGrid::OnBold));
 	Connect(wxID_ANY, wxEVT_KEY_DOWN, wxKeyEventHandler(TextGrid::OnKey));  
 	Connect(wxID_ANY, wxEVT_CHAR, wxKeyEventHandler(TextGrid::OnTypeKey));  
+	Connect(ID_Insert, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(TextGrid::OnInsertColumn));
+
 }
 
 
@@ -91,6 +94,12 @@ void TextGrid::CopyColumn(int source, int dest)
 		celltext = GetCellValue(i, source);
 		SetCellValue(i, dest, celltext);
 	}
+}
+
+
+void TextGrid::InsertColumn(int col)
+{
+	InsertCols(col);
 }
 
 
@@ -248,6 +257,15 @@ void TextGrid::OnSelectAll(wxCommandEvent& event)
 }
 
 
+void TextGrid::OnInsertColumn(wxCommandEvent& event)
+{
+	int col;
+
+	col = GetGridCursorCol();
+	InsertColumn(col);
+}
+
+
 void TextGrid::OnCut(wxCommandEvent& event)
 {
 	Cut();
@@ -258,6 +276,7 @@ void TextGrid::OnCopy(wxCommandEvent& event)
 {
 	Copy();
 }
+
 
 
 void TextGrid::OnPaste(wxCommandEvent& event)

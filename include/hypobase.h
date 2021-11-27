@@ -277,6 +277,7 @@ enum {
 	ID_ModBrowse,
 	ID_absref,
 	ID_SelectAll,
+	ID_Insert,
 	ID_Copy,
 	ID_Paste,
 	ID_PasteTranspose,

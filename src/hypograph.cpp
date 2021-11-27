@@ -409,7 +409,7 @@ void GraphWindow3::OnLeftUp(wxMouseEvent &event)
 	// Graph select
 
 	if(mainwin->graphbox) mainwin->graphbox->SetGraph(this);
-	if(mainwin->plotbox) mainwin->plotbox->SetGraph(this);
+	//if(mainwin->plotbox) mainwin->plotbox->SetGraph(this);    // 24/11/21 temporarily removed, activated by non-plotbox use, needs fixed
 
 
 	/*

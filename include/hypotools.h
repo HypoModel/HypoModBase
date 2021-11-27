@@ -72,6 +72,8 @@ public:
 	bool CheckDouble(int row, int col, double *data);
 	wxString GetCell(int row, int col);
 	void CopyColumn(int source, int dest);
+	void InsertColumn(int currcol);
+	void OnInsertColumn(wxCommandEvent& event);
 };
 
 
