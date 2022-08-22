@@ -3,8 +3,6 @@
 #ifndef HYPOMODEL_H
 #define HYPOMODEL_H
 
-
-//#define HYPOSOUND 1
 //#define CUDA 1 
 
 

@@ -2,6 +2,8 @@
 #ifndef HYPOBASE_H
 #define HYPOBASE_H
 
+#define HYPOSOUND 1
+
 
 #include "hypopch.h"
 

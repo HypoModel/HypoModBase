@@ -17,7 +17,7 @@ void BurstDat::BurstProfileFit()
 	int peakrate;
 
 	int protime, oldtime;
-	FILE* ofp;
+	FILE *ofp = NULL;
 	int tailspikes = 50;
 	wxString text;
 
@@ -125,7 +125,7 @@ void SpikeDat::BurstProfile()
 	int peakrate;
 	
 	int protime, oldtime;
-	FILE *ofp;
+	FILE *ofp = NULL;
 	int tailspikes = 50;
 	wxString text;
 
@@ -940,7 +940,7 @@ void SpikeDat::BurstScan(BurstBox *burstbox)
 	double silencetime, silencevar;
 	bool scandiag, selectmode;
 
-	int *selectspikes; 
+	int *selectspikes = NULL; 
 
 	scandiag = false;
 
@@ -1505,7 +1505,7 @@ void SpikeDat::neurocalc(NeuroDat *datneuron, ParamStore *calcparams)
 	bool spikediag = false; 
 	//short freqwindow = 300;
 	bool calcdiag, calcdiag2;
-	FILE *ofp;
+	FILE *ofp = NULL;
 
 	//maxspikes = 100000;
 

@@ -511,6 +511,7 @@ void GraphWindow3::OnRightClick(wxMouseEvent& event)
 	wxMenu *menuPlot, *subPlot;
 		
 	menuPlot = new wxMenu;
+	subPlot = NULL;
 
 	if(!mainwin->basic) {
 		if(mainwin->student) {
@@ -564,7 +565,7 @@ void GraphWindow3::OnRightClick(wxMouseEvent& event)
 	//menuPlot->Check(1000, false);
 	graphset = mod->graphbase->GetSet(dispset[0]->sdex);
 	if(!graphset->submenu) menuPlot->Check(1000 + dispset[0]->sdex, true);
-	else subPlot->Check(2000 + dispset[0]->gdex, true);
+	else if(subPlot) subPlot->Check(2000 + dispset[0]->gdex, true);
 	mainwin->diagbox->Write(text.Format("\ngraph menu set %d\n", dispset[0]->sdex));
 	PopupMenu(menuPlot, pos.x + 20, pos.y);
 }
@@ -1008,7 +1009,7 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 	double ymax, ycalc;
 	double xlogrange, ylogrange;
 
-	FILE* ofp;
+	FILE* ofp = NULL;
 	TextFile opfile;
 	//ofp = fopen("graph.txt", "w");
 	//if(graphindex == 0) ofp = fopen("graph.txt", "w");
@@ -1033,8 +1034,8 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 			//graph = gpos->plot[gplot];
 			graph = dispset[gdisp]->plot[gplot];
 			gpar = graph->gparam;
-			if(gpar == -1) gdata = graph->gdata;
-			if(gpar == -2) gdatad = graph->gdatad;
+			gdatav = NULL;
+			gdatadv = NULL;
 			if(gpar == -3) gdatav = graph->gdatav;
 			if(gpar == -4) gdatadv = graph->gdatadv;
 			xscale = graph->xscale;
@@ -1283,8 +1284,6 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 
 			if(gtype == 1) {                             // scaled width bars, Histogram    
 				for (i=0; i<(xto - xfrom); i++) {
-					if(gpar == -1) y = (double)gdata[i + (int)xfrom];
-					if(gpar == -2) y = gdatad[i + (int)xfrom];
 					if(gpar == -3) y = (*gdatav)[i + (int)xfrom];
 					if(gpar == -4) y = (*gdatadv)[i + (int)xfrom];
 					xpos = i * xrange + xbase + xoffset;
@@ -1378,8 +1377,6 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 
 				for(i=0; i<ceil(xto - xfrom + partbin); i++) {               // account for extra bin with unaligned xfrom
 				//for(i=0; i<(xto-xfrom); i++) {
-					if(gpar == -1) y = (double)gdata[i + (int)xfrom];
-					if(gpar == -2) y = gdatad[i + (int)xfrom];
 					if(gpar == -3) y = (*gdatav)[i + (int)xfrom];
 					if(gpar == -4) y = (*gdatadv)[i + (int)xfrom];
 
@@ -1678,8 +1675,6 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 
 			if(gtype == 7) {                             // scaled width bars    
 				for(i=0; i<(xto-xfrom); i++) {
-					if(gpar == -1) y = (double)gdata[i + (int)xfrom];
-					if(gpar == -2) y = gdatad[i + (int)xfrom];
 					if(gpar == -3) y = (*gdatav)[i + (int)xfrom];
 					if(gpar == -4) y = (*gdatadv)[i + (int)xfrom];
 					xpos = i * xrange + xbase;

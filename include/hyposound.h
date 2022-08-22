@@ -1,7 +1,7 @@
 
 
 
-#include "wx/wx.h"
+//#include "wx/wx.h"
 #include "hypodat.h"
 #include "hypopanels.h"
 

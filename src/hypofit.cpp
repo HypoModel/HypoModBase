@@ -1246,37 +1246,37 @@ void SpikeDat::FitScoreBasic(SpikeDat *testdata, FitDat *fitdat, FitSet *fitset,
 		RMSError = sqrt(RMSError);
 
 		fitdat->RMSBurstHead = RMSError;
-		fitdat->score += fitdat->RMSBurstHead * (*fitweights)["RMSBurstHead"];   // fix this for new weights scheme
+		//fitdat->score += fitdat->RMSBurstHead * (*fitweights)["RMSBurstHead"];   // fix this for new weights scheme   disabled 22/8/22
 
 
 		// Burst Mode
 
 		fitdat->burstmode = (abs(testdata->burstdata->pmoderate - burstdata->pmoderate) / testdata->burstdata->pmoderate) * 50.0;
 		fitdat->burstmode += (abs(testdata->burstdata->pmodetime - burstdata->pmodetime) / testdata->burstdata->pmodetime) * 50.0;
-		fitdat->score += fitdat->burstmode * (*fitweights)["burstmode"];
+		//fitdat->score += fitdat->burstmode * (*fitweights)["burstmode"];   // 22/8/22 fix for newer weights store
 
 		// Burst Stats
 
 		fitdat->burstlengthmean = (abs(testdata->burstdata->meanlength - burstdata->meanlength) / testdata->burstdata->meanlength) * 100.0;
-		fitdat->score += fitdat->burstlengthmean * (*fitweights)["burstlengthmean"];
+		//fitdat->score += fitdat->burstlengthmean * (*fitweights)["burstlengthmean"];
 
 		if(fitdiag) ofp.WriteLine(text.Format("burst mod %.6f  exp %.6f  score %.6f", burstdata->meanlength, testdata->burstdata->meanlength, fitdat->burstlengthmean)); 
 
 		fitdat->burstlengthsd = (abs(testdata->burstdata->sdlength - burstdata->sdlength) / testdata->burstdata->sdlength) * 100.0;
-		fitdat->score += fitdat->burstlengthsd * (*fitweights)["burstlengthsd"];
+		//fitdat->score += fitdat->burstlengthsd * (*fitweights)["burstlengthsd"];
 
 		if(fitdiag) ofp.WriteLine(text.Format("burstsd mod %.6f  exp %.6f  score %.6f", burstdata->sdlength, testdata->burstdata->sdlength, fitdat->burstlengthsd)); 
 
 		fitdat->burstsilencemean = (abs(testdata->burstdata->meansilence - burstdata->meansilence) / testdata->burstdata->meansilence) * 100.0;
-		fitdat->score += fitdat->burstsilencemean * (*fitweights)["burstsilencemean"];
+		//fitdat->score += fitdat->burstsilencemean * (*fitweights)["burstsilencemean"];
 
 		if(fitdiag) ofp.WriteLine(text.Format("silence mod %.6f  exp %.6f  score %.6f", burstdata->meansilence, testdata->burstdata->meansilence, fitdat->burstsilencemean)); 
 
 		fitdat->burstsilencesd = (abs(testdata->burstdata->sdsilence - burstdata->sdsilence) / testdata->burstdata->sdsilence) * 100.0;
-		fitdat->score += fitdat->burstsilencesd * (*fitweights)["burstsilencesd"];
+		//fitdat->score += fitdat->burstsilencesd * (*fitweights)["burstsilencesd"];
 
 		fitdat->burstintrafreq = (abs(testdata->burstdata->freq - burstdata->freq) / testdata->burstdata->freq) * 100.0;
-		fitdat->score += fitdat->burstintrafreq * (*fitweights)["burstintrafreq"];
+		//fitdat->score += fitdat->burstintrafreq * (*fitweights)["burstintrafreq"];
 
 		if(fitdiag) ofp.WriteLine(text.Format("intra %.6f  exp %.6f  score %.6f", burstdata->meansilence, testdata->burstdata->meansilence, fitdat->burstsilencemean)); 
 
