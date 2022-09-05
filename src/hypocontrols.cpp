@@ -1148,53 +1148,6 @@ void ToolBox::BoxEnter(wxString tag)
 }
 
 
-void ToolSet::AddBox(ToolBox *newbox, bool serve, bool child) {
-
-	TextFile ofp;
-	wxString text;
-	
-	//if(mod == NULL) ofp.WriteLine(text.Format("no mod"));
-	//else ofp.WriteLine(text.Format("mod address %p", mod));
-
-
-	// 'serve' and 'child' are old flags that define how toolbox movement is linked to other windows,
-	// for most boxes serve = true and child = false
-	// better to replace with more specific switches    1/6/21
-
-	if(!newbox) return;
-	newbox->toolset = this;
-
-	if(serve && !newbox->servant) newbox->servant = true;
-	//ofp.WriteLine(text.Format("box %s, child %d", newbox->boxtag, child));
-	newbox->child = child;
-
-
-	for(i=0; i<numtools; i++)             // Allow adding boxes after removal (not yet implemented)
-		if(box[i] == NULL) {
-			box[i] = newbox;
-			newbox->boxindex = i;
-			tagindex[newbox->boxtag] = i;
-			return;
-		}
-
-	tagindex[newbox->boxtag] = numtools;
-	tags[numtools] = newbox->boxtag;
-    newbox->boxindex = numtools;
-    box[numtools] = newbox;
-	numtools++;
-};
-
-
-int ToolSet::GetIndex(wxString tag) {
-	if(!tagindex.check(tag)) return -1;
-	else return tagindex[tag];
-}
-
-
-wxString ToolSet::GetTag(int index) {	
-	return tags[index];
-}
-
 
 ToolBox *ToolSet::GetBox(wxString tag) {
 	int index = GetIndex(tag);
@@ -1649,6 +1602,54 @@ ToolStore::ToolStore(ToolBox *toolbox, TagBox *storetagbox, int storeid, int loa
 	}
 	storesizer->Add(tagbox, 0, wxALIGN_CENTRE_HORIZONTAL | wxALIGN_CENTRE_VERTICAL | wxALL, 2);
 	storesizer->Add(buttons, 0, wxALIGN_CENTRE_HORIZONTAL | wxALIGN_CENTRE_VERTICAL | wxALL, 2);	
+}
+
+
+void ToolSet::AddBox(ToolBox *newbox, bool serve, bool child) {
+
+	TextFile ofp;
+	wxString text;
+
+	//if(mod == NULL) ofp.WriteLine(text.Format("no mod"));
+	//else ofp.WriteLine(text.Format("mod address %p", mod));
+
+
+	// 'serve' and 'child' are old flags that define how toolbox movement is linked to other windows,
+	// for most boxes serve = true and child = false
+	// better to replace with more specific switches    1/6/21
+
+	if(!newbox) return;
+	newbox->toolset = this;
+
+	if(serve && !newbox->servant) newbox->servant = true;
+	//ofp.WriteLine(text.Format("box %s, child %d", newbox->boxtag, child));
+	newbox->child = child;
+
+
+	for(i=0; i<numtools; i++)             // Allow adding boxes after removal (not yet implemented)
+		if(box[i] == NULL) {
+			box[i] = newbox;
+			newbox->boxindex = i;
+			tagindex[newbox->boxtag] = i;
+			return;
+		}
+
+	tagindex[newbox->boxtag] = numtools;
+	tags[numtools] = newbox->boxtag;
+	newbox->boxindex = numtools;
+	box[numtools] = newbox;
+	numtools++;
+};
+
+
+int ToolSet::GetIndex(wxString tag) {
+	if(!tagindex.check(tag)) return -1;
+	else return tagindex[tag];
+}
+
+
+wxString ToolSet::GetTag(int index) {	
+	return tags[index];
 }
 
 
