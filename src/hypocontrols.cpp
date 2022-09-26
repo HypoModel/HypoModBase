@@ -239,6 +239,8 @@ ParamCon::ParamCon(ToolPanel *pan, int tp, wxString pname, wxString labelname, d
 	numwidth = numwid;
 	panel = pan;
 	pad = panel->controlborder;
+	cycle = 0;
+
 	//pad = 0;
 	if(ostype == Mac) pad = 0;
 	mainwin = panel->mainwin;
