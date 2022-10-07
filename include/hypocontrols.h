@@ -395,6 +395,8 @@ public:
 	ParamStore toolparams;
 	wxString toolpath;
 
+	int drawscale;
+
 	wxPoint SetPosition();
 	void ReSize();
 	void OnMove(wxMoveEvent& event);

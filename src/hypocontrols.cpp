@@ -932,13 +932,13 @@ void ToolBox::Init()
 	visible = true;
 	status = NULL;
 
-	buttonheight = 23;
+	buttonheight = FromDIP(23);
     boxfont = wxFont(wxFontInfo(8).FaceName("Tahoma"));
     confont = wxFont(wxFontInfo(8).FaceName("Tahoma"));
 	//boxfont = wxFont(8, wxFONTFAMILY_SWISS, wxNORMAL, wxNORMAL, false, "Tahoma");
 	//confont = wxFont(8, wxFONTFAMILY_SWISS, wxNORMAL, wxNORMAL, false, "Tahoma");
 	if(ostype == Mac) {
-		buttonheight = 25;
+		buttonheight = FromDIP(25);
         boxfont = wxFont(wxFontInfo(12).FaceName("Tahoma"));
         confont = wxFont(wxFontInfo(10).FaceName("Tahoma"));
 		//boxfont = wxFont(12, wxFONTFAMILY_SWISS, wxNORMAL, wxNORMAL, false, "Tahoma");
@@ -1116,7 +1116,7 @@ void ToolBox::AddButton(int id, wxString label, int width, wxBoxSizer *box, int 
 	if(pan == NULL) pan = activepanel;
 	if(height == 0) height = buttonheight;
 	//wxButton *button = new (_NORMAL_BLOCK, __FILE__, __LINE__) wxButton(pan, id, label, wxDefaultPosition, wxSize(width, height));
-	ToolButton *button = new ToolButton(pan, id, label, wxDefaultPosition, wxSize(width, height), mainwin->diagbox);
+	ToolButton *button = new ToolButton(pan, id, label, wxDefaultPosition, FromDIP(wxSize(width, height)), mainwin->diagbox);
 	button->SetFont(confont);
 	box->Add(button, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxTOP|wxBOTTOM, pad);
 }
@@ -1170,7 +1170,7 @@ wxStaticText *ToolBox::GridLabel(int width, wxString label)
 
 void ToolBox::ReSize()
 {
-	wxFrame::SetSize(boxsize);
+	wxFrame::SetSize(FromDIP(boxsize));
 	//Show(visible);
 }
 
@@ -1189,7 +1189,9 @@ wxPoint ToolBox::SetPosition()
 		mainsize = wxSize(0, 0);
 	}
 
-	Move(mainpos.x + mainsize.x + mpos.x, mainpos.y + mpos.y + 5);
+	wxSize boxpos = FromDIP(wxSize(mainpos.x + mainsize.x + mpos.x, mainpos.y + mpos.y + 5));
+
+	Move(drawscale * (mainpos.x + mainsize.x + mpos.x), drawscale * (mainpos.y + mpos.y + 5));
 	oldpos = GetPosition();
 	return wxPoint(mainpos.x + mainsize.x + mpos.x, mainpos.y + mpos.y + 5);
 }
