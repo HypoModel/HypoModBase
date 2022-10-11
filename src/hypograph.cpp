@@ -1082,7 +1082,7 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 			int xaxislength = xplot;
 			if(graph->axistrace && drawX != -1) xaxislength = drawX * binsize / (xto - xfrom) * xplot;
 
-			mod->diagbox->Write(text.Format("drawX %.0f xfrom %.0f xto %.0f xplot %d xaxislength %d\n", drawX, xfrom, xto, xplot, xaxislength));
+			//mod->diagbox->Write(text.Format("drawX %.0f xfrom %.0f xto %.0f xplot %d xaxislength %d\n", drawX, xfrom, xto, xplot, xaxislength));
 			
 			if(graph->yaxis) DrawLine(dc, gc, xbase, ybase, xbase, ybase + yplot);
 			if(graph->xaxis) DrawLine(dc, gc, xbase, ybase + yplot, xbase + xaxislength + xstretch, ybase + yplot);
