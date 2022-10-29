@@ -151,6 +151,8 @@ public:
     virtual void DataCopy(wxString oldpath, wxString newpath);
     virtual void OnModThreadCompletion(wxThreadEvent&);
 	virtual void DataOutput() {};
+	virtual void GridOutput() {};
+
     void OnDiagWrite(wxThreadEvent&);
 	GraphWindow3 *GetGraphWin(wxString settag);
 };

@@ -167,7 +167,9 @@ GraphWindow3::GraphWindow3(HypoMain *main, wxFrame *parent, Model *model, wxPoin
 	Connect(ID_MultiCell, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnMultiCell));
 	Connect(ID_Scale, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnScale));
 	Connect(ID_UnZoom, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnUnZoom));
-	Connect(ID_Test, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnDrawTest));
+	//Connect(ID_Test, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnDrawTest));
+	Connect(ID_Output, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnGridOutput));
+
 }
 
 
@@ -182,6 +184,12 @@ void GraphWindow3::SetScroll(int xpos)
 {
 	//scrollbar->SetScrollbar(xpos, 40, xplot, 40);
 	scrollbar->SetThumbPosition(xpos);
+}
+
+ 
+void GraphWindow3::OnGridOutput(wxCommandEvent& event)
+{
+	mod->GridOutput();
 }
 
 
@@ -527,7 +535,8 @@ void GraphWindow3::OnRightClick(wxMouseEvent& event)
 			menuPlot->Append(ID_MultiCell, "Multi Cell");
 			menuPlot->Append(ID_Scale, "Plot Panel");
 			menuPlot->Append(ID_UnZoom, "Zoom Undo");
-			menuPlot->Append(ID_Test, "Test");
+			//menuPlot->Append(ID_Test, "Test");
+			menuPlot->Append(ID_Output, "Grid Output");
 			menuPlot->AppendSeparator();
 		}
 	}
