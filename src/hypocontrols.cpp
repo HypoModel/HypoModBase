@@ -559,6 +559,7 @@ double ParamSet::GetValue(wxString tag)
 	return value;	
 }
 
+
 wxString ParamSet::GetText(wxString tag)
 {
 	int id;
