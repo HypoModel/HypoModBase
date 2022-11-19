@@ -76,6 +76,10 @@ public:
 	// Prefs
 	int numdraw;
 
+	// Utils
+	wxString text;
+
+
 	wxString modname;
 	wxString modtag;
 	wxString initparams;
