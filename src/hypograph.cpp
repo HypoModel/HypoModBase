@@ -1638,12 +1638,19 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 						if(graph->yscalemode == 1 && yfrom > 0) {
 							ypos = (int)((double)yplot * (log(yval / yfrom) / log(ylogbase)) / ylogmax);  // log scaled y-axis  March 2018
 							if(yval < yfrom) {
-								ypos = -yfrom * yrange;
+								ypos = - yfrom * yrange;
 								//mod->diagbox->Write(text.Format("line draw log low value yval %.4f ypos %d\n", yval, ypos));
 							}
 						}
 						else ypos = (yval - yfrom) * yrange;
 						DrawLine(dc, gc, oldx, oldy, i + xbase + xoffset, (int)(yplot + ybase - ypos));
+
+						if(graph->scattermode == 1) 
+							gc->DrawEllipse((int)(i + xbase + xoffset - drawscatter/2), (int)(yplot + ybase - drawscatter/2 - ypos), drawscatter, drawscatter);
+
+						if(graph->scattermode == 2) 
+							gc->DrawRectangle((int)(i + xbase + xoffset - drawscatter/2), (int)(yplot + ybase - drawscatter/2 - ypos), drawscatter, drawscatter);
+
 						oldx = i + xbase + xoffset;
 						oldy = (int)(yplot + ybase - ypos);
 
