@@ -317,6 +317,8 @@ void GraphWindow3::PrintEPS(double xb, double yb, TextFile *ofp)
 		//xto = xto - xstart;
 
 		// Set graph data pointers
+		gdatav = NULL;
+		gdatadv = NULL;
 		if(gpar == -3) gdatav = graph->gdatav;
 		if(gpar == -4) gdatadv = graph->gdatadv;
 		if(graph->spikedata != NULL) burstdata = graph->spikedata->burstdata;
@@ -882,7 +884,7 @@ void GraphWindow3::PrintEPS(double xb, double yb, TextFile *ofp)
 
 
 	xcoord = xtickstart;
-	mod->diagbox->Write(text.Format("EPS Labels  xlabels %d  xlabelmode %d  xcoord %.2f  xaxislength %d\n", xlabels, xlabelmode, xcoord, xaxislength));
+	mod->diagbox->Write(text.Format("EPS Labels  xlabels %d  xlabelmode %d  xcoord %.2f  xaxislength %d\n", xlabels, graph->xlabelmode, xcoord, xaxislength));
 
 
 	// Draw Tick Labels

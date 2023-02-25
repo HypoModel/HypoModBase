@@ -167,7 +167,9 @@ GraphWindow3::GraphWindow3(HypoMain *main, wxFrame *parent, Model *model, wxPoin
 	Connect(ID_MultiCell, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnMultiCell));
 	Connect(ID_Scale, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnScale));
 	Connect(ID_UnZoom, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnUnZoom));
-	Connect(ID_Test, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnDrawTest));
+	//Connect(ID_Test, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnDrawTest));
+	Connect(ID_Output, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GraphWindow3::OnGridOutput));
+
 }
 
 
@@ -182,6 +184,12 @@ void GraphWindow3::SetScroll(int xpos)
 {
 	//scrollbar->SetScrollbar(xpos, 40, xplot, 40);
 	scrollbar->SetThumbPosition(xpos);
+}
+
+ 
+void GraphWindow3::OnGridOutput(wxCommandEvent& event)
+{
+	mod->GridOutput();
 }
 
 
@@ -512,6 +520,7 @@ void GraphWindow3::OnRightClick(wxMouseEvent& event)
 	wxMenu *menuPlot, *subPlot;
 		
 	menuPlot = new wxMenu;
+	subPlot = NULL;
 
 	if(!mainwin->basic) {
 		if(mainwin->student) {
@@ -527,7 +536,8 @@ void GraphWindow3::OnRightClick(wxMouseEvent& event)
 			menuPlot->Append(ID_MultiCell, "Multi Cell");
 			menuPlot->Append(ID_Scale, "Plot Panel");
 			menuPlot->Append(ID_UnZoom, "Zoom Undo");
-			menuPlot->Append(ID_Test, "Test");
+			//menuPlot->Append(ID_Test, "Test");
+			menuPlot->Append(ID_Output, "Grid Output");
 			menuPlot->AppendSeparator();
 		}
 	}
@@ -565,7 +575,7 @@ void GraphWindow3::OnRightClick(wxMouseEvent& event)
 	//menuPlot->Check(1000, false);
 	graphset = mod->graphbase->GetSet(dispset[0]->sdex);
 	if(!graphset->submenu) menuPlot->Check(1000 + dispset[0]->sdex, true);
-	else subPlot->Check(2000 + dispset[0]->gdex, true);
+	else if(subPlot) subPlot->Check(2000 + dispset[0]->gdex, true);
 	mainwin->diagbox->Write(text.Format("\ngraph menu set %d\n", dispset[0]->sdex));
 	PopupMenu(menuPlot, pos.x + 20, pos.y);
 }
@@ -1009,7 +1019,7 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 	double ymax, ycalc;
 	double xlogrange, ylogrange;
 
-	FILE* ofp;
+	FILE* ofp = NULL;
 	TextFile opfile;
 	//ofp = fopen("graph.txt", "w");
 	//if(graphindex == 0) ofp = fopen("graph.txt", "w");
@@ -1034,8 +1044,8 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 			//graph = gpos->plot[gplot];
 			graph = dispset[gdisp]->plot[gplot];
 			gpar = graph->gparam;
-			if(gpar == -1) gdata = graph->gdata;
-			if(gpar == -2) gdatad = graph->gdatad;
+			gdatav = NULL;
+			gdatadv = NULL;
 			if(gpar == -3) gdatav = graph->gdatav;
 			if(gpar == -4) gdatadv = graph->gdatadv;
 			xscale = graph->xscale;
@@ -1118,7 +1128,7 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 			//else xpos = (xval - xfrom) * xrange;
 
 			int xtickstart = 0;
-			double xtickshift;
+			double xtickshift = 0;
 			if(xfrom != 0) xtickshift = xfrom;
 			xtickstart = abs(xtickshift) * xplotstep;
 
@@ -1284,8 +1294,6 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 
 			if(gtype == 1) {                             // scaled width bars, Histogram    
 				for (i=0; i<(xto - xfrom); i++) {
-					if(gpar == -1) y = (double)gdata[i + (int)xfrom];
-					if(gpar == -2) y = gdatad[i + (int)xfrom];
 					if(gpar == -3) y = (*gdatav)[i + (int)xfrom];
 					if(gpar == -4) y = (*gdatadv)[i + (int)xfrom];
 					xpos = i * xrange + xbase + xoffset;
@@ -1379,8 +1387,6 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 
 				for(i=0; i<ceil(xto - xfrom + partbin); i++) {               // account for extra bin with unaligned xfrom
 				//for(i=0; i<(xto-xfrom); i++) {
-					if(gpar == -1) y = (double)gdata[i + (int)xfrom];
-					if(gpar == -2) y = gdatad[i + (int)xfrom];
 					if(gpar == -3) y = (*gdatav)[i + (int)xfrom];
 					if(gpar == -4) y = (*gdatadv)[i + (int)xfrom];
 
@@ -1633,12 +1639,19 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 						if(graph->yscalemode == 1 && yfrom > 0) {
 							ypos = (int)((double)yplot * (log(yval / yfrom) / log(ylogbase)) / ylogmax);  // log scaled y-axis  March 2018
 							if(yval < yfrom) {
-								ypos = -yfrom * yrange;
+								ypos = - yfrom * yrange;
 								//mod->diagbox->Write(text.Format("line draw log low value yval %.4f ypos %d\n", yval, ypos));
 							}
 						}
 						else ypos = (yval - yfrom) * yrange;
 						DrawLine(dc, gc, oldx, oldy, i + xbase + xoffset, (int)(yplot + ybase - ypos));
+
+						if(graph->scattermode == 1) 
+							gc->DrawEllipse((int)(i + xbase + xoffset - drawscatter/2), (int)(yplot + ybase - drawscatter/2 - ypos), drawscatter, drawscatter);
+
+						if(graph->scattermode == 2) 
+							gc->DrawRectangle((int)(i + xbase + xoffset - drawscatter/2), (int)(yplot + ybase - drawscatter/2 - ypos), drawscatter, drawscatter);
+
 						oldx = i + xbase + xoffset;
 						oldy = (int)(yplot + ybase - ypos);
 
@@ -1679,8 +1692,6 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 
 			if(gtype == 7) {                             // scaled width bars    
 				for(i=0; i<(xto-xfrom); i++) {
-					if(gpar == -1) y = (double)gdata[i + (int)xfrom];
-					if(gpar == -2) y = gdatad[i + (int)xfrom];
 					if(gpar == -3) y = (*gdatav)[i + (int)xfrom];
 					if(gpar == -4) y = (*gdatadv)[i + (int)xfrom];
 					xpos = i * xrange + xbase;

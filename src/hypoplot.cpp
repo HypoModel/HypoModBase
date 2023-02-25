@@ -105,6 +105,7 @@ PlotBox::PlotBox(Model *model, const wxString& title, const wxPoint& pos, const 
 		//databinbox->AddSpacer(50);
 		AddButton(ID_neurodice, "Dice", 50, dicepanel);
 	}
+	else dicepanel = NULL;
 
 	if(v1mode) {
 		v1datapanel = new wxStaticBoxSizer(wxVERTICAL, panel, "V1 Data");
@@ -119,6 +120,7 @@ PlotBox::PlotBox(Model *model, const wxString& title, const wxPoint& pos, const 
 		//databinbox->AddSpacer(50);
 		AddButton(ID_V1data, "V1 Ana", 50, v1datapanel);
 	}
+	else v1datapanel = NULL;
 
 	/*
 	wxBoxSizer *datapathbox = new wxBoxSizer(wxHORIZONTAL);
@@ -366,7 +368,7 @@ void PlotBox::OnNeuroDice(wxCommandEvent& event)
 
 	for(i=0; i<100; i++) counts[i] = 0;
 	for(i=0; i<100; i++) dicecheck[i] = 0;
-
+	dice = 0;
 
 	for(i=0; i<rolls; i++) {
 		if(fire > dice) break;

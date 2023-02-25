@@ -1267,15 +1267,14 @@ GridBox::GridBox(Model *model, const wxString& title, const wxPoint& pos, const 
 	//SetModFlag(ID_FileIO, "ioflag", "IO Mode", 0); 
 
 	diagbox = mod->diagbox;
+	vdubox = new wxBoxSizer(wxVERTICAL);
 
 	if(vdumode) {
 		vdu = new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, wxSize(-1, -1), wxBORDER_RAISED|wxTE_MULTILINE);
 		vdu->SetFont(confont);
 		vdu->SetForegroundColour(wxColour(0,255,0)); // set text color
 		vdu->SetBackgroundColour(wxColour(0,0,0)); // set text back color
-
 		gauge = new wxGauge(panel, wxID_ANY, 10);
-		vdubox = new wxBoxSizer(wxVERTICAL);
 		vdubox->Add(vdu, 1, wxEXPAND);
 	}
 
@@ -1923,7 +1922,7 @@ void GridBox::GridLoadAll()
 		numrows = ParseLong(&readline, 'r');
 		numcols = ParseLong(&readline, 'c');
 		if(numrows > textgrid[gindex]->GetNumberRows()) textgrid[gindex]->AppendRows(numrows - textgrid[gindex]->GetNumberRows());
-		if(numcols > textgrid[gindex]->GetNumberCols()) textgrid[gindex]->AppendRows(numcols - textgrid[gindex]->GetNumberCols());
+		if(numcols > textgrid[gindex]->GetNumberCols()) textgrid[gindex]->AppendCols(numcols - textgrid[gindex]->GetNumberCols());
 		textgrid[gindex]->ClearGrid();
 	}
 

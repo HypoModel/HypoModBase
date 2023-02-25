@@ -342,7 +342,7 @@ double SpikeDat::dispcalc(int binsize)
 	double mean, variance, dispersion = 0;
 	double timeshift = 0;
 	bool filediag = false;
-	FILE *ofp;
+	FILE *ofp = NULL;
 	char diagname[20];
 	sprintf(diagname, "normalIoD%d.txt", binsize);
 
@@ -391,7 +391,7 @@ double BurstDat::dispcalcburst(int binsize, int maxint)
 	bool shiftflag = true;
 	bool filediag = false;
 	bool selecton;
-	FILE *ofp;
+	FILE *ofp = NULL;
 	char diagname[20];
 	sprintf(diagname, "burstIoD%d.txt", binsize);
 	wxString text;

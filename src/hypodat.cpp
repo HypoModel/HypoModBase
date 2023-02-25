@@ -1505,7 +1505,6 @@ void GraphBase::BaseStore(wxString path, wxString tag)
 	outfile.New(path + "/" + filename);
 	for(i=1; i<=numgraphs; i++) {
 		outfile.WriteLine(graphstore[i].StoreDat(GetTag(i)));
-		//outfile.WriteLine(text.Format
 	}
 	outfile.Close();
 

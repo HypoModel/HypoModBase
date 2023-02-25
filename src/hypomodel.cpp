@@ -779,7 +779,7 @@ void HypoMain::SizeUpdate()
 	viewheight = newsize.y;
 
 	for(graph=0; graph<numdraw; graph++) {
-		graphwin[graph]->SetInitialSize();
+		graphwin[graph]->SetInitialSize();   // 31/8/22 required here but causes bugged flicker in Python version, something else different?
 		graphwin[graph]->ReSize(xplot, yplot);
 	}
 
@@ -1058,7 +1058,7 @@ void HypoMain::OnOptionPanel(wxCommandEvent& event)
 }
 
 
-void HypoMain::ViewStore()
+void HypoMain::ViewStore()    // Not currently in use 29/8/22
 {
 	wxString filename;
 	wxString outline;
@@ -1080,7 +1080,7 @@ void HypoMain::ViewStore()
 }
 
 
-void HypoMain::ViewLoad()
+void HypoMain::ViewLoad()     // Not currently in use, integrated into OptionLoad() and LoadPrefs() 29/8/22
 {
 	long numdat;
 

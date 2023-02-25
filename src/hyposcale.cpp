@@ -1340,7 +1340,6 @@ void ScaleBox::GraphSwitch(int command)
 }
 
 
-
 void ScaleBox::VMHswitch(int newflag)
 {
 	vmhflag = newflag;
