@@ -1922,7 +1922,7 @@ void GridBox::GridLoadAll()
 		numrows = ParseLong(&readline, 'r');
 		numcols = ParseLong(&readline, 'c');
 		if(numrows > textgrid[gindex]->GetNumberRows()) textgrid[gindex]->AppendRows(numrows - textgrid[gindex]->GetNumberRows());
-		if(numcols > textgrid[gindex]->GetNumberCols()) textgrid[gindex]->AppendRows(numcols - textgrid[gindex]->GetNumberCols());
+		if(numcols > textgrid[gindex]->GetNumberCols()) textgrid[gindex]->AppendCols(numcols - textgrid[gindex]->GetNumberCols());
 		textgrid[gindex]->ClearGrid();
 	}
 
