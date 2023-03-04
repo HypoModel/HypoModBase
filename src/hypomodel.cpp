@@ -30,7 +30,7 @@ HypoMain::HypoMain(const wxString& title, const wxPoint& pos, const wxSize& size
 	//panelcolour = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
 	
 	//SetMinSize(wxSize(200, 670));
-	SetMinSize(wxSize(200, 00));
+	SetMinSize(wxSize(200, 200));
 
 	// Flicker Protection
 
