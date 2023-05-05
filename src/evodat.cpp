@@ -128,7 +128,7 @@ void EvoChrome::Output(wxString filename)
 }
 
 
-void EvoChrome::Output(TextFile *ofp, int mode)
+void EvoChrome::Output(TextFile *ofp, int mode, wxString tag)
 {
 	wxString text;
 	wxString outline;
@@ -151,7 +151,7 @@ void EvoChrome::Output(TextFile *ofp, int mode)
 	}
 
 	if(mode == 2) {
-		outline = "";
+		outline = tag + "\t";
 		for(i=0; i<numparams; i++) if(params[i].adapt) outline += numtext(params[i].value, params[i].places) + "\t";
 		outline += text.Format("%.2f\t", fitness);
 		//outline += text.Format("%.2f\t%.2f\t%.2f\t%.2f\t", fithead, fittail, fithaz, fitIoD);

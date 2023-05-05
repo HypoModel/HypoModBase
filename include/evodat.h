@@ -76,7 +76,7 @@ public:
 	~EvoChrome();
 	void Initialise();
 	void Output(wxString filename = "chrome.txt");
-	void Output(TextFile *ofp, int mode = 0);
+	void Output(TextFile *ofp, int mode = 0, wxString tag = "");
 	void Diagnostic();
 	wxString OutLine();
 	double Val(wxString);
