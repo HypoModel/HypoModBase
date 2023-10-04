@@ -35,6 +35,13 @@ NeuroDat::~NeuroDat()
 }
 
 
+void NeuroDat::ReSize()
+{
+	maxspikes = maxspikes + 10000;
+	times.resize(maxspikes);
+}
+
+
 bool NeuroDat::Selected()
 {
 	if(numselects[currselect]) return true;

@@ -1514,6 +1514,7 @@ void SpikeDat::neurocalc(NeuroDat *datneuron, ParamStore *calcparams)
 	calcdiag = false;
 	calcdiag2 = false;
 
+
 	if(calcdiag) ofp = fopen("neurocalc.txt", "w");
 
 	neurodata = datneuron;
@@ -1568,11 +1569,13 @@ void SpikeDat::neurocalc(NeuroDat *datneuron, ParamStore *calcparams)
 	if(neurodat) {
 		spikecount = datneuron->spikecount;
 		maxspikes = datneuron->maxspikes;
+		if(spikecount > 100000) spikecount = 100000;      // temporary fix 4/10/23, somewhere after neurocalc higher spikecount causes overflow
 		//isis = datneuron->isis;
 	}
 	stime = start;
 
 	if(!spikecount) return;
+
 
 	if(calcdiag) fprintf(ofp, "Neuron %d  Spike Count %d\n", neurodat, spikecount);
 
@@ -1594,6 +1597,7 @@ void SpikeDat::neurocalc(NeuroDat *datneuron, ParamStore *calcparams)
 		//if(spikediag && mainwin) mainwin->diagbox->Write(text.Format("i=%d time %.4f isi %.4f\n", i, times[i], isis[i]));
 		if(spikediag && diagbox) if(i<10) diagbox->Write(text.Format("i=%d time %.4f isi %.4f\n", i, times[i], isis[i]));
 	}
+
 
 	/*
 	for(i=1; i<spikecount; i++) {

@@ -169,11 +169,21 @@ void SpikePanel::SetData(SpikeDat *dataneuron, std::vector<NeuroDat>*dataneurons
 void SpikePanel::PanelData(NeuroDat *data)
 {
 	if(!data) data = &(*neurons)[neuroindex];
-	if(data->netflag) snum = "sum";
+
+	if(!data) {
+		toolbox->diagbox->Write("SpikePanel data error\n");
+		return;
+	}
+
+	toolbox->diagbox->Write("SpikePanel data OK\n");
+
+	if((*neurons)[neuroindex].netflag) snum = "sum";
 	else snum = numstring(neuroindex, 0);
 	datneuron->SetLabel(snum);
 
-	label->SetLabel(data->name);
+	label->SetLabel("panel test");
+
+	label->SetLabel((*neurons)[neuroindex].name);
 	spikes->SetLabel(snum.Format("%d", data->spikecount));
 	freq->SetLabel(snum.Format("%.2f", data->freq));
 	selectspikecount->SetLabel(snum.Format("%d", currneuron->selectdata->intraspikes));
@@ -249,6 +259,8 @@ void SpikePanel::OnEnter(wxCommandEvent& event)
 void SpikePanel::NeuroData(bool dispupdate)
 {	
 	ParamStore *calcparams = neurobox->GetParams();
+
+	//if((*neurons)[neuroindex].spikecount >= currneuron->times.size()) currneuron->ReSize((*neurons)[neuroindex].spikecount);
 
 	currneuron->normscale = (*calcparams)["normscale"];
 	currneuron->binoffset = (*calcparams)["binoffset"];
@@ -2586,6 +2598,7 @@ void GridBox::NeuroScan()
 				spikeint = spiketime - (*celldata)[cellcount].times[spikecount-1];
 				//if(spikecount < 10) diagbox->Write(text.Format("col %d spikeint %.2f filter %d\n", col, spikeint, filterthresh));
 			}
+			if(spikecount >= (*celldata)[cellcount].maxspikes) (*celldata)[cellcount].ReSize();
 			if(spikecount == 0 || spikeint > filterthresh) {
 				(*celldata)[cellcount].times[spikecount] = spiketime;
 				spikecount++;

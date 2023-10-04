@@ -183,6 +183,7 @@ public:
 	void ratereset();
 	void diagstore(); // expand default storage for diagnostics
 	bool Selected();  // check for data selection
+	void ReSize(); // add 10000 to maxspikes and expand 'times' vector
 };
 
 
