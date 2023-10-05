@@ -5,6 +5,7 @@
 #include "hypodata.h"
 
 
+
 NeuroMod::NeuroMod(int type, wxString name, HypoMain *main)
 	: Model(type, name, main)
 {
@@ -76,6 +77,92 @@ void NeuroMod::DataSelect(wxString gname, double from, double to)
 		neurobox->auitabpanel->SetSelection(1);
 	}
 }
+
+
+
+NeuroPop::NeuroPop()
+{
+	maxtime = 200000;
+	maxtimeRate1s = maxtime;
+	maxtimeRate10ms = maxtime * 100;
+	maxtimeRate1ms = maxtime * 1000;
+	maxtimeLong = 35000;  // minutes, 30000 sufficient for 20 days simulation and recording
+
+	srate1s.setsize(maxtime);
+	srate10s.setsize(maxtime/10);
+	srate30s.setsize(maxtime/30);
+	srate300s.setsize(maxtime/300);
+	srate600s.setsize(maxtime/600);
+
+	popdat = new SpikeDat();
+}
+
+
+void NeuroPop::SpikeAnalysis()
+{
+	// 'popdat' is a SpikeDat used to store population summed/mean neuron analysis 
+	// 'neurodat' is a SpikeDat used for temporary individual neuron analysis
+
+	int i, step;
+
+	// Reset population counts
+	for(i=0; i<maxtime; i++) popdat->srate1s[i] = 0;
+	for(i=0; i<maxtime/10; i++) popdat->srate10s[i] = 0;
+	for(i=0; i<maxtime/30; i++) popdat->srate30s[i] = 0;
+	for(i=0; i<maxtime/300; i++) popdat->srate300s[i] = 0;
+	for(i=0; i<maxtime/600; i++) popdat->srate600s[i] = 0;
+
+	for(i=0; i<1000000; i++) popdat->srate1[i] = 0;   // 1ms bins for individual spikes
+
+	for(i=0; i<10000; i++) {
+		popdat->hist1[i] = 0;
+		popdat->hist5[i] = 0;
+		popdat->haz1[i] = 0;
+		popdat->haz5[i] = 0;
+	}
+
+	popfreq = 0;
+
+	// Analyse and sum each neuron
+	for(i=0; i<numneurons; i++) {
+		neurodat->neurocalc(&(*neurons)[i]);
+		popfreq += neurodat->freq;
+
+		for(step=0; step<maxtime; step++) popdat->srate1s[step] += neurodat->srate1s[step];  // 1s bins
+		for(step=0; step<maxtime/10; step++) popdat->srate10s[step] += neurodat->srate10s[step];  // 10s bins
+		for(step=0; step<maxtime/30; step++) popdat->srate30s[step] += neurodat->srate30s[step];  // 30s bins
+		for(step=0; step<maxtime/300; step++) popdat->srate300s[step] += neurodat->srate300s[step];  // 300s bins
+		for(step=0; step<maxtime/600; step++) popdat->srate600s[step] += neurodat->srate600s[step];  // 600s bins
+
+		for(step=0; step<1000000; step++) popdat->srate1[step] += neurodat->srate1[step];  // 1 ms bins
+
+		for(step=0; step<10000; step++) {
+			popdat->hist1[step] += neurodat->hist1[step];
+			popdat->hist5[step] += neurodat->hist5[step];
+			popdat->haz1[step] += neurodat->haz1[step];
+			popdat->haz5[step] += neurodat->haz5[step];
+		}
+	}
+
+	// Convert sums to means
+	for(step=0; step<maxtime; step++) popdat->srate1s[step] = popdat->srate1s[step] / numneurons;  // 1s bins
+	for(step=0; step<maxtime/10; step++) popdat->srate10s[step] = popdat->srate10s[step] / numneurons;  // 10s bins
+	for(step=0; step<maxtime/30; step++) popdat->srate30s[step] = popdat->srate30s[step] / numneurons;  // 30s bins
+	for(step=0; step<maxtime/300; step++) popdat->srate300s[step] = popdat->srate300s[step] / numneurons;  // 300s bins
+	for(step=0; step<maxtime/600; step++) popdat->srate600s[step] = popdat->srate600s[step] / numneurons;  // 600s bins
+
+	for(step=0; step<10000; step++) {
+		popdat->hist1[step] = popdat->hist1[step] / numneurons;
+		popdat->hist5[step] = popdat->hist5[step] / numneurons;
+		popdat->haz1[step] = popdat->haz1[step] / numneurons;
+		popdat->haz5[step] = popdat->haz5[step] / numneurons;
+	}
+
+	popfreq = popfreq / numneurons;
+}
+
+
+
 
 
 /*void NeuroMod::ExpDataSwitch(SpikeDat *data)

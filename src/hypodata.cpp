@@ -8,12 +8,9 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-//using namespace std;
 
 #include <fcntl.h>
-//#include <unistd.h>
 #include <sys/types.h>
-//#include <sys/mman.h>
 #include <sys/stat.h>
 
 #include <wx/numformatter.h>

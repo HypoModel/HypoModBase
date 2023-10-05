@@ -6,6 +6,7 @@
 #include "hypodat.h"
 #include "hypomods.h"
 #include "hypopanels.h"
+#include "hyponeuro.h"
 
 
 
@@ -15,6 +16,8 @@ public:
 	NeuroBox *neurobox;
 	SpikeDat *currneuron;
 	std::vector<NeuroDat>*neurons;
+
+	NeuroPop neuropop;
 
 	int i;
 	wxString text;

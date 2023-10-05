@@ -22,7 +22,6 @@ enum {
 };
 
 
-
 class NeuroMod : public Model
 {
 public:
@@ -49,3 +48,46 @@ public:
 	virtual void ParamScan() {};
 	//virtual void DataSwitch();
 };
+
+
+
+// 'NeuroPop' multiple neuron (recordings/population/network) data storage and analysis class
+//
+// 'neurons' contains NeuroDat vector
+// 
+//
+
+class NeuroPop {
+public:
+	int runtime;
+	int numneurons;
+	int numspikes;
+
+	// Data
+	SpikeDat *popdat;
+	SpikeDat *neurodat;
+	std::vector<NeuroDat> *neurons;
+	
+	double popfreq;
+	double popsd;
+	double ratemean;
+	double rateSD;
+
+	int maxtime;
+	int maxtimeRate1s;
+	int maxtimeRate10ms;
+	int maxtimeRate1ms;
+	int maxtimeLong;
+
+	// Summed spike rate
+	datdouble srate1s, srate10s;
+	datdouble srate30s;
+	datdouble srate300s, srate600s;
+
+	NeuroPop();
+
+	//void PopSum();
+	//void StoreClear();
+	void SpikeAnalysis();
+};
+
