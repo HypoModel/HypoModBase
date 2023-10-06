@@ -2174,7 +2174,26 @@ int SpikeDat::PlotSet(GraphBase *graphbase, wxString tag, int colour, int light,
 }
 
 
-int SpikeDat::GraphSetLysis(GraphBase *graphbase, wxString tag, int colour, int light, wxString reftag, wxString btag)
+int SpikeDat::PlotSetBasic(GraphBase *graphbase, wxString tag, int colour, int light, wxString reftag, wxString btag)
+{
+	int setindex;
+	int shift;
+
+	if(light) shift = 5;
+	else shift = 0;
+
+	graphbase->Add(GraphDat(&hist1, 0, 500, 0, 100, tag + "Hist 1ms", 1, 1, colour + shift), reftag + "hist1ms");
+	graphbase->Add(GraphDat(&hist5, 0, 500, 0, 500, tag + "Hist 5ms", 1, 5, colour + shift), reftag + "hist5ms");
+	graphbase->Add(GraphDat(&haz1, 0, 500, 0, 0.04, tag + "Haz 1ms", 1, 1, colour + shift), reftag + "haz1ms", "null");
+	graphbase->Add(GraphDat(&haz5, 0, 500, 0, 0.2, tag + "Haz 5ms", 1, 5, colour + shift), reftag + "haz5ms", "null");
+
+	graphs = true;
+
+	return 1;
+}
+
+
+int SpikeDat::PlotSetLysis(GraphBase *graphbase, wxString tag, int colour, int light, wxString reftag, wxString btag)
 {
 	int setindex;
 	int shift;

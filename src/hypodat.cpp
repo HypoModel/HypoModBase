@@ -1265,6 +1265,32 @@ wxString GraphSet::Display()
 }
 
 
+void GraphSet::IntervalSetBasic(wxString tag, bool burst, bool select, int selectcode)
+{
+	AddFlag("hazmode1", 10);
+	AddFlag("binrestog1", 1);
+	
+	Add(tag + "hist1ms", 0);
+	Add(tag + "haz1ms", 10);
+	Add(tag + "hist5ms", 1);
+	Add(tag + "haz5ms", 11);
+	
+	
+	/*if(select) {
+		Add(tag + "selecthist1ms", selectcode);
+		Add(tag + "selecthaz1ms", selectcode + 10);
+		Add(tag + "selecthist5ms", selectcode + 1);
+		Add(tag + "selecthaz5ms", selectcode + 11);
+	}
+	else {
+		Add(tag + "hist1ms", selectcode);
+		Add(tag + "haz1ms", selectcode + 10);
+		Add(tag + "hist5ms", selectcode + 1);
+		Add(tag + "haz5ms", selectcode + 11);
+	}*/
+}
+
+
 // IntervalSet, sets up graph switching for ISI analysis plots, currently specific to VasoModel graph button panel
 void GraphSet::IntervalSet(wxString tag, bool burst, bool select, int selectcode)
 {

@@ -95,6 +95,10 @@ NeuroPop::NeuroPop()
 	srate600s.setsize(maxtime/600);
 
 	popdat = new SpikeDat();
+	neurodat = new SpikeDat();
+
+	neurons = NULL;
+	numneurons = 0;
 }
 
 
@@ -106,13 +110,13 @@ void NeuroPop::SpikeAnalysis()
 	int i, step;
 
 	// Reset population counts
-	for(i=0; i<maxtime; i++) popdat->srate1s[i] = 0;
-	for(i=0; i<maxtime/10; i++) popdat->srate10s[i] = 0;
-	for(i=0; i<maxtime/30; i++) popdat->srate30s[i] = 0;
-	for(i=0; i<maxtime/300; i++) popdat->srate300s[i] = 0;
-	for(i=0; i<maxtime/600; i++) popdat->srate600s[i] = 0;
+	//for(i=0; i<maxtime; i++) popdat->srate1s[i] = 0;
+	//for(i=0; i<maxtime/10; i++) popdat->srate10s[i] = 0;
+	//for(i=0; i<maxtime/30; i++) popdat->srate30s[i] = 0;
+	//for(i=0; i<maxtime/300; i++) popdat->srate300s[i] = 0;
+	//for(i=0; i<maxtime/600; i++) popdat->srate600s[i] = 0;
 
-	for(i=0; i<1000000; i++) popdat->srate1[i] = 0;   // 1ms bins for individual spikes
+	//for(i=0; i<1000000; i++) popdat->srate1[i] = 0;   // 1ms bins for individual spikes
 
 	for(i=0; i<10000; i++) {
 		popdat->hist1[i] = 0;
@@ -128,13 +132,13 @@ void NeuroPop::SpikeAnalysis()
 		neurodat->neurocalc(&(*neurons)[i]);
 		popfreq += neurodat->freq;
 
-		for(step=0; step<maxtime; step++) popdat->srate1s[step] += neurodat->srate1s[step];  // 1s bins
-		for(step=0; step<maxtime/10; step++) popdat->srate10s[step] += neurodat->srate10s[step];  // 10s bins
-		for(step=0; step<maxtime/30; step++) popdat->srate30s[step] += neurodat->srate30s[step];  // 30s bins
-		for(step=0; step<maxtime/300; step++) popdat->srate300s[step] += neurodat->srate300s[step];  // 300s bins
-		for(step=0; step<maxtime/600; step++) popdat->srate600s[step] += neurodat->srate600s[step];  // 600s bins
+		//for(step=0; step<maxtime; step++) popdat->srate1s[step] += neurodat->srate1s[step];  // 1s bins
+		//for(step=0; step<maxtime/10; step++) popdat->srate10s[step] += neurodat->srate10s[step];  // 10s bins
+		//for(step=0; step<maxtime/30; step++) popdat->srate30s[step] += neurodat->srate30s[step];  // 30s bins
+		//for(step=0; step<maxtime/300; step++) popdat->srate300s[step] += neurodat->srate300s[step];  // 300s bins
+		//for(step=0; step<maxtime/600; step++) popdat->srate600s[step] += neurodat->srate600s[step];  // 600s bins
 
-		for(step=0; step<1000000; step++) popdat->srate1[step] += neurodat->srate1[step];  // 1 ms bins
+		//for(step=0; step<1000000; step++) popdat->srate1[step] += neurodat->srate1[step];  // 1 ms bins
 
 		for(step=0; step<10000; step++) {
 			popdat->hist1[step] += neurodat->hist1[step];
@@ -145,11 +149,11 @@ void NeuroPop::SpikeAnalysis()
 	}
 
 	// Convert sums to means
-	for(step=0; step<maxtime; step++) popdat->srate1s[step] = popdat->srate1s[step] / numneurons;  // 1s bins
-	for(step=0; step<maxtime/10; step++) popdat->srate10s[step] = popdat->srate10s[step] / numneurons;  // 10s bins
-	for(step=0; step<maxtime/30; step++) popdat->srate30s[step] = popdat->srate30s[step] / numneurons;  // 30s bins
-	for(step=0; step<maxtime/300; step++) popdat->srate300s[step] = popdat->srate300s[step] / numneurons;  // 300s bins
-	for(step=0; step<maxtime/600; step++) popdat->srate600s[step] = popdat->srate600s[step] / numneurons;  // 600s bins
+	//for(step=0; step<maxtime; step++) popdat->srate1s[step] = popdat->srate1s[step] / numneurons;  // 1s bins
+	//for(step=0; step<maxtime/10; step++) popdat->srate10s[step] = popdat->srate10s[step] / numneurons;  // 10s bins
+	//for(step=0; step<maxtime/30; step++) popdat->srate30s[step] = popdat->srate30s[step] / numneurons;  // 30s bins
+	//for(step=0; step<maxtime/300; step++) popdat->srate300s[step] = popdat->srate300s[step] / numneurons;  // 300s bins
+	//for(step=0; step<maxtime/600; step++) popdat->srate600s[step] = popdat->srate600s[step] / numneurons;  // 600s bins
 
 	for(step=0; step<10000; step++) {
 		popdat->hist1[step] = popdat->hist1[step] / numneurons;

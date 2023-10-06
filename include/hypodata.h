@@ -32,7 +32,7 @@ public:
 	int selectmode[2];
 	std::vector<int>selectspikes[2];
 
-	wxStaticBoxSizer *selectbox[2];
+	wxStaticBoxSizer *selectcon[2];
 	wxToggleButton *addbutton[2];
 	wxToggleButton *subbutton[2];
 
@@ -48,6 +48,10 @@ public:
 	wxStaticText *selectfreq;
 	wxCheckBox *filtercheck;
 
+	// Multi Panel
+	wxStaticText *multicount;
+	wxStaticText *multifreq;
+
 	wxString ratetag;
 	GraphWindow3 *graphwin;  // used to link the spike rate graph panel
 
@@ -57,6 +61,7 @@ public:
 	void PanelData(NeuroDat *data = NULL);
 	void NeuroData(bool dispupdate = true);
 	void AnalyseSelection();
+	void MultiCellAnalysis();
 
 	// Button and panel commands
 	void OnNext(wxSpinEvent& event);
@@ -72,6 +77,7 @@ public:
 	// External commands
 	void SetSelectRange(double, double);
 	void SetData(SpikeDat *, std::vector<NeuroDat>*);
+	void SetCount(int);
 
 	// Selection
 	void SelectAdd();

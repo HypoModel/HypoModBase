@@ -41,10 +41,16 @@ SpikePanel::SpikePanel(NeuroBox *box)
 	}
 
 	this->SetFont(neurobox->boxfont);
-	wxBoxSizer *selectsizer = new wxBoxSizer(wxVERTICAL);
-	this->SetSizer(selectsizer);
+	wxBoxSizer *mainbox = new wxBoxSizer(wxVERTICAL);
+	this->SetSizer(mainbox);
 	neurobox->activepanel = this;
 	neurobox->paramset.panel = this;
+
+	// Multi Cell Plots
+	//neuropop.popdat->PlotSetBasic(box->mod->graphbase, "MultiCell ", green, 1, "multicell");
+	//GraphSet *graphset = box->mod->graphbase->NewSet("MultiCell Intervals", "multiintervals");
+	//graphset->IntervalSetBasic("multicell", false, false);
+
 
 	/////////////////////////////////////////////////////////
 	// Neuron selection
@@ -102,46 +108,62 @@ SpikePanel::SpikePanel(NeuroBox *box)
 	//
 	fromcon = neurobox->paramset.AddNum("from", "From", 0, 0, 30); 
 	tocon = neurobox->paramset.AddNum("to", "To", 100, 0, 20); 
-
-	wxBoxSizer *selectpanelbox = new wxBoxSizer(wxVERTICAL);
-	selectbox[0] = new wxStaticBoxSizer(wxHORIZONTAL, this, "Selection 1");
-	selectbox[1] = new wxStaticBoxSizer(wxHORIZONTAL, this, "Selection 2");
+	selectcon[0] = new wxStaticBoxSizer(wxHORIZONTAL, this, "Selection 1");
+	selectcon[1] = new wxStaticBoxSizer(wxHORIZONTAL, this, "Selection 2");
+	
 	wxBoxSizer *fromtobox = new wxBoxSizer(wxHORIZONTAL);
-
 	fromtobox->Add(fromcon, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxRIGHT|wxLEFT, 5);
 	fromtobox->Add(tocon, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxRIGHT|wxLEFT, 5);
 
 	buttspace = 20;
 	for(i=0; i<selectcount; i++) {
-		addbutton[i] = ToggleButton(100 + i, "Add", 40, selectbox[i]);	
-		selectbox[i]->AddSpacer(buttspace);
-		subbutton[i] = ToggleButton(200 + i, "Sub", 40, selectbox[i]);	
-		selectbox[i]->AddSpacer(buttspace);
-		neurobox->AddButton(300 + i, "Clear", 40, selectbox[i]);
-		selectbox[i]->AddSpacer(buttspace);
-		neurobox->AddButton(400 + i, "Invert", 40, selectbox[i]);
+		addbutton[i] = ToggleButton(100 + i, "Add", 40, selectcon[i]);	
+		selectcon[i]->AddSpacer(buttspace);
+		subbutton[i] = ToggleButton(200 + i, "Sub", 40, selectcon[i]);	
+		selectcon[i]->AddSpacer(buttspace);
+		neurobox->AddButton(300 + i, "Clear", 40, selectcon[i]);
+		selectcon[i]->AddSpacer(buttspace);
+		neurobox->AddButton(400 + i, "Invert", 40, selectcon[i]);
 		selectmode[i] = 1;
 	}
 
 	currselect = 0;
 	addbutton[currselect]->SetValue(true);
 
-	selectpanelbox->Add(fromtobox, 0, wxALIGN_CENTRE_HORIZONTAL);
-	selectpanelbox->AddSpacer(15);
-	selectpanelbox->Add(selectbox[0], 0);
-	selectpanelbox->AddSpacer(10);
-	selectpanelbox->Add(selectbox[1], 0);
-	
-	wxBoxSizer *colbox2 = new wxBoxSizer(wxHORIZONTAL); 
-	colbox2->AddStretchSpacer();
-	colbox2->Add(databox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL);
-	colbox2->AddSpacer(30);
-	//colbox2->AddStretchSpacer();
-	colbox2->Add(selectpanelbox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL);
+	wxBoxSizer *selectconbox = new wxBoxSizer(wxVERTICAL);
+	selectconbox->Add(fromtobox, 0, wxALIGN_CENTRE_HORIZONTAL);
+	selectconbox->AddSpacer(10);
+	selectconbox->Add(selectcon[0], 0);
+	selectconbox->AddSpacer(10);
+	selectconbox->Add(selectcon[1], 0);
 
-	selectsizer->AddStretchSpacer();
-	selectsizer->Add(colbox2, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL);
-	selectsizer->AddStretchSpacer();
+	wxBoxSizer *columnbox = new wxBoxSizer(wxHORIZONTAL); 
+	columnbox->AddStretchSpacer();
+	columnbox->Add(databox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL);
+	columnbox->AddSpacer(20);
+	//colbox2->AddStretchSpacer();
+	columnbox->Add(selectconbox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL);
+	//colbox2->AddStretchSpacer();
+
+	// Multi Cell Data
+	multicount = neurobox->NumPanel(datwidth, wxALIGN_RIGHT);
+	multifreq = neurobox->NumPanel(datwidth, wxALIGN_RIGHT);
+	wxBoxSizer *multibox = new wxStaticBoxSizer(wxHORIZONTAL, this, "Multi");
+	wxGridSizer *multigrid = new wxGridSizer(2, 5, 5);
+	multigrid->Add(new wxStaticText(this, -1, "Count"), 0, wxALIGN_CENTRE);
+	multigrid->Add(multicount);
+	multigrid->Add(new wxStaticText(this, -1, "Freq"), 0, wxALIGN_CENTRE|wxST_NO_AUTORESIZE);
+	multigrid->Add(multifreq);
+	multibox->Add(multigrid, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 5);
+
+	//wxBoxSizer *colbox2box = new wxBoxSizer(wxVERTICAL);
+	selectconbox->AddSpacer(20);
+	selectconbox->Add(multibox, 0, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL);
+
+
+	mainbox->AddStretchSpacer();
+	mainbox->Add(columnbox, 1, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL);
+	mainbox->AddStretchSpacer();
 	this->Layout();
 
 	Connect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(SpikePanel::OnEnter));
@@ -160,6 +182,8 @@ void SpikePanel::SetData(SpikeDat *dataneuron, std::vector<NeuroDat>*dataneurons
 	currneuron->SelectInit();
 	currneuron->dispmodemax = 2;
 	currneuron->diagbox = neurobox->diagbox;
+
+	neuropop.neurons = neurons;
 }
 
 
@@ -348,8 +372,8 @@ void SpikePanel::OnClick(wxPoint pos)
 	wxString text;
 	bool select = false;
 
-	wxRect selrect1 = wxRect(selectbox[0]->GetPosition(), selectbox[0]->GetSize());
-	wxRect selrect2 = wxRect(selectbox[1]->GetPosition(), selectbox[1]->GetSize());
+	wxRect selrect1 = wxRect(selectcon[0]->GetPosition(), selectcon[0]->GetSize());
+	wxRect selrect2 = wxRect(selectcon[1]->GetPosition(), selectcon[1]->GetSize());
 
 	if(selrect1.Contains(pos) || selrect2.Contains(pos)) select = true;
 	if(selrect1.Contains(pos)) currselect = 0;
@@ -526,6 +550,14 @@ void SpikePanel::AnalyseSelection()
 
 	//if(currselect == 0) mod->burstbox->BurstDataDisp(mod->spikedata, mod->burstbox->modburst);
 	//if(currselect == 1) mod->burstbox->BurstDataDisp(mod->spikedata, mod->burstbox->evoburst);
+}
+
+
+void SpikePanel::MultiCellAnalysis()
+{
+	neuropop.SpikeAnalysis();
+	multicount->SetLabel(snum.Format("%d", neuropop.numneurons));
+	multifreq->SetLabel(snum.Format("%.2f", neuropop.popfreq));
 }
 
 
@@ -2622,15 +2654,24 @@ void GridBox::NeuroScan()
 		diagbox->Write(text.Format("Neuro scan: %d cells read OK\n", cellcount));
 		//mod->cellcount = cellcount;
 		if(neurobox->cellpanel->neuroindex > cellcount) neurobox->cellpanel->neuroindex = 0;
-		neurobox->cellpanel->neurocount = cellcount;
-		//diagbox->Write(text.Format("Neuro analysis...."));
-		//neurobox->Analysis();
-		//diagbox->Write(text.Format("OK\n"));
+		//neurobox->cellpanel->neurocount = cellcount;
+		neurobox->cellpanel->SetCount(cellcount);
+
+		// multi cell analysis
+		neurobox->cellpanel->MultiCellAnalysis();
+		
 		diagbox->Write(text.Format("Neuro data...."));
 		neurobox->cellpanel->NeuroData();
 		diagbox->Write(text.Format("OK\n"));
 	}
 	WriteVDU("OK\n");
+}
+
+
+void SpikePanel::SetCount(int count)
+{
+	neurocount = count;
+	neuropop.numneurons = count;
 }
 
 

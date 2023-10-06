@@ -410,7 +410,8 @@ public:
 	void BurstProfile();
 	void MeanSpikeForm(datdouble V, int timerange, int filter = false, int substeps = 1);
 	int PlotSet(GraphBase *, wxString, int, int light = 0, wxString reftag="", wxString btag="Intra-Burst ");
-	int GraphSetLysis(GraphBase *, wxString, int, int light = 0, wxString reftag="", wxString btag="Intra-Burst ");
+	int PlotSetLysis(GraphBase *, wxString, int, int light = 0, wxString reftag="", wxString btag="Intra-Burst ");
+	int PlotSetBasic(GraphBase *, wxString, int, int light = 0, wxString reftag="", wxString btag="Intra-Burst ");
 	//void IoDGraph(GraphBase *, wxString, wxString, int, int barshift=0);
 	void Clear();
 	void ReSize(int);
@@ -852,6 +853,7 @@ public:
 	GraphDat *GetPlot(int index);
 	wxString Display();
 	void IntervalSet(wxString tag, bool burst = true, bool select = true, int selectcode = 200);
+	void IntervalSetBasic(wxString tag, bool burst = false, bool select = false, int selectcode = 200);
 	void Expand();
 };
 
