@@ -2,8 +2,8 @@
 
 #include "wx/graphics.h"
 #include "wx/metafile.h"
-#include <hypoprint.h>
-#include <hypomodel.h>
+#include "hypoprint.h"
+#include "hypomodel.h"
 
 
 // MultiCell()

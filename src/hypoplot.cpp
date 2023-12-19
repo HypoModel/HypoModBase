@@ -1,12 +1,12 @@
 
 
 #include "hypoplot.h"
-#include <hypomodel.h>
+#include "hypomodel.h"
 
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <wx/filedlg.h>
+#include "wx/filedlg.h"
 
 
 PlotBox::PlotBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size)

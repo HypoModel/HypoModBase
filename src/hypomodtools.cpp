@@ -1,8 +1,8 @@
 
 
-#include <hypomodel.h>
-#include <wx/notebook.h>
-#include <wx/clipbrd.h>
+#include "hypomodel.h"
+#include "wx/notebook.h"
+#include "wx/clipbrd.h"
 //#include "hypomain.h"
 //#include "hypopanels.h"
 

@@ -2,8 +2,8 @@
 
 #include "hypomodel.h"
 #include <time.h>
-#include <wx/dir.h>
-#include <wx/filename.h>
+#include "wx/dir.h"
+#include "wx/filename.h"
 
 DEFINE_EVENT_TYPE(wxEVT_SPIKE)
 DEFINE_EVENT_TYPE(wxEVT_SYNCH)

@@ -1,7 +1,7 @@
 
 
-#include <wx/graphics.h>
-#include <hypomodel.h>
+#include "wx/graphics.h"
+#include "hypomodel.h"
 
 
 GraphPanel::GraphPanel(wxFrame *parent)

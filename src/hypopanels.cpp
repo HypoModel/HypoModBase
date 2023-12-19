@@ -1,5 +1,5 @@
 
-#include <hypomodel.h>
+#include "hypomodel.h"
 //#include "hypomain.h"
 //#include "hypopanels.h"
 //#include "hypospin.h"
@@ -7,11 +7,11 @@
 //#include "../art/up.xpm"
 //#include "../art/forward.xpm"
 //#include "../art/back.xpm"
-#include <wx/toolbar.h>
-#include <wx/artprov.h>
-#include <wx/sysopt.h>
-#include <wx/dcclient.h>
-#include <wx/scopedarray.h>
+#include "wx/toolbar.h"
+#include "wx/artprov.h"
+#include "wx/sysopt.h"
+#include "wx/dcclient.h"
+#include "wx/scopedarray.h"
 
 
 GraphBox::GraphBox(GraphWindow3 *graphw, const wxString & title)

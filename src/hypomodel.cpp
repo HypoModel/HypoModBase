@@ -1,7 +1,7 @@
 
 
-#include <hypomodel.h>
-#include <wx/print.h>
+#include "hypomodel.h"
+#include "wx/print.h"
 #include "hypodef.h"
 
 
