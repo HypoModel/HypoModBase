@@ -1,13 +1,15 @@
 
 
-#include <hypobase.h>
+#include "hypobase.h"
 //#include "hypomods.h"
 //#include "hypopanels.h"
 #include "wx/utils.h"
 //#include "osmopanels.h"
 //#include "hypograph.h"
-#include <hypotools.h>
+#include "hypotools.h"
 #include <string>
+
+typedef std::mt19937 rng_type;
 
 
  //[[NSApplication sharedApplication] activateIgnoringOtherApps : YES];
@@ -106,13 +108,13 @@ void MainFrame::MainLoad()
 	while(!readline.IsEmpty()) {
 		numstring = readline.BeforeFirst(' ');
 		numstring.ToLong(&numdat);
-		boxindex = numdat;
+		boxindex = (int)numdat;
 		if(boxindex >= toolset->numtools) break;
 
-		pos.x = ReadNextData(&readline);
-		pos.y = ReadNextData(&readline);
-		size.x = ReadNextData(&readline);
-		size.y = ReadNextData(&readline);
+		pos.x = (int)ReadNextData(&readline);
+		pos.y = (int)ReadNextData(&readline);
+		size.x = (int)ReadNextData(&readline);
+		size.y = (int)ReadNextData(&readline);
 		if(toolset->box[boxindex]->servant) toolset->box[boxindex]->visible = (bool)ReadNextData(&readline);
 		else toolset->box[boxindex]->visible = true;
 
@@ -473,6 +475,25 @@ datdouble::datdouble(int size)
 double *initfarray(int size)
 {
   return (double *)malloc(size * sizeof(double));
+}
+
+
+
+void init_mrand(unsigned int seed)
+{
+    //std::time_t seed = std::time(nullptr);
+    std::mt19937 gen(static_cast<unsigned>(seed)); // Mersenne Twister engine
+    std::uniform_real_distribution<double> dis(0.0, 1.0); // Distribution for [0, 1)
+}
+
+
+double mrand01()
+{
+    std::time_t seed = std::time(nullptr);
+    std::mt19937 gen(static_cast<unsigned>(seed)); // Mersenne Twister engine
+    std::uniform_real_distribution<double> dis(0.0, 1.0); // Distribution for [0, 1)
+    
+    return dis(gen);
 }
 
 

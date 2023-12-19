@@ -2,7 +2,7 @@
 #ifndef HYPOBASE_H
 #define HYPOBASE_H
 
-#define HYPOSOUND 1
+//#define HYPOSOUND 1
 
 
 #include "hypopch.h"
@@ -912,6 +912,8 @@ public:
 
 // Processing
 
+void init_mrand(unsigned int seed);
+double mrand01();
 double gaussian(double mean, double sd);
 double uniform(double mean, double range);
 int iuniform(int base, int range);

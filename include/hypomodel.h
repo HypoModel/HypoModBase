@@ -10,13 +10,15 @@
 
 #include "hypopch.h"
 
+
+#include "hypobase.h"
 #include "hypograph.h"
 #include "hypoplot.h"
 #include "hypopanels.h"
 #include "hypomods.h"
 #include "hypodat.h"
 #include "hypodata.h"
-#include <hypoproject.h>
+#include "hypoproject.h"
 //#include <hypodef.h>
 //#include "wx/generic/printps.h"
 //#include "wx/generic/prntdlgg.h"

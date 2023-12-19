@@ -5,7 +5,7 @@
 
 #include "wx/wx.h"
 #include "hypodat.h"
-#include <hypotools.h>
+#include "hypotools.h"
 //#include "hypopanels.h"
 //#include "hypograph.h"
 //#include "evofitbasic.h"

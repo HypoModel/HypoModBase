@@ -12,8 +12,9 @@
 
 #include <vector>
 #include <list>
+#include <random>
 
-#include <mersenne.h>
-#include "SFMT.h"
+//#include <mersenne.h>
+//#include "SFMT.h"
 
 #include "hypodef.h"
