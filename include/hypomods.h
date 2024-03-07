@@ -9,6 +9,7 @@
 //#include "hypopanels.h"
 //#include "hypograph.h"
 //#include "evofitbasic.h"
+#include <random>
 
 
 class HypoMain;
@@ -36,7 +37,31 @@ public:
 
 	bool diag;
 
-	ModThread(ParamBox *box, HypoMain *main) { modbox = box; mainwin = main; diag = false; };
+	// random number generator
+	std::mt19937 randgen; // Mersenne Twister random number engine
+	std::uniform_real_distribution<float> unif01;
+
+
+	// wxTHREAD_JOINABLE
+    // wxTHREAD_DETACHED
+
+
+	ModThread(ParamBox *box, HypoMain *main, wxThreadKind kind = wxTHREAD_DETACHED)
+		: wxThread(kind)
+	{
+		modbox = box; 
+		mainwin = main; 
+		diag = false;
+		unif01 = std::uniform_real_distribution<float>(0, 1);	
+	};
+
+	double mrand01() {
+		return unif01(randgen);
+	};
+
+	void init_mrand(unsigned long seed) {
+		randgen.seed(seed);
+	};
 };
 
 
