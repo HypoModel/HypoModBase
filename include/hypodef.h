@@ -3,7 +3,7 @@
 #ifndef HYPODEF_H
 #define HYPODEF_H
 
-//#define CORTMOD 1
+#define CORTMOD 1
 //#define OSMOMOD 1
 //#define IGFMOD 1
 #define VASOMOD 1
@@ -11,7 +11,7 @@
 //#define GHMOD 1
 //#define LYSISMOD 1
 //#define VMNMOD 1
-#define AGENTMOD 1
+//#define AGENTMOD 1
 //#define TESTMOD 1
 #define MAGNETMOD 1
 
