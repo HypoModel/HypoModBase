@@ -1004,6 +1004,8 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 	double drawX;
 	int xcount; // number of x steps in plot
 	double xstart;
+	int xtickstart = 0;
+	double xtickshift = 0;
 
 	int diag;
 	bool drawdiag;
@@ -1110,9 +1112,13 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 			int xcoord, ycoord;
 			double xplotstep, yplotstep;
 
+			if(xfrom != 0) xtickshift = xfrom;
+			
+
 			if(graph->xtickmode == 2) { // && graph->xstep > 0) {
 				xlabels = (int)((xto - xfrom) / (xscale * graph->xstep));
 				xplotstep = (xplot * graph->xstep) / (xto - xfrom);
+				xtickstart = abs(xtickshift) * xplotstep;
 			}
 
 			if(graph->xscalemode == 1 && xfrom > 0) xlogmax = log(xto / xfrom) / log(xlogbase);
@@ -1127,10 +1133,6 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 			//if(graph->xscalemode == 1 && xfrom > 0) xpos = (int)((double)xplot * log(xval / xfrom) / xlogmax);  // log scaled x-axis  December 2017
 			//else xpos = (xval - xfrom) * xrange;
 
-			int xtickstart = 0;
-			double xtickshift = 0;
-			if(xfrom != 0) xtickshift = xfrom;
-			xtickstart = abs(xtickshift) * xplotstep;
 
 			for(i=0; i<=xlabels && xlabels > 0; i++) {
 				xcoord = i * xplot / xlabels;
