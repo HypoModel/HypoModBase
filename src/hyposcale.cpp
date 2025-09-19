@@ -1556,7 +1556,7 @@ void ScaleBox::OnOverlay(wxCommandEvent& event)
 		// Move GraphDisps down
 		for(i=0; i<overlay->numdisps; i++) {
 			disp = graphwin[pan1]->dispset[i];
-			graph = graphwin[pan1]->dispset[i]->plot[0];
+			//graph = graphwin[pan1]->dispset[i]->plot[0];
 			graphwin[pan2]->AddGraph(disp);
 			graphwin[pan1]->numdisps--;
 		}
