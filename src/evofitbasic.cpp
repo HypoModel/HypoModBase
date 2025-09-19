@@ -69,7 +69,7 @@ extern void EvoFitGPU(float *chromepop, int gpuparams, int popsize, int blocksiz
 
 
 EvoFit::EvoFit(Model *model, EvoFitBox *fbox)
-	: wxThread(wxTHREAD_JOINABLE)
+	: ModThread(NULL, NULL, wxTHREAD_JOINABLE)
 {
 	mod = model;
 	fitbox = fbox;
@@ -236,7 +236,8 @@ void *EvoFit::Entry()
 		evoseed = (unsigned)(time(NULL));
 		fitbox->paramset.GetCon("evoseed")->SetValue(evoseed);
 	}
-	init_mrand(evoseed);
+    init_mrand(evoseed);
+	//randgen.seed(evoseed);
 
 	chromepop = &(fitbox->chromepop);
 	chromeresult = &(fitbox->chromeresult);

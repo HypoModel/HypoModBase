@@ -262,7 +262,7 @@ public:
 
 
 
-class EvoFit : public wxThread
+class EvoFit : public ModThread
 {
 public:
 	Model *mod;
@@ -300,6 +300,9 @@ public:
 	bool multirun, batchrun, multicell;
 	int gpudevice;
 	int scorethreads;
+
+	//std::mt19937 randgen; // Mersenne Twister random number engine
+	//std::uniform_real_distribution<float> unif01; 
 
 	EvoFit(Model *, EvoFitBox *);
 	virtual void InitPop();

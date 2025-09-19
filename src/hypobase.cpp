@@ -478,15 +478,17 @@ double *initfarray(int size)
 }
 
 
-
+/*
 void init_mrand(unsigned int seed)
 {
     //std::time_t seed = std::time(nullptr);
     std::mt19937 gen(static_cast<unsigned>(seed)); // Mersenne Twister engine
     std::uniform_real_distribution<double> dis(0.0, 1.0); // Distribution for [0, 1)
 }
+*/
 
 
+/*
 double mrand01()
 {
     std::time_t seed = std::time(nullptr);
@@ -495,6 +497,7 @@ double mrand01()
     
     return dis(gen);
 }
+*/
 
 
 double gaussian(double mean, double sd)

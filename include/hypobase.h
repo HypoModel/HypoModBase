@@ -912,7 +912,7 @@ public:
 
 // Processing
 
-void init_mrand(unsigned int seed);
+void init_mrand(unsigned long seed);
 double mrand01();
 double gaussian(double mean, double sd);
 double uniform(double mean, double range);

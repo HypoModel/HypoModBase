@@ -43,7 +43,7 @@ Model::Model(int type, wxString name, HypoMain *main)
 	storesize = 100000;
 	xmin = -100000;
 	path = "";
-	oldhist = true;
+	oldhist = false;
 	xscaletoggle = 0;
 	burstmode = 0;
 	projmode = 0;  // 0 for old model based prefs and box store, 1 for new Project store
