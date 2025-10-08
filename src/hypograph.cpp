@@ -750,11 +750,11 @@ void GraphWindow3::HighlightTime(double tstart, double tstop)
 	//(*soundbox->mod->graphwin)[0].Highlight(sbin + i/samprate);
 
 	using namespace std::chrono;
-    //using namespace std::chrono_literals;
+    using namespace std::chrono_literals;
     
 	//using namespace date;
     auto next = steady_clock::now();
-    auto interval = 1000ms;
+    auto interval = 1000ms;    // 1000ms
 	auto prev = next - interval;
 
 	//for(t=tstart; t<tstop; t++) {
