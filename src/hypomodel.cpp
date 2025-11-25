@@ -8,9 +8,13 @@
 #ifdef OSX
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreFoundation/CFString.h>
+wxIMPLEMENT_APP_NO_MAIN(HypoApp);
 #endif // OSX
 
+#ifndef OSX
 IMPLEMENT_APP(HypoApp)
+#endif
+
 
 MainFrame *mainframe;
 
@@ -784,7 +788,8 @@ void HypoMain::SizeUpdate()
 	}
 
 	for(i=0; i<toolset->numtools; i++) if(toolset->box[i] != NULL) toolset->box[i]->SetPosition();
-	for(i=0; i<mod->modtools.numtools; i++) if(mod->modtools.box[i] != NULL) mod->modtools.box[i]->SetPosition();
+	if(mod)
+        for(i=0; i<mod->modtools.numtools; i++) if(mod->modtools.box[i] != NULL) mod->modtools.box[i]->SetPosition();
 	
 	Layout();
 }
@@ -1267,7 +1272,10 @@ bool HypoApp::OnInit()
     
     homepath = getenv("HOME");
     hypopath = homepath + "/Library/Application Support/HypoMod";
-    if(wxDirExists(hypopath)) mainpath = hypopath;
+    if(wxDirExists(hypopath)) {
+        mainpath = hypopath;
+        respath = hypopath;     // temporary bundle replacement 25/11/25
+    }
     else mainpath = respath;
 #endif // OSX
 

@@ -3,7 +3,7 @@
 //#include "evofitvmn.h"
 //#include <cuda.h>
 //#include "vasomod.h"
-#include <hypomodel.h>
+#include "hypomodel.h"
 
 
 

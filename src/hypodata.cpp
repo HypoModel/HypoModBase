@@ -1,7 +1,7 @@
 
 
 #include "wx/wx.h"
-#include <hypomodel.h>
+#include "hypomodel.h"
 #include "wx/grid.h"
 
 #include <iostream>
