@@ -70,6 +70,7 @@ void NeuroDat::ratereset()
 
 
 void NeuroDat::ratecalc(std::vector<int> &srate)
+//void NeuroDat::ratecalc()
 {
 	short spikestep;
 	int i;

@@ -180,6 +180,7 @@ public:
 	NeuroDat();
 	~NeuroDat();
 	void ratecalc(std::vector<int> &srate);
+	//void ratecalc();
 	void ratereset();
 	void diagstore(); // expand default storage for diagnostics
 	bool Selected();  // check for data selection
