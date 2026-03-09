@@ -836,6 +836,9 @@ void GraphWindow3::PrintEPS(double xb, double yb, TextFile *ofp)
 	double xplotstep, yplotstep;
 	double xlogrange, ylogrange;
 
+	xplotstep = 0;
+	yplotstep = 0;
+
 	// adjust tick positions for non-zero start position  (vaso synth paper, October 2021)  
 	double xtickstart = 0;
 	double xtickshift = 0;

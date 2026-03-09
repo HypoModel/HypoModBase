@@ -659,7 +659,7 @@ void GraphWindow3::UpdateScroll(int pos)
 	max = 1440;
 
 	graph = dispset[0]->plot[0];
-	if(!graph) return;
+	if(graph == NULL) return;
 
 	if(graph->gparam == -3) max = graph->gdatav->max / graph->xscale;
 	//else if(graph->gparam == -4) max = graph->gdatadv->maxindex / graph->xscale;
@@ -1200,7 +1200,7 @@ void GraphWindow3::OnPaintGC(wxPaintEvent& WXUNUSED(event))
 				}
 
 				srangey = abs((yto - yfrom) / yscale * graph->yunitscale / graph->yunitdscale);
-				if(graph->ylabelplaces == -1) {
+				if(graph->ylabelmode && graph->ylabelplaces == -1) {
 					if (srangey < 0.1) snum.Printf("%.3f", yval);
 					else if (srangey < 1) snum.Printf("%.2f", yval);
 					else if (srangey < 10) snum.Printf("%.1f", yval);
