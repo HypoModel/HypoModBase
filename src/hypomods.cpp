@@ -8,9 +8,6 @@
 DEFINE_EVENT_TYPE(wxEVT_SPIKE)
 DEFINE_EVENT_TYPE(wxEVT_SYNCH)
 
-//wxDECLARE_EVENT(wxEVT_COMMAND_MODTHREAD_COMPLETED, wxThreadEvent);
-//wxDEFINE_EVENT(wxEVT_COMMAND_MODTHREAD_COMPLETED, wxThreadEvent);
-
 wxDEFINE_EVENT(EVT_MODTHREAD_COMPLETED, wxThreadEvent);
 wxDEFINE_EVENT(EVT_DIAG_WRITE, wxThreadEvent);
 
@@ -200,27 +197,6 @@ void Model::GSwitch(GraphDisp *gpos, ParamStore *gflags, int command)
 }
 
 
-/*
-wxString Model::GetPath()
-{
-	wxString fullpath, text;
-
-	if(mainwin->modpath == "") {
-		if(path != "") fullpath = mainwin->mainpath + path;
-		else fullpath = mainwin->mainpath + "Init";
-	}
-	else {
-		if(path != "") fullpath = mainwin->modpath + "/" + path;
-		else fullpath = mainwin->modpath;
-	}
-
-	if(!wxDirExists(fullpath)) wxMkdir(fullpath);
-    mainwin->diagbox->Write(text.Format("Model GetPath %s\n", fullpath));
-
-	return fullpath;
-}
-*/
-
 
 wxString Model::GetPath()
 {
@@ -256,10 +232,6 @@ int Model::GetCellIndex()
 {
 	return 0;
 }
-
-
-//void Model::ScaleConsoleBelow(ScaleBox *scalebox, int condex)
-//{}
 
 
 long Model::ReadNextData(wxString *readline)
@@ -329,85 +301,13 @@ void Model::GHistLoad(wxComboBox *gstag)     // 6/1/21 being phased out of use, 
 	}
 	infile.Close();	
 
-	/*
-	wxTextFile opfile(filename);
-	if(!opfile.Exists()) return;
-
-	opfile.Open();
-	readline = opfile.GetLine(0);
-	while(!readline.IsEmpty()) {
-		readline = readline.AfterFirst(' ');
-		readline.Trim();
-		initparams = readline;
-		gstag->Insert(initgraph, 0);
-		readline = opfile.GetNextLine();
-	}
-	opfile.Close();	*/
 
 	gstag->SetLabel(initgraph);
 
 	if(diagflag) tofp.Close();
 }
 
-/*
-void Model::GStore(wxComboBox *gstag)
-{
-	int i;
-	wxString filename, filetag;
-	wxString outline, text;
-	TextFile outfile;
 
-	filetag = gstag->GetValue();
-	
-	// Tag history
-	short tagpos = gstag->FindString(filetag);
-	if(tagpos != wxNOT_FOUND) gstag->Delete(tagpos);
-	gstag->Insert(filetag, 0);
-
-	filename = "graph-" + filetag + ".dat";
-	outfile.New(filename);
-	for(i=0; i<gcount; i++)
-		outfile.WriteLine(text.Format("%d %s", i, gcodes[i]));
-	outfile.Close();
-}*/
-
-/*
-void Model::GLoad(wxComboBox *gstag)
-{
-	long numdat;
-	short check;
-	int gindex;
-	wxString filename, filetag;
-	wxString readline, numstring, glabel;
-	TextFile infile;
-
-	filetag = gstag->GetValue();
-
-	// Tag history
-	short tagpos = gstag->FindString(filetag);
-	if(tagpos != wxNOT_FOUND) gstag->Delete(tagpos);
-	gstag->Insert(filetag, 0);
-
-	redtag = "";
-	paramstoretag->SetForegroundColour(blackpen);
-	paramstoretag->SetValue("");
-	paramstoretag->SetValue(filetag);
-
-	filename = "graph-" + filetag + ".dat";
-	check = infile.Open(filename);
-	if(!check) return;
-	readline = infile.ReadLine();
-
-	while(!readline.IsEmpty()) {
-		numstring = readline.BeforeFirst(' ');
-		numstring.ToLong(&numdat);
-		gindex = numdat;
-		glabel = readline.AfterFirst(' ');
-		gcodes[gindex] = glabel;
-		readline = infile.ReadLine();
-	}
-	infile.Close();
-}*/
 
 
 void Model::ModStore()

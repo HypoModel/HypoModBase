@@ -19,15 +19,13 @@
 #include "hypodat.h"
 #include "hypodata.h"
 #include "hypoproject.h"
-//#include <hypodef.h>
-//#include "wx/generic/printps.h"
-//#include "wx/generic/prntdlgg.h"
+#include "hypoproto.h"
+
 
 #ifdef HYPOSOUND
 #include "hyposound.h"
 #endif
 
-//using namespace std;
 
 
 class HypoApp: public wxApp

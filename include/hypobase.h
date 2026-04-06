@@ -912,12 +912,12 @@ public:
 
 // Processing
 
-void init_mrand(unsigned long seed);
-double mrand01();
-double gaussian(double mean, double sd);
-double uniform(double mean, double range);
-int iuniform(int base, int range);
-int randint(int range);
+//void init_mrand(unsigned long seed);
+//double mrand01();
+//double gaussian(double mean, double sd);
+//double uniform(double mean, double range);
+//int iuniform(int base, int range);
+//int randint(int range);
 float fast_tanh(float x);
 double kapow(double base, int power);
 double vox_tanh(double x);

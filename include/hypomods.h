@@ -6,10 +6,6 @@
 #include "wx/wx.h"
 #include "hypodat.h"
 #include "hypotools.h"
-//#include "hypopanels.h"
-//#include "hypograph.h"
-//#include "evofitbasic.h"
-#include <random>
 
 
 class HypoMain;
@@ -17,51 +13,26 @@ class EvoFitBox;
 class EvoChrome;
 class ParamBox;
 
-//wxDECLARE_EVENT(wxEVT_COMMAND_MODTHREAD_COMPLETED, wxThreadEvent);
-
-//wxDEFINE_EVENT(wxEVT_COMMAND_MODTHREAD_COMPLETED, wxThreadEvent);
 
 wxDECLARE_EVENT(EVT_MODTHREAD_COMPLETED, wxThreadEvent);
-
 wxDECLARE_EVENT(EVT_DIAG_WRITE, wxThreadEvent);
 
-//wxDEFINE_EVENT(wxEVT_COMMAND_MODTHREAD_COMPLETED, wxThreadEvent);
 
 
 class ModThread : public wxThread
 {
 public:
-	ParamBox *modbox;
-	HypoMain *mainwin;
+	ParamBox *modbox = nullptr;
+	HypoMain *mainwin = nullptr;
 	wxString snum;
-
-	bool diag;
-
-	// random number generator
-	std::mt19937 randgen; // Mersenne Twister random number engine
-	std::uniform_real_distribution<float> unif01;
-
-
-	// wxTHREAD_JOINABLE
-    // wxTHREAD_DETACHED
-
+	bool diag = false;
 
 	ModThread(ParamBox *box, HypoMain *main, wxThreadKind kind = wxTHREAD_DETACHED)
-		: wxThread(kind)
+		: wxThread(kind), modbox(box), mainwin(main)
 	{
-		modbox = box; 
-		mainwin = main; 
-		diag = false;
-		unif01 = std::uniform_real_distribution<float>(0, 1);	
-	};
+	}
 
-	double mrand01() {
-		return unif01(randgen);
-	};
-
-	void init_mrand(unsigned long seed) {
-		randgen.seed(seed);
-	};
+    virtual ~ModThread() = default;
 };
 
 
@@ -96,7 +67,6 @@ public:
     // Threads
     wxMutex *runmute;
     bool runflag;
-    //wxCommandEvent diagevent(wxEVT_COMMAND_TEXT_UPDATED, ID_Diagnostic);
 
 	// Prefs
 	int numdraw;
@@ -114,7 +84,6 @@ public:
 
 	ParamBox *modbox;
 	DiagBox *diagbox;
-	//ModDat *moddata;
 	HypoMain *mainwin;
 	GraphBase *graphbase;
 	ModThread *modthread;
@@ -154,7 +123,6 @@ public:
 	virtual void GSwitch(GraphDisp *gpos, ParamStore *gflags, int command=0);
 	virtual void ScaleSwitch(double xscale = 0) {};
 	virtual int ModeSum(ParamStore *gflags);
-	//virtual int SoundLink(SpikeDat **, datdouble **);
 #ifdef HYPOSOUND
 	virtual int SoundLink(SoundBox *);
 	virtual void SoundOn() {}; 
@@ -162,25 +130,23 @@ public:
 	virtual void ModStore();
 	virtual void ModLoad();
 	virtual void DataSelect(wxString, double, double) {};
-	//virtual void GStore(wxComboBox *);
-	//virtual void GLoad(wxComboBox *);
 	virtual void GHistStore();
 	virtual void GHistLoad(wxComboBox *);
-	virtual void ModClose() {};
-	virtual void EvoRun() {};
+	virtual void ModClose() {}
+	virtual void EvoRun() {}
 	virtual void ScaleConsoleAbove(ScaleBox *scalebox, int condex) {};
 	virtual void ScaleConsoleBelow(ScaleBox *scalebox, int condex) {};
 	virtual void SetCell(int cellindex, GraphDat *) {};
 	virtual int GetCellIndex();
-	virtual void ParamScan() {};
+	virtual void ParamScan() {}
 	virtual void SpikeDataSwitch(SpikeDat *);
 	virtual void BurstUpdate();
 	virtual void GridColumn(int col);
-	virtual void GridRow(int row) {};
+	virtual void GridRow(int row) {}
     virtual void DataCopy(wxString oldpath, wxString newpath);
     virtual void OnModThreadCompletion(wxThreadEvent&);
-	virtual void DataOutput() {};
-	virtual void GridOutput() {};
+	virtual void DataOutput() {}
+	virtual void GridOutput() {}
 
     void OnDiagWrite(wxThreadEvent&);
 	GraphWindow3 *GetGraphWin(wxString settag);
