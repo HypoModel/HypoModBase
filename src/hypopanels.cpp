@@ -1,12 +1,6 @@
 
-#include "hypomodel.h"
-//#include "hypomain.h"
-//#include "hypopanels.h"
-//#include "hypospin.h"
-//#include "../art/down.xpm"
-//#include "../art/up.xpm"
-//#include "../art/forward.xpm"
-//#include "../art/back.xpm"
+#include "hypomain.h"
+
 #include "wx/toolbar.h"
 #include "wx/artprov.h"
 #include "wx/sysopt.h"
@@ -814,7 +808,7 @@ wxBoxSizer *GraphBox::ParamLayout(int columns)
 }
 
 
-ParamBox::ParamBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, wxString tag, int type, int storeflag)
+ParamBox::ParamBox(Mod *model, const wxString& title, const wxPoint& pos, const wxSize& size, wxString tag, int type, int storeflag)
 	: ToolBox(model->mainwin, tag, title, pos, size, type)
 	//wxFRAME_FLOAT_ON_PARENT | wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxRESIZE_BORDER | wxMINIMIZE_BOX)
 {	
@@ -835,14 +829,14 @@ ParamBox::ParamBox(Model *model, const wxString& title, const wxPoint& pos, cons
 	buttonwidth = 50;
 	modmode = 0;
 
-	model->mainwin->diagbox->Write("ParamBox init\n");
+	mod->mainwin->diagbox->Write("ParamBox init\n");
 
 	Initialise();
 }
 
 
 /*
-ParamBox::ParamBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, bool close)
+ParamBox::ParamBox(Mod *model, const wxString& title, const wxPoint& pos, const wxSize& size, bool close)
 : ToolBox(model->mainwin, title, pos, size, close)
 {	
 autorun = 0;

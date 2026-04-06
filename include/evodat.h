@@ -16,6 +16,7 @@
 //#include <hypomodel.h>
 #include "hypodat.h"
 #include "hypotools.h"
+#include "hyporand.h"
 
 class ParamBox;
 
@@ -30,6 +31,7 @@ public:
 	int places;
 	wxString label;
 	ParamCon *paramcon;
+    HypoRand rng;
 
 	EvoParam(double, double, double, bool adapt=false, wxString label="", int places=2);
 	EvoParam();

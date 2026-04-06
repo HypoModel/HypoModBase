@@ -9,7 +9,7 @@
 #include "hypocontrols.h"
 #include "hypotools.h"
 #include "hypodat.h"
-#include "hypomods.h"
+#include "hypomod.h"
 
 using namespace std;
 
@@ -93,7 +93,7 @@ public:
 	int modmode;
 
 	HypoMain *mainwin;
-	Model *mod;
+	Mod *mod;
 	
 	wxString labelset[100];
 	//ParamSet *paramset;
@@ -147,8 +147,8 @@ public:
 	wxBoxSizer *parambox;
 	wxBoxSizer *buttonbox;
 
-	ParamBox(Model *mod, const wxString& title, const wxPoint& pos, const wxSize& size, wxString tag = "", int type=0, int storeflag = 0);
-	//ParamBox(Model *mod, const wxString& title, const wxPoint& pos, const wxSize& size, bool close);
+	ParamBox(Mod *mod, const wxString& title, const wxPoint& pos, const wxSize& size, wxString tag = "", int type=0, int storeflag = 0);
+	//ParamBox(Mod *mod, const wxString& title, const wxPoint& pos, const wxSize& size, bool close);
 	virtual ~ParamBox();
 
 	void Initialise();
@@ -230,16 +230,10 @@ class InfoBox : public ToolBox
 {
 public:
 	HypoMain *mainwin;
-	//wxPoint mpos, oldpos;
-
-	//int i, buttonheight;
-	//wxString snum;
-	//wxPanel *panel; 
-	//wxStaticText *NumPanel(int width, wxString inittext);
+	
 	wxTextCtrl *datfiletag;
 
 	ParamStore *artparams;
-	//ParamSet *paramset;
 
 	InfoBox(HypoMain *main, const wxString& title, const wxPoint& pos, const wxSize& size);
 	//void BurstData();
@@ -298,7 +292,7 @@ public:
 	bool modmode;
 
 	HypoMain *mainwin;
-	Model *mod;
+	Mod *mod;
 
 	wxString filetag, datname;
 	SpikeDat *spikedata;
@@ -342,7 +336,7 @@ public:
 	wxRadioButton *filerad, *gridrad;
 
 	//BurstBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *spikedat=NULL, wxString intratag ="Intra Burst", bool evomode = false, int mode = 1);
-	BurstBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *moddata, bool evomode = false);
+	BurstBox(Mod *model, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *moddata, bool evomode = false);
 	void BurstDataDisp(SpikeDat *dispdata=NULL, BurstPanel *datpanel=NULL);
 	void DataDisp(SpikeDat *dispdata=NULL, BurstPanel *datpanel=NULL);
 	void BurstDataPanel(BurstPanel *);

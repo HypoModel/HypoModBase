@@ -7,7 +7,7 @@
 
 
 NeuroMod::NeuroMod(int type, wxString name, HypoMain *main)
-	: Model(type, name, main)
+	: Mod(type, name, main)
 {
 	evodata = NULL;
 	evodata2 = NULL;

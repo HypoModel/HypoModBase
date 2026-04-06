@@ -9,7 +9,7 @@
 #include "wx/overlay.h"
 //#include "hypobase.h"
 #include "hypodat.h"
-#include "hypomods.h"
+#include "hypomod.h"
 #include "wx/clrpicker.h"
 
 
@@ -47,7 +47,7 @@ public:
 	//GraphDisp *gpos;
 	GraphDat *graph;
 	GraphBase *graphbase;
-	Model *mod;
+	Mod *mod;
 	int graphindex;
 	wxString snum;
 	int yplot, xplot;
@@ -91,7 +91,7 @@ public:
 	void SetGraph(int, GraphDisp *);
 	void FrontGraph(GraphDisp *);
 
-	GraphWindow3(HypoMain *main, wxFrame *parent, Model *, wxPoint pos, wxSize size, GraphDisp *gdisp, int index);
+	GraphWindow3(HypoMain *main, wxFrame *parent, Mod *, wxPoint pos, wxSize size, GraphDisp *gdisp, int index);
 	~GraphWindow3();
 
 	void OnPaint(wxPaintEvent& event);
@@ -243,8 +243,8 @@ public:
 	GraphBase *gbase;
 	GraphDat *graph;
 	GraphWindow3 **graphwin;
-	Model *gmod;
-	Model *mod;
+	Mod *gmod;
+	Mod *mod;
 
 	ParamStore *gflags;
 	RefStore *gflagrefs;
@@ -264,8 +264,8 @@ public:
 	wxBoxSizer *vconbox;
 	//wxBoxSizer *psetbox;
 
-	//ScaleBox(HypoMain *main, wxFrame *draw, const wxSize& size, int numgraphs, GraphDisp *gpos, Model *model, GraphWindow3 **graphwin, int startgraph=0, int boxtype=0);
-	ScaleBox(HypoMain *main, const wxSize& size, int numgraphs, GraphDisp *gpos, Model *model, GraphWindow3 **graphwin, int boxtype=0);
+	//ScaleBox(HypoMain *main, wxFrame *draw, const wxSize& size, int numgraphs, GraphDisp *gpos, Mod *mod, GraphWindow3 **graphwin, int startgraph=0, int boxtype=0);
+	ScaleBox(HypoMain *main, const wxSize& size, int numgraphs, GraphDisp *gpos, Mod *mod, GraphWindow3 **graphwin, int boxtype=0);
 	~ScaleBox();
 
 	//wxTextCtrl *AddScaleParam(wxString name, double initval, wxBoxSizer *sizer);
@@ -326,7 +326,7 @@ public:
 	void OnEraseBackground(wxEraseEvent& event);
 	void PaintBackground(wxDC& dc);
 	void GraphUpdate(int pos=-1);
-	void SetMod(Model *gmod);
+	void SetMod(Mod *gmod);
 	//void GraphSwitch(int disp=1);
 	void GraphSwitch(int command=0);
 	wxBoxSizer *GSBox(wxString, wxPanel *storepanel=NULL);
@@ -337,7 +337,7 @@ public:
 	int CheckValue();
 	void AddGraphConsole(int index, GraphWindow3 *graphwin);
 	void RemoveGraphConsole(int index);
-	void ConsoleButtons(int panel);  // Add mod type dependent panel buttons, now being replaced by Model class version (boxtype = -1)
+	void ConsoleButtons(int panel);  // Add mod type dependent panel buttons, now being replaced by Mod class version (boxtype = -1)
 
 };
 

@@ -9,7 +9,7 @@
 *
 */
 
-#include "vasomod.h"
+//#include "vasomod.h"
 #include "evofitbasic.h"
 #include "hypodef.h"
 
@@ -68,10 +68,10 @@ extern void EvoFitGPU(float *chromepop, int gpuparams, int popsize, int blocksiz
 
 
 
-EvoFit::EvoFit(Model *model, EvoFitBox *fbox)
+EvoFit::EvoFit(Mod *modarg, EvoFitBox *fbox)
 	: ModThread(NULL, NULL, wxTHREAD_JOINABLE)
 {
-	mod = model;
+	mod = modarg;
 	fitbox = fbox;
 	diagbox = mod->mainwin->diagbox;
 }
@@ -236,7 +236,8 @@ void *EvoFit::Entry()
 		evoseed = (unsigned)(time(NULL));
 		fitbox->paramset.GetCon("evoseed")->SetValue(evoseed);
 	}
-    init_mrand(evoseed);
+    //init_mrand(evoseed);
+    rng.seed(evoseed);
 	//randgen.seed(evoseed);
 
 	chromepop = &(fitbox->chromepop);
@@ -372,18 +373,18 @@ void EvoFit::Evolve()
 		// Generate new generation
 
 		for(i=0; i<popsize; i++) {
-			pA = (int)(mrand01() * parentrange); 
-			pB = (int)(mrand01() * parentrange); 
-			parentA = (*chromepop)[pA]; 
+			pA = (int)(rng.uniform01() * parentrange);
+            pB = (int)(rng.uniform01() * parentrange);
+			parentA = (*chromepop)[pA];
 			parentB = (*chromepop)[pB]; 
-			crossA = ((int)(mrand01() * (chromeparams - 3)) + 1);
-			crossB = ((int)(mrand01() * (chromeparams - 2)) + crossA);
-			if(mrand01() > 0.5) orient = false; else orient = true;
+            crossA = ((int)(rng.uniform01() * (chromeparams - 3)) + 1);
+            crossB = ((int)(rng.uniform01() * (chromeparams - 2)) + crossA);
+			if(rng.uniform01() > 0.5) orient = false; else orient = true;
 
 			for(j=0; j<chromeparams; j++) {
 				newparam = temp.params[j];
 				if(temp.params[j].adapt) {
-					if(mrand01() < mutateprob) {
+                    if(rng.uniform01() < mutateprob) {
 						newparam.Generate();            // Mutate
 						if(diagfile && genmon) ofp.WriteLine("mutate");
 					}
@@ -397,8 +398,8 @@ void EvoFit::Evolve()
 							if(orient) newparam = parentB.params[j];
 							else newparam = parentA.params[j];
 						}
-						muteA = mrand01();
-						muteB = mrand01();
+                        muteA = rng.uniform01();
+                        muteB = rng.uniform01();
 						offset = (muteA - muteB) * 0.5;
 						offset = offset * (parentA.params[j].value - parentB.params[j].value);
 						newparam.value += offset;

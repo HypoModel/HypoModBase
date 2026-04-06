@@ -1,6 +1,7 @@
 
 
-#include "hypomodel.h"
+#include "hypomod.h"
+#include "hypomain.h"
 #include <time.h>
 #include "wx/dir.h"
 #include "wx/filename.h"
@@ -12,7 +13,7 @@ wxDEFINE_EVENT(EVT_MODTHREAD_COMPLETED, wxThreadEvent);
 wxDEFINE_EVENT(EVT_DIAG_WRITE, wxThreadEvent);
 
 
-Model::Model(int type, wxString name, HypoMain *main)
+Mod::Mod(int type, wxString name, HypoMain *main)
 {
 	mainwin = main;
 	modtype = type;
@@ -54,12 +55,12 @@ Model::Model(int type, wxString name, HypoMain *main)
 	prefstore["numdraw"] = 2;
 	evoflag = false;
     
-    Connect(wxID_ANY, EVT_MODTHREAD_COMPLETED, wxThreadEventHandler(Model::OnModThreadCompletion));
-    Connect(wxID_ANY, EVT_DIAG_WRITE, wxThreadEventHandler(Model::OnDiagWrite));
+    Connect(wxID_ANY, EVT_MODTHREAD_COMPLETED, wxThreadEventHandler(Mod::OnModThreadCompletion));
+    Connect(wxID_ANY, EVT_DIAG_WRITE, wxThreadEventHandler(Mod::OnDiagWrite));
 }
 
 
-Model::~Model()
+Mod::~Mod()
 {
 	delete graphbase;
 	delete modeflags;
@@ -67,7 +68,7 @@ Model::~Model()
 }
 
 
-GraphWindow3 *Model::GetGraphWin(wxString settag)
+GraphWindow3 *Mod::GetGraphWin(wxString settag)
 {
 	for(int i=0; i<gcount; i++)
 		if(gcodes[i] == settag) return mainwin->graphwin[i];
@@ -75,7 +76,7 @@ GraphWindow3 *Model::GetGraphWin(wxString settag)
 }
 
 
-void Model::OnModThreadCompletion(wxThreadEvent&)
+void Mod::OnModThreadCompletion(wxThreadEvent&)
 {
     runmute->Lock();
     runflag = 0;
@@ -86,27 +87,21 @@ void Model::OnModThreadCompletion(wxThreadEvent&)
 }
 
 
-void Model::OnDiagWrite(wxThreadEvent& event)
+void Mod::OnDiagWrite(wxThreadEvent& event)
 {
     diagbox->Write(event.GetString());
 }
 
 
-void Model::DiagWrite(wxString text)
+void Mod::DiagWrite(wxString text)
 {
-    //diagevent.SetString(text);
-    //AddPendingEvent(diagevent);
-    //wxQueueEvent(this, &diagevent);
-    
     wxThreadEvent event(EVT_DIAG_WRITE, ID_Diagnostic);
     event.SetString(text);
-    //pFrame is a wxEvtHandler*
     QueueEvent(event.Clone());
-    
 }
 
 
-void Model::DataCopy(wxString oldpath, wxString newpath)
+void Mod::DataCopy(wxString oldpath, wxString newpath)
 {
     wxString oldparampath, parampath;
     wxString oldgraphpath, graphpath;
@@ -148,23 +143,19 @@ void Model::DataCopy(wxString oldpath, wxString newpath)
 }
 
 
-//void Model::SoundOn()
-//{}
-
-
-void Model::SpikeDataSwitch(SpikeDat *data)
+void Mod::SpikeDataSwitch(SpikeDat *data)
 {}
 
 
-void Model::BurstUpdate()
+void Mod::BurstUpdate()
 {}
 
 
-void Model::GridColumn(int col)
+void Mod::GridColumn(int col)
 {}
 
 
-void Model::GSwitch(GraphDisp *gpos, ParamStore *gflags, int command)
+void Mod::GSwitch(GraphDisp *gpos, ParamStore *gflags, int command)
 {
 	int i, gdex;
 	GraphSet *graphset;
@@ -198,7 +189,7 @@ void Model::GSwitch(GraphDisp *gpos, ParamStore *gflags, int command)
 
 
 
-wxString Model::GetPath()
+wxString Mod::GetPath()
 {
 	wxString fullpath, text;
 
@@ -218,7 +209,7 @@ wxString Model::GetPath()
 }
 
 
-void Model::RunModel()
+void Mod::RunModel()
 {
 	mainwin->SetStatusText("Base Model Run");
 
@@ -228,13 +219,13 @@ void Model::RunModel()
 
 
 
-int Model::GetCellIndex()
+int Mod::GetCellIndex()
 {
 	return 0;
 }
 
 
-long Model::ReadNextData(wxString *readline)
+long Mod::ReadNextData(wxString *readline)
 {
 	long numdat;
 	wxString numstring;
@@ -247,7 +238,7 @@ long Model::ReadNextData(wxString *readline)
 }
 
 
-void Model::GHistStore()     // 6/1/21 being phased out of use, replaced with TagBox
+void Mod::GHistStore()     // 6/1/21 being phased out of use, replaced with TagBox
 {
 	wxString filename, filepath;
 	wxString text;
@@ -268,7 +259,7 @@ void Model::GHistStore()     // 6/1/21 being phased out of use, replaced with Ta
 }
 
 
-void Model::GHistLoad(wxComboBox *gstag)     // 6/1/21 being phased out of use, replaced with TagBox
+void Mod::GHistLoad(wxComboBox *gstag)     // 6/1/21 being phased out of use, replaced with TagBox
 {
 	wxString filename, filepath;
 	wxString readline, text;
@@ -310,7 +301,7 @@ void Model::GHistLoad(wxComboBox *gstag)     // 6/1/21 being phased out of use, 
 
 
 
-void Model::ModStore()
+void Mod::ModStore()
 {
 	int i;
 	int prefcount;
@@ -369,7 +360,7 @@ void Model::ModStore()
 }
 
 
-void Model::ModLoad()
+void Mod::ModLoad()
 {
 	long numdat;
 	int check, boxindex;
@@ -456,7 +447,7 @@ void Model::ModLoad()
 }
 
 #ifdef HYPOSOUND
-int Model::SoundLink(SoundBox *soundbox)
+int Mod::SoundLink(SoundBox *soundbox)
 {
 	soundbox->spikedata = NULL;
 	soundbox->wavedata = NULL;
@@ -465,7 +456,7 @@ int Model::SoundLink(SoundBox *soundbox)
 #endif
 
 
-int Model::ModeSum(ParamStore *gflags)
+int Mod::ModeSum(ParamStore *gflags)
 {
 	return 0;
 }

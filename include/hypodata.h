@@ -4,7 +4,7 @@
 #include "hypocontrols.h"
 #include "hypotools.h"
 #include "hypodat.h"
-#include "hypomods.h"
+#include "hypomod.h"
 #include "hypopanels.h"
 #include "hyponeuro.h"
 
@@ -94,7 +94,7 @@ public:
 class NeuroBox: public ParamBox
 {
 public:
-	Model *mod;
+	Mod *mod;
 	DiagBox *diagbox;
 
 	//int neuroindex;
@@ -131,7 +131,7 @@ public:
 	wxCheckBox *filtercheck;
 
 
-	NeuroBox(Model *mod, const wxString& title, const wxPoint& pos, const wxSize& size);
+	NeuroBox(Mod *mod, const wxString& title, const wxPoint& pos, const wxSize& size);
 	//~NeuroBox();
 	//void NeuroData(bool dispupdate = true);
 	//void NeuroAnalysis();
@@ -214,7 +214,7 @@ public:
 class GridBox: public ParamBox
 {
 public:
-	Model *mod;
+	Mod *mod;
 	wxTextCtrl *textbox;
 	TextGrid *textgrid[10];   // grid store array
 	TagStore gridindex;
@@ -247,7 +247,7 @@ public:
 	TextGrid *paramgrid;
 	TextGrid *layoutgrid;
 
-	GridBox(Model *mod, const wxString& title, const wxPoint& pos, const wxSize& size, int rows=100, int cols=20, bool bookmode=true, bool vdumode=true);
+	GridBox(Mod *mod, const wxString& title, const wxPoint& pos, const wxSize& size, int rows=100, int cols=20, bool bookmode=true, bool vdumode=true);
 
 	virtual void GridDefault();
 	virtual void TestGrid();

@@ -4,7 +4,7 @@
 //#include "hypopanels.h"
 #include "wx/graphics.h"
 #include "hypoprint.h"
-#include "hypomodel.h"
+#include "hypomain.h"
 #include <math.h>
 #include <chrono>
 #include <thread>
@@ -57,14 +57,14 @@ void DispWin::GraphUpdate()
 }
 
 
-GraphWindow3::GraphWindow3(HypoMain *main, wxFrame *parent, Model *model, wxPoint pos, wxSize size, GraphDisp *gdisp, int index)
+GraphWindow3::GraphWindow3(HypoMain *main, wxFrame *parent, Mod *modarg, wxPoint pos, wxSize size, GraphDisp *gdisp, int index)
 	: wxPanel(parent, wxID_ANY, pos, size)
 {
 	mainwin = main;
 	drawframe = parent;
 	//gpos = gdisp;
 	graphindex = index;
-	mod = model;
+	mod = modarg;
 	graphbase = mod->graphbase;
 
 	int max, scrollxto;

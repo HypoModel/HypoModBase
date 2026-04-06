@@ -15,7 +15,14 @@
 class HypoRand
 {
 public:
+    HypoRand() = default;
+
     HypoRand(uint64_t base_seed, uint64_t stream_id = 0)
+    {
+        seed(base_seed, stream_id);
+    }
+
+    void seed(uint64_t base_seed, uint64_t stream_id = 0)
     {
         uint64_t x = mix_seed(base_seed, stream_id);
         s[0] = splitmix64_next(x);
@@ -26,6 +33,9 @@ public:
         if ((s[0] | s[1] | s[2] | s[3]) == 0) {
             s[0] = 0x9e3779b97f4a7c15ULL;
         }
+
+        has_spare = false;
+        spare = 0.0;
     }
 
     uint64_t u64()
@@ -87,6 +97,30 @@ public:
 
         return std::exp(lognMean + lognSD * normal());
     }
+    
+    uint32_t bounded_u32(uint32_t bound)
+    {
+        if (bound == 0) return 0;
+
+        const uint64_t threshold = (uint64_t(0) - uint64_t(bound)) % uint64_t(bound);
+
+        for (;;) {
+            uint32_t r = u32();
+            uint64_t m = uint64_t(r) * uint64_t(bound);
+            uint32_t l = static_cast<uint32_t>(m);
+
+            if (l >= threshold) {
+                return static_cast<uint32_t>(m >> 32);
+            }
+        }
+    }
+    
+    int randint(int a, int b)
+    {
+        if (b <= a) return a;
+        return a + static_cast<int>(bounded_u32(static_cast<uint32_t>(b - a + 1)));
+    }
+    
 
 private:
     uint64_t s[4]{};

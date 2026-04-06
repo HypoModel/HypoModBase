@@ -1,5 +1,5 @@
 
-#include "hypomodel.h"
+#include "hypomain.h"
 #include "hypograph.h"
 #include "hypodef.h"
 
@@ -9,7 +9,7 @@
 //ToolPanel(wxDialog *dbox, const wxPoint& pos, const wxSize& size);
 
 
-ScaleBox::ScaleBox(HypoMain *main, const wxSize& size, int gnum, GraphDisp *gdisp, Model *model, GraphWindow3 **gwin, int btype)
+ScaleBox::ScaleBox(HypoMain *main, const wxSize& size, int gnum, GraphDisp *gdisp, Mod *model, GraphWindow3 **gwin, int btype)
 	: ToolPanel(main, wxPoint(0, 0), size, wxBORDER_SIMPLE | wxFULL_REPAINT_ON_RESIZE)
 {
 	int i;
@@ -1279,7 +1279,7 @@ UpdateScale(0);
 */
 
 
-void ScaleBox::SetMod(Model *model)
+void ScaleBox::SetMod(Mod *setmod)
 {
 	/*
 	if(dispmod != model->modtype) {
@@ -1288,10 +1288,10 @@ void ScaleBox::SetMod(Model *model)
 		gmod = model;
 		GraphSwitch(0);
 	}*/
-	if(mod != model) {
-		mod = model;
-		gbase = model->graphbase;
-		gmod = model;
+	if(mod != setmod) {
+		mod = setmod;
+		gbase = setmod->graphbase;
+		gmod = setmod;
 		GraphSwitch(0);
 	}
 }

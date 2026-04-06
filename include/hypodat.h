@@ -12,16 +12,10 @@
 class GraphDat;
 
 
-class ModDat{
+class ModelDat{
 public:
 	int model;
-	//Model *mod;
 };
-
-
-/*class EvoDat{
-	float *params;
-};*/
 
 
 class FitMeasure{
@@ -657,7 +651,7 @@ public:
 };
 
 
-class PlotDat: public ModDat
+class PlotDat
 {
 public:
 	wxString gtag;
@@ -867,7 +861,6 @@ public:
 	short numgraphs;
 	short storesize;
 	wxString initpath;
-	//int datdex[10];
 	wxString indextag[1000];
 	wxString setindextag[1000];
 	std::vector <GraphDat> graphstore;
@@ -876,10 +869,9 @@ public:
 	ParamStore nameindex;
 	ParamStore settagindex;
 	MainFrame *mainwin;
-	//Model *mod;
+	
 
 	GraphBase(int size, int setsize=10) {
-		//mod = model;
 		graphstore.resize(size);
 		setstore.resize(setsize);
 		numsets = 0;
@@ -926,18 +918,6 @@ public:
 	GraphDat *GetGraphFromName(wxString);
 	bool GraphExists(wxString);
 	bool SetExists(wxString);
-	/*
-	GraphDat &operator[](wxString tag) {
-		for(unsigned long i=0; i<store.size(); i++) 
-			if(store[i].indexName == indexName) {
-				return store[i].data;
-			}
-		long idx = store.size();
-		ParamData param;
-		param.indexName = indexName;
-		store.push_back(param);  
-		return store[idx].data;             
-	} */  
 
 	void BaseStore(wxString, wxString);
 	void BaseLoad(wxString, wxString, wxTextCtrl *textbox = NULL);

@@ -1,6 +1,6 @@
 
-#ifndef HYPOMODS_H
-#define HYPOMODS_H
+#ifndef HYPOMOD_H
+#define HYPOMOD_H
 
 
 #include "wx/wx.h"
@@ -12,6 +12,7 @@ class HypoMain;
 class EvoFitBox;
 class EvoChrome;
 class ParamBox;
+class ModThread;
 
 
 wxDECLARE_EVENT(EVT_MODTHREAD_COMPLETED, wxThreadEvent);
@@ -19,34 +20,7 @@ wxDECLARE_EVENT(EVT_DIAG_WRITE, wxThreadEvent);
 
 
 
-class ModThread : public wxThread
-{
-public:
-	ParamBox *modbox = nullptr;
-	HypoMain *mainwin = nullptr;
-	wxString snum;
-	bool diag = false;
-
-	ModThread(ParamBox *box, HypoMain *main, wxThreadKind kind = wxTHREAD_DETACHED)
-		: wxThread(kind), modbox(box), mainwin(main)
-	{
-	}
-
-    virtual ~ModThread() = default;
-};
-
-
-class TextGridMod : public TextGrid
-{
-public:
-	Model *mod;
-
-	TextGridMod(Model *mod, wxWindow *parent, wxSize size);
-};
-
-
-
-class Model : public wxEvtHandler
+class Mod : public wxEvtHandler
 {
 public:
 	short modtype;
@@ -73,8 +47,7 @@ public:
 
 	// Utils
 	wxString text;
-
-
+    
 	wxString modname;
 	wxString modtag;
 	wxString initparams;
@@ -112,8 +85,8 @@ public:
 	datdouble gridplot[20], gridplotx[20], gridploterr[20];
 
 
-	Model(int, wxString, HypoMain *);
-	virtual ~Model();
+	Mod(int, wxString, HypoMain *);
+	virtual ~Mod();
 
 	long ReadNextData(wxString *);
 	wxString GetPath();
@@ -152,6 +125,31 @@ public:
 	GraphWindow3 *GetGraphWin(wxString settag);
 };
 
+
+
+class ModThread : public wxThread
+{
+public:
+    ParamBox *modbox = nullptr;
+    HypoMain *mainwin = nullptr;
+    wxString snum;
+    bool diag = false;
+
+    ModThread(ParamBox *box, HypoMain *main, wxThreadKind kind = wxTHREAD_DETACHED)
+        : wxThread(kind), modbox(box), mainwin(main) {}
+
+    virtual ~ModThread() = default;
+};
+
+
+
+class TextGridMod : public TextGrid
+{
+public:
+    Mod *mod;
+
+    TextGridMod(Mod *mod, wxWindow *parent, wxSize size);
+};
 
 
 #endif

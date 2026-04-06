@@ -1,12 +1,10 @@
 
 
-#ifndef HYPOMODEL_H
-#define HYPOMODEL_H
+#ifndef HYPOMAIN_H
+#define HYPOMAIN_H
 
 //#define CUDA 1 
 
-
-//#include "wx/wx.h"
 
 #include "hypopch.h"
 
@@ -15,7 +13,7 @@
 #include "hypograph.h"
 #include "hypoplot.h"
 #include "hypopanels.h"
-#include "hypomods.h"
+#include "hypomod.h"
 #include "hypodat.h"
 #include "hypodata.h"
 #include "hypoproject.h"
@@ -39,7 +37,7 @@ public:
 };
 
 
-class ModelDat
+class ModDat
 {
 public:
 	int index;
@@ -53,22 +51,22 @@ public:
 };
 
 
-class ModelSet
+class ModSet
 {
 public:
 	int modcount; 
 
-	ModelDat modeldat[50];
+	ModDat moddat[50];
 
-	ModelSet() {modcount = 0;}
+	ModSet() {modcount = 0;}
 
 	void Add(int dex, wxString tit) {
-		modeldat[modcount].Set(dex, tit);
+		moddat[modcount].Set(dex, tit);
 		modcount++;
 	}
 
 	int GetDex(int id) {
-		for(int i=0; i<modcount; i++) if(modeldat[i].index == id) return i;
+		for(int i=0; i<modcount; i++) if(moddat[i].index == id) return i;
 		return -1;
 	}
 };
@@ -77,13 +75,6 @@ public:
 class HypoMain: public MainFrame
 {
 public:
-	//MainFrame *mainwin;
-
-	//wxFrame *frame;
-	//wxPoint mainpos;
-	//wxSize screensize;
-	//wxString snum;
-	//wxBoxSizer *mainsizer;
 	wxCommandEvent blankevent;
 
 	int graph, numgraphs, yplot, xplot;
@@ -114,7 +105,7 @@ public:
 
 	int moddex;
 	//ModelDat moddata[20];
-	ModelSet modset;
+	ModSet modset;
 
 	// Project   - system for storing and loading project specific panel setups and file tag histories   new January 2021
 	Project *project;
@@ -170,7 +161,7 @@ public:
 
 
 	// New Model Modules
-	Model *mod;
+	Mod *mod;
 
 	HypoMain(const wxString& title, const wxPoint& pos, const wxSize& size, wxString rpath="", wxString mpath ="");
 	~HypoMain();
@@ -191,13 +182,13 @@ public:
 	void ViewLoad();
 	void ViewStore();
 
-	void ToolLoad(Model *);
-	void SpikeModule(Model *);
+	void ToolLoad(Mod *);
+	void SpikeModule(Mod *);
 	//void SpikeBox(int modmode = 0);
-	void BurstModule(Model *, SpikeDat *moddata=NULL, bool evomode=false);
+	void BurstModule(Mod *, SpikeDat *moddata=NULL, bool evomode=false);
 	//void EvoSpikeModule(Model *);
-	void SoundModule(Model *);
-	void PlotModule(Model *);
+	void SoundModule(Mod *);
+	void PlotModule(Mod *);
 
 	void BasicMenu();
 	void FullMenu();

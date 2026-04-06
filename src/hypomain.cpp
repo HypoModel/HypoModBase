@@ -1,6 +1,6 @@
 
 
-#include "hypomodel.h"
+#include "hypomain.h"
 #include "wx/print.h"
 #include "hypodef.h"
 
@@ -8,7 +8,7 @@
 #ifdef OSX
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreFoundation/CFString.h>
-wxIMPLEMENT_APP_NO_MAIN(HypoApp);
+wxIMPLEMENT_APP(HypoApp);
 #endif // OSX
 
 #ifndef OSX
@@ -340,7 +340,7 @@ HypoMain::~HypoMain()
 }
 
 
-void HypoMain::ToolLoad(Model *mod)
+void HypoMain::ToolLoad(Mod *mod)
 {
 	if((*mod->toolflags)["burstbox"]) BurstModule(mod); 
 
@@ -556,7 +556,7 @@ void HypoMain::OnEnter(wxCommandEvent& WXUNUSED(event))
 //burstbox = new BurstBox(this, "Burst Analysis", wxPoint(320, 455), wxSize(330, 355), currvaso);
 
 
-void HypoMain::BurstModule(Model *model, SpikeDat *moddata, bool evomode)
+void HypoMain::BurstModule(Mod *mod, SpikeDat *moddata, bool evomode)
 {
 	int boxwidth, boxheight;
 	//int modmode = mode;
@@ -579,7 +579,7 @@ void HypoMain::BurstModule(Model *model, SpikeDat *moddata, bool evomode)
 
 	//if(modmode == 2) 
 		
-	burstbox = new BurstBox(model, "Burst Analysis", wxPoint(0, 500), wxSize(boxwidth, boxheight), moddata, evomode);
+	burstbox = new BurstBox(mod, "Burst Analysis", wxPoint(0, 500), wxSize(boxwidth, boxheight), moddata, evomode);
 
 	//if(modmode == 1) burstbox = new BurstBox(model, "Spike Data", wxPoint(0, 500), wxSize(boxwidth, boxheight), NULL, "Selected", false, 0);
 	//mainpos = GetPosition();
@@ -596,21 +596,21 @@ void HypoMain::BurstModule(Model *model, SpikeDat *moddata, bool evomode)
 
 	diagbox->Write(text.Format("BurstModule OK\n"));
 
-	model->modtools.AddBox(burstbox, true);
+	mod->modtools.AddBox(burstbox, true);
 
 	//toolset->AddBox(burstbox);
 	burstbox->Show(true);
 }
 
 
-void HypoMain::PlotModule(Model *model)
+void HypoMain::PlotModule(Mod *mod)
 {
 	wxSize boxsize;
 	if(ostype == Mac) boxsize = wxSize(600, 400);
 	else boxsize = wxSize(450, 300);
 
 	if(!plotbox) {
-		plotbox = new PlotBox(model, "Plot Box", wxPoint(320, 455), boxsize);
+		plotbox = new PlotBox(mod, "Plot Box", wxPoint(320, 455), boxsize);
 		toolset->AddBox(plotbox);
 	}
 
@@ -620,12 +620,12 @@ void HypoMain::PlotModule(Model *model)
 		plotbox->gridbox = gridbox; 
 	}
 
-	model->modtools.AddBox(plotbox, true);
+	mod->modtools.AddBox(plotbox, true);
 	plotbox->Show(true);
 }
 
 
-void HypoMain::SoundModule(Model *model)
+void HypoMain::SoundModule(Mod *mod)
 {
 	wxSize boxsize;
 
@@ -985,7 +985,7 @@ void HypoMain::OnBurst(wxCommandEvent& WXUNUSED(event))
 }
 
 
-void HypoMain::SpikeModule(Model *mod)
+void HypoMain::SpikeModule(Mod *mod)
 {
 	GraphSet *graphset;
 	wxString gtag, tag = "exp";

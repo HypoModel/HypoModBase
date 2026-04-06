@@ -3,18 +3,18 @@
 //#include "evofitvmn.h"
 //#include <cuda.h>
 //#include "vasomod.h"
-#include "hypomodel.h"
+#include "hypomain.h"
 
 
 
-EvoFitBox::EvoFitBox(Model *model, EvoChrome *chrome, const wxString& title, const wxPoint& pos, const wxSize& size, bool burstmode_set)
-	: ParamBox(model, title, pos, size, "EVOFIT", 1)
+EvoFitBox::EvoFitBox(Mod *modarg, EvoChrome *chrome, const wxString& title, const wxPoint& pos, const wxSize& size, bool burstmode_set)
+	: ParamBox(modarg, title, pos, size, "EVOFIT", 1)
 {
 	paramindex = 0;
 	int i, gridwidth;
 	int maxfit = 4;
 
-	mod = model;
+	mod = modarg;
 	fitchrome = chrome;
 	numparams = fitchrome->numparams;
 

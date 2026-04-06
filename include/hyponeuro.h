@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "hypomods.h"
+#include "hypomod.h"
 
 
 enum {
@@ -22,7 +22,7 @@ enum {
 };
 
 
-class NeuroMod : public Model
+class NeuroMod: public Mod
 {
 public:
 	// Data

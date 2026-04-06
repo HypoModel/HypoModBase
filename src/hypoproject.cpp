@@ -14,7 +14,7 @@ Project::Project(HypoMain *main)
 }
 
 
-void Project::Init(wxString tag, Model *model)
+void Project::Init(wxString tag, Mod *model)
 {
 	wxString text;
 

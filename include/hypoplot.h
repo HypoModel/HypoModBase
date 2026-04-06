@@ -20,7 +20,7 @@ enum {
 class PlotBox: public ParamBox
 {
 public:
-	Model *mod;
+	Mod *mod;
 	TextGrid *textgrid;
 	wxString text;
 
@@ -46,7 +46,7 @@ public:
 
 	wxCheckBox *errcheck;
 
-	PlotBox(Model *mod, const wxString& title, const wxPoint& pos, const wxSize& size);
+	PlotBox(Mod *mod, const wxString& title, const wxPoint& pos, const wxSize& size);
 	//~PlotBox();
 	void OnPlotXY(wxCommandEvent& event);
 	void OnPlotY(wxCommandEvent& event);

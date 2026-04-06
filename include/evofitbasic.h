@@ -17,8 +17,10 @@
 //#include <hypomodel.h>
 //#include "vasodat.h"
 #include "evodat.h"
-#include "hypomods.h"
+#include "hypomod.h"
 #include "hypopanels.h"
+#include "hyporand.h"
+#include "hypomain.h"
 
 
 enum {
@@ -137,7 +139,7 @@ public:
 class EvoFitBox: public ParamBox
 {
 public:	
-	Model *mod;
+	Mod *mod;
 	//VasoEvoFit *fitthread;
 
 	TagBox *datfiletag;
@@ -227,7 +229,7 @@ public:
 	FitSet *fitset;
 	FitConSet *fitconset;
 
-	EvoFitBox(Model *mod, EvoChrome *, const wxString& title, const wxPoint& pos, const wxSize& size, bool burstmode = false);	
+	EvoFitBox(Mod *mod, EvoChrome *, const wxString& title, const wxPoint& pos, const wxSize& size, bool burstmode = false);
 	void OnFitScore(wxCommandEvent& event);
 	void OnEvoRun(wxCommandEvent& event);
 	//void OnToggle(wxCommandEvent& event);
@@ -265,7 +267,7 @@ public:
 class EvoFit : public ModThread
 {
 public:
-	Model *mod;
+	Mod *mod;
 	EvoFitBox *fitbox;
 	DiagBox *diagbox;
 
@@ -302,9 +304,11 @@ public:
 	int scorethreads;
 
 	//std::mt19937 randgen; // Mersenne Twister random number engine
-	//std::uniform_real_distribution<float> unif01; 
+	//std::uniform_real_distribution<float> unif01;
+    
+    HypoRand rng;
 
-	EvoFit(Model *, EvoFitBox *);
+	EvoFit(Mod *, EvoFitBox *);
 	virtual void InitPop();
 	void quicksort(vector<EvoChrome> *a, int low, int high);
 	int partition(vector<EvoChrome> *a, int low, int high, int pivotindex);

@@ -11,6 +11,7 @@
 #include "hypopch.h"
 
 #include "evodat.h"
+#include "hyporand.h"
 
 
 // GA Parameter Genes
@@ -29,12 +30,13 @@ EvoParam::EvoParam(double v, double mn, double mx, bool ad, wxString lab, int pl
 	adapt = ad;
 	label = lab;
 	places = pl;
+    rng.seed(time(NULL));
 }
 
 
 void EvoParam::Generate()
 {
-	if(adapt) value = mrand01() * (max - min) + min;
+    if(adapt) value = rng.uniform01() * (max - min) + min;
 }
 
 

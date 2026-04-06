@@ -60,7 +60,7 @@ public:
 	wxMutex *soundmutex;
 	unsigned int soundon;
 	int tracemode;
-	Model *mod;
+	Mod *mod;
 	SoundGen *soundgen;
 
 	SoundBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *sdat=NULL);

@@ -4,14 +4,14 @@
 //#include "wx/wx.h"
 #include "hypodat.h"
 #include "hypotools.h"
-#include "hypomods.h"
-#include "hypomodel.h"
+#include "hypomod.h"
+#include "hypomain.h"
 
 
 class Project
 {
 public:
-	Model *mod;
+	Mod *mod;
 	TagSet *tagset;
 	wxString protag;
 	HypoMain *mainwin;
@@ -28,5 +28,5 @@ public:
 	void Load();
 	void Store();
 	void TagSetDisp();
-	void Init(wxString tag, Model *mod=NULL);
+	void Init(wxString tag, Mod *mod=NULL);
 };

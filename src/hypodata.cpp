@@ -1,7 +1,7 @@
 
 
 #include "wx/wx.h"
-#include "hypomodel.h"
+#include "hypomain.h"
 #include "wx/grid.h"
 
 #include <iostream>
@@ -683,13 +683,13 @@ void SpikePanel::SelectLoad()
 
 
 
-NeuroBox::NeuroBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size)
-	: ParamBox(model, title, pos, size, "cellbox", 1, false)
+NeuroBox::NeuroBox(Mod *modarg, const wxString& title, const wxPoint& pos, const wxSize& size)
+	: ParamBox(modarg, title, pos, size, "cellbox", 1, false)
 	//ParamBox(model, title, pos, size, "outbox", 0, 1)
 {
 	int datwidth, labelwidth;
 
-	mod = model;
+	mod = modarg;
 	diagbox = mod->diagbox;
 	//cellcount = 0;
 	paramindex = 0;
@@ -1267,12 +1267,12 @@ void NeuroBox::SetGraph(GraphWindow3 *graphwin)
 
 
 
-GridBox::GridBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, int rows, int cols, bool bmode, bool vmode)
-	: ParamBox(model, title, pos, size, "gridbox", 0, 1)
+GridBox::GridBox(Mod *modarg, const wxString& title, const wxPoint& pos, const wxSize& size, int rows, int cols, bool bmode, bool vmode)
+	: ParamBox(modarg, title, pos, size, "gridbox", 0, 1)
 {
 	int gridrows, gridcols;
 	wxBoxSizer *vdubox;
-	mod = model;
+	mod = modarg;
 	numgrids = 0;
     
     undomode = true;

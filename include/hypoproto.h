@@ -23,7 +23,7 @@ public:
     wxStaticText *currentinput;
     wxStaticText *status;
 
-    ProtocolBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size);
+    ProtocolBox(Mod *mod, const wxString& title, const wxPoint& pos, const wxSize& size);
     //void BurstData();
     //void SpikeDat();
     //void GetArtSpikeParams();
@@ -36,3 +36,11 @@ public:
 
 
 
+enum {
+    ID_inputproto = 2000,
+    ID_RunSyn,
+    ID_RunSynRate,
+    ID_RunRamp,
+    ID_RunFreq,
+    ID_RunDura,
+};

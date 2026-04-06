@@ -1,7 +1,8 @@
 
 
 #include "hypoplot.h"
-#include "hypomodel.h"
+#include "hypomain.h"
+#include "hyporand.h"
 
 #include <iostream>
 #include <fstream>
@@ -9,12 +10,12 @@
 #include "wx/filedlg.h"
 
 
-PlotBox::PlotBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size)
-	: ParamBox(model, title, pos, size, "plotbox", 0, 1)
+PlotBox::PlotBox(Mod *modarg, const wxString& title, const wxPoint& pos, const wxSize& size)
+	: ParamBox(modarg, title, pos, size, "plotbox", 0, 1)
 {
 	column = 0;
 	boxtag = "Plot";
-	mod = model;
+	mod = modarg;
 	bool v1mode = false;
 	bool dicemode = false;
 
@@ -369,13 +370,14 @@ void PlotBox::OnNeuroDice(wxCommandEvent& event)
 	for(i=0; i<100; i++) counts[i] = 0;
 	for(i=0; i<100; i++) dicecheck[i] = 0;
 	dice = 0;
+    HypoRand rng(time(NULL));
 
 	for(i=0; i<rolls; i++) {
 		if(fire > dice) break;
-		dice = (int)(mrand01() * sides) + 1;
+        dice = (int)(rng.uniform01() * sides) + 1;
 		count = 1;
 		while(dice < fire) {
-			dice = (int)(mrand01() * sides) + 1;
+            dice = (int)(rng.uniform01() * sides) + 1;
 			if(dice <= 100) dicecheck[dice]++;
 			else diagbox->Write("dice check out of range\n");
 			count++;

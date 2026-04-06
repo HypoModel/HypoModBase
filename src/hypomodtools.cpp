@@ -1,6 +1,6 @@
 
 
-#include "hypomodel.h"
+#include "hypomain.h"
 #include "wx/notebook.h"
 #include "wx/clipbrd.h"
 //#include "hypomain.h"
@@ -17,10 +17,10 @@ using namespace stk;
 
 
 
-TextGridMod::TextGridMod(Model *model, wxWindow *parent, wxSize size)
+TextGridMod::TextGridMod(Mod *modarg, wxWindow *parent, wxSize size)
 	: TextGrid(parent, size)
 {
-	mod = model;
+	mod = modarg;
 }
 
 
@@ -381,7 +381,7 @@ void InfoBox::OnDatLoad(wxCommandEvent& event)
 // BurstBox - now used as general spike time data loading and analysis box - December 2020 return to more burst specific with grid based data loading
 
 //BurstBox::BurstBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *sdat, wxString intratag, bool evomode, int mode)
-BurstBox::BurstBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *modeldata, bool evomode)
+BurstBox::BurstBox(Mod *model, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *modeldata, bool evomode)
 	: ToolBox(model->mainwin, "burstbox", title, pos, size)
 {
 	int numwidth = 50;

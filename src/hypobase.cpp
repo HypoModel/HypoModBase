@@ -9,8 +9,6 @@
 #include "hypotools.h"
 #include <string>
 
-typedef std::mt19937 rng_type;
-
 
  //[[NSApplication sharedApplication] activateIgnoringOtherApps : YES];
 
@@ -500,6 +498,7 @@ double mrand01()
 */
 
 
+/*
 double gaussian(double mean, double sd)
 {
 	double u1, u2;
@@ -511,10 +510,10 @@ double gaussian(double mean, double sd)
 	v2 = 0;
 	s = 1;
 	while(s>=1) {
-		u1 = mrand01();                    /* U1=[0,1] */
-		u2 = mrand01();										/* U2=[0,1] */          
-		v1 = 2 * u1 - 1;								/* V1=[-1,1] */
-		v2 = 2 * u2 - 1;								/* V2=[-1,1] */
+		u1 = mrand01();                    // U1=[0,1]
+		u2 = mrand01();										// U2=[0,1]
+		v1 = 2 * u1 - 1;								// V1=[-1,1]
+		v2 = 2 * u2 - 1;								// V2=[-1,1]
 		s = v1 * v1 + v2 * v2;
 	}	
 	g1 = sqrt(-2 * log(s) / s) * v1;
@@ -524,9 +523,10 @@ double gaussian(double mean, double sd)
 	g2 = mean + sd * g2;
 	
 	return g1;
-}
+}*/
 
 
+/*
 double uniform(double mean, double range)
 {
 	double r1, r2;
@@ -535,9 +535,9 @@ double uniform(double mean, double range)
 	r2 = (mean - range) + (range * 2 * r1);
 	
 	return r2;
-}
+}*/
 
-
+/*
 int iuniform(int base, int range)
 {
 	double r1, r2;
@@ -556,7 +556,7 @@ int randint(int range)
 	num = mrand01();
 	return (int)(num * range);
 }
-
+*/
 
 float fast_tanh(float x) {
   float x2 = x * x;

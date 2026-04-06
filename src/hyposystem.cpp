@@ -1,8 +1,7 @@
 
 
-#include "hypomodel.h"
-//#include "hypomain.h"
-//#include "hypopanels.h"
+#include "hypomain.h"
+
 
 
 OptionPanel::OptionPanel(HypoMain *main, const wxString & title)
@@ -71,8 +70,8 @@ OptionPanel::OptionPanel(HypoMain *main, const wxString & title)
 	//startbox->Add(modrad[0], 1, wxTOP | wxBOTTOM, 3);
 	
 	for(i=0; i<nummods; i++) {
-		modrad[i+1] = new wxRadioButton(panel, mainwin->modset.modeldat[i].index, mainwin->modset.modeldat[i].title);
-		mainwin->diagbox->Write(text.Format("button %d %s\n", mainwin->modset.modeldat[i].index, mainwin->modset.modeldat[i].title)); 
+		modrad[i+1] = new wxRadioButton(panel, mainwin->modset.moddat[i].index, mainwin->modset.moddat[i].title);
+		mainwin->diagbox->Write(text.Format("button %d %s\n", mainwin->modset.moddat[i].index, mainwin->modset.moddat[i].title));
 		startbox->Add(modrad[i+1], 1, wxTOP | wxBOTTOM, 3);
 	}
     modindex = mainwin->modset.GetDex(mainwin->startmod);

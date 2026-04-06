@@ -5,16 +5,13 @@
 
 
 
-//#include "wx/wx.h"
-//#include "hypobase.h"
+#include "wx/wx.h"
 #include "hypocontrols.h"
-//#include "hypopanels.h"
-//#include "hypomodel.h"
 
 
 
 class GridBox;
-class Model;
+class Mod;
 
 
 class DiagBox: public ToolBox
@@ -33,7 +30,7 @@ public:
 	wxMenu *rightmenu;
 	int ostype;
 	DiagBox *diagbox;
-	Model *mod;
+	Mod *mod;
 
 	int selectcol, selectrow;
 

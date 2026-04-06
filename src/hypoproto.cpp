@@ -3,10 +3,12 @@
 
 //#include "vasomod.h"
 #include "wx/notebook.h"
+#include "hypoproto.h"
+#include "hypobase.h"
 
 
-ProtocolBox::ProtocolBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size)
-	: ParamBox(model, title, pos, size, "PROTO", 1)
+ProtocolBox::ProtocolBox(Mod *mod, const wxString& title, const wxPoint& pos, const wxSize& size)
+	: ParamBox(mod, title, pos, size, "PROTO", 1)
 {
 	int artnum, antinum, inpnum, rampnum;
 	int numwidth;

@@ -1,6 +1,5 @@
 
 
-//#include "hypomodel.h"
 #include "hypodat.h"
 #include "hypopanels.h"
 

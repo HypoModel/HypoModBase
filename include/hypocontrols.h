@@ -21,7 +21,7 @@ class Model;
 class ToolSet;
 class ToolPanel;
 class ParamSet;
-//class HypoMain;
+
 
 
 
