@@ -17,7 +17,7 @@
 
 class MainFrame;
 class ToolBox;
-class Model;
+class Mod;
 class ToolSet;
 class ToolPanel;
 class ParamSet;

@@ -15,8 +15,8 @@
 using namespace stk;
 
 
-SoundBox::SoundBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *sdat)
-	: ParamBox(model, title, pos, size, "soundbox")
+SoundBox::SoundBox(Mod *mod, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *sdat)
+	: ParamBox(mod, title, pos, size, "soundbox")
 {
 	int i;
 	//short stype;
@@ -30,7 +30,8 @@ SoundBox::SoundBox(Model *model, const wxString& title, const wxPoint& pos, cons
 	soundon = 0;
 	soundgen = NULL;
 	soundmutex = new wxMutex;
-	mod = model;
+	mod = mod;
+
 
 	paramset.num_numwidth = 50;
 	paramset.AddNum("soundfreq", "Sound Freq", 200, 2);

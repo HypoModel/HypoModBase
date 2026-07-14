@@ -63,7 +63,7 @@ public:
 	Mod *mod;
 	SoundGen *soundgen;
 
-	SoundBox(Model *model, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *sdat=NULL);
+	SoundBox(Mod *mod, const wxString& title, const wxPoint& pos, const wxSize& size, SpikeDat *sdat=NULL);
 	~SoundBox();
 
 	void SoundTest();

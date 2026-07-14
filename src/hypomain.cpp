@@ -634,7 +634,7 @@ void HypoMain::SoundModule(Mod *mod)
 
 #ifdef HYPOSOUND
 	if(!soundbox) {
-		soundbox = new SoundBox(model, "Sonic Spike Analysis", wxPoint(320, 455), boxsize);
+		soundbox = new SoundBox(mod, "Sonic Spike Analysis", wxPoint(320, 455), boxsize);
 		toolset->AddBox(soundbox);
 	}
 	soundbox->Show(true);
