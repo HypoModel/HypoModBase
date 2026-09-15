@@ -94,7 +94,8 @@ ScaleBox::ScaleBox(HypoMain *main, const wxSize& size, int gnum, GraphDisp *gdis
 
 	databutton = NULL;
 
-	backgroundcolour = GetBackgroundColour();
+	//backgroundcolour = GetBackgroundColour();
+    backgroundcolour = wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE);
 	SetBackgroundColour(backgroundcolour);
 	SetFont(boxfont);                       // //
 	//dc.SetTextBackground(backgroundColour);
