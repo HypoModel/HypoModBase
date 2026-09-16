@@ -430,7 +430,7 @@ public:
 	DiagBox *diagbox;
 	wxString name;
 
-	BoxOut() {status = NULL; diagbox = NULL; name = "";}
+	BoxOut() {status = nullptr; diagbox = nullptr; name = "";}
 	BoxOut(wxStaticText *statustext, DiagBox *diag, wxString boxtag) {status = statustext; diagbox =diag; name = boxtag;}
 };
 

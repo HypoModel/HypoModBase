@@ -33,8 +33,8 @@ public:
 	PlotSet plotset;
 	NeuroBox *neurobox;
 
-	vector<datdouble>ycoldata;
-	vector<datdouble>xcoldata;
+    std::vector<datdouble>ycoldata;
+    std::vector<datdouble>xcoldata;
 	int plotsetindex;
 	//PlotSet *plotset;
 

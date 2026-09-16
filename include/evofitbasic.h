@@ -38,7 +38,7 @@ class EvoFit;
 class ParentDat{
 public:
 	int chromeindex;
-	vector<float> times;
+    std::vector<float> times;
 	int spikecount;
 
 	ParentDat() {
@@ -53,27 +53,16 @@ public:
 	bool allocated;
 	int chromecount;
     
-	/*float *Ints;
-    float *ISIs;
-    float *Bursts;
-    float *BurstMean;
-    float *BurstSD;
-    float *SilenceMean;
-    float *SilenceSD;
-    float *IntraFreq;
-    float *ExtraFreq;
-    float *SpikeCounts;*/
-    
-	vector<float> Ints;
-	vector<float> ISIs;
-	vector<float> Bursts;
-	vector<float> BurstMean;
-	vector<float> BurstSD;
-	vector<float> SilenceMean;
-	vector<float> SilenceSD;
-	vector<float> IntraFreq;
-	vector<float> ExtraFreq;
-	vector<float> SpikeCounts;
+	std::vector<float> Ints;
+	std::vector<float> ISIs;
+	std::vector<float> Bursts;
+	std::vector<float> BurstMean;
+	std::vector<float> BurstSD;
+	std::vector<float> SilenceMean;
+    std::vector<float> SilenceSD;
+    std::vector<float> IntraFreq;
+    std::vector<float> ExtraFreq;
+    std::vector<float> SpikeCounts;
 
 	bool extracount;
 	int spikecounts[200];
@@ -87,17 +76,6 @@ public:
 		//ISIhist.setsize(1000);
 		//burstprof.setsize(1000);
 		extracount = false;
-		//spikecounts = new int[200];
-		/*Ints = NULL;
-		ISIs = NULL;
-		Bursts = NULL;
-		BurstMean = NULL;
-		BurstSD = NULL;
-		SilenceMean = NULL;
-		SilenceSD = NULL;
-		IntraFreq = NULL;
-		ExtraFreq = NULL;
-		SpikeCounts = NULL;*/
 	};
 
 	~SpikeFitDat();
@@ -190,7 +168,7 @@ public:
 	SpikeDat *expdata;
 	SpikeDat *loaddata;
 	SpikeDat *evodata;
-	vector<SpikeDat> evodataset;
+	std::vector<SpikeDat> evodataset;
 
 	// Fit Data Links
 	SpikeFitDat *spikefitdata;
@@ -198,13 +176,13 @@ public:
 
 	// Parent Data
 	int parentcount;
-	vector<ParentDat> parentdata;
+	std::vector<ParentDat> parentdata;
 
 	// Fit Mechanism Storage
 
 	int popsize, parentrange;
-	vector<EvoChrome> chromepop;
-	vector<EvoChrome> chromeresult;
+    std::vector<EvoChrome> chromepop;
+    std::vector<EvoChrome> chromeresult;
 	EvoChrome *fitchrome;
 	bool chromepopinit;
 	int numparams;
@@ -237,16 +215,16 @@ public:
 
 	wxFlexGridSizer *FitScorePanel(FitPanel *);
 	wxFlexGridSizer *FitDataPanel(FitSet *, DatPanel *);
-	wxFlexGridSizer *FitWeightPanel(FitSet * = NULL);
-	wxFlexGridSizer *FitConPanel(FitConSet * = NULL);
+	wxFlexGridSizer *FitWeightPanel(FitSet * = nullptr);
+	wxFlexGridSizer *FitConPanel(FitConSet * = nullptr);
 	void CreatePanels();
 	void FitChromeUpdate();
 	void FitWeightUpdate();
 	void FitControlUpdate();
 	void ChromeData();
 	void ChromeParams(EvoChrome *);
-	void FitDisp(FitDat *data = NULL, FitPanel *fitpanel = NULL);
-	void FitDispNew(FitDat *data = NULL, DatPanel *fitpanel = NULL);
+	void FitDisp(FitDat *data = nullptr, FitPanel *fitpanel = nullptr);
+	void FitDispNew(FitDat *data = nullptr, DatPanel *fitpanel = nullptr);
 	void ModFitScore();
 	void ExpDataDisp();
 	void SetToggle(bool state, int ID=ID_Burst);
@@ -271,8 +249,8 @@ public:
 	EvoFitBox *fitbox;
 	DiagBox *diagbox;
 
-	vector<EvoChrome> *chromepop;
-	vector<EvoChrome> *chromeresult;
+    std::vector<EvoChrome> *chromepop;
+    std::vector<EvoChrome> *chromeresult;
 	EvoChrome *nextgen;
 	float *chromearray;
 	EvoChrome *chrome;
@@ -310,8 +288,8 @@ public:
 
 	EvoFit(Mod *, EvoFitBox *);
 	virtual void InitPop();
-	void quicksort(vector<EvoChrome> *a, int low, int high);
-	int partition(vector<EvoChrome> *a, int low, int high, int pivotindex);
+	void quicksort(std::vector<EvoChrome> *a, int low, int high);
+	int partition(std::vector<EvoChrome> *a, int low, int high, int pivotindex);
 	virtual void Evaluate(int start, int pop, double dual=0);
 	virtual void Evolve();
 	void AddChromeParam(int, double);

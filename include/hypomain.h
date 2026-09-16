@@ -185,7 +185,7 @@ public:
 	void ToolLoad(Mod *);
 	void SpikeModule(Mod *);
 	//void SpikeBox(int modmode = 0);
-	void BurstModule(Mod *, SpikeDat *moddata=NULL, bool evomode=false);
+	void BurstModule(Mod *, SpikeDat *moddata=nullptr, bool evomode=false);
 	//void EvoSpikeModule(Model *);
 	void SoundModule(Mod *);
 	void PlotModule(Mod *);

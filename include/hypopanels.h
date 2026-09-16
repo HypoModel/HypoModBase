@@ -11,7 +11,6 @@
 #include "hypodat.h"
 #include "hypomod.h"
 
-using namespace std;
 
 //class Model;
 class HypoMain;

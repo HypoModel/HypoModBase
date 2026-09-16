@@ -1268,7 +1268,7 @@ bool HypoApp::OnInit()
     CFStringGetCString(cf_string_ref, path, 1024, kCFStringEncodingUTF8);
     CFRelease(main_bundle_URL);
     CFRelease(cf_string_ref);
-    respath = path + string("/Contents/Resources");
+    respath = path + std::string("/Contents/Resources");
     
     homepath = getenv("HOME");
     hypopath = homepath + "/Library/Application Support/HypoMod";

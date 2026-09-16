@@ -16,6 +16,11 @@
 #include <wx/numformatter.h>
 
 
+using std::string;
+using std::ifstream;
+using std::ofstream;
+
+
 
 SpikePanel::SpikePanel(NeuroBox *box)
 	: ToolPanel(box, box->auitabpanel)
@@ -1917,7 +1922,7 @@ void GridBox::GridLoadAll()
 
 	WriteVDU("Reading file header...");
 
-	numlines = count(istreambuf_iterator<char>(readfile), istreambuf_iterator<char>(), '\n');
+	numlines = count(std::istreambuf_iterator<char>(readfile), std::istreambuf_iterator<char>(), '\n');
 	if(!numlines) {
 		WriteVDU("File empty\n");
 		return;
@@ -1932,7 +1937,7 @@ void GridBox::GridLoadAll()
 	readfile.seekg(0, readfile.beg);
 	readfile.read(&contents[0], contents.size());
 	readfile.close();
-	istringstream infile(contents);
+	std::istringstream infile(contents);
 
 	// Read and check file version
 	getline(infile, line);
@@ -2193,7 +2198,7 @@ void *GridLoadThread::Entry()
 
 	gridbox->WriteVDU("Reading file...");
 
-	numlines = count(istreambuf_iterator<char>(readfile), istreambuf_iterator<char>(), '\n');
+	numlines = count(std::istreambuf_iterator<char>(readfile), std::istreambuf_iterator<char>(), '\n');
 	if(!numlines) {
 		gridbox->WriteVDU("File empty\n");
 		return NULL;
@@ -2223,7 +2228,7 @@ void *GridLoadThread::Entry()
 	readfile.seekg(0, readfile.beg);
 	readfile.read(&contents[0], contents.size());
 	readfile.close();
-	istringstream infile(contents);
+	std::istringstream infile(contents);
 
 	/*
 	diagbox->Write("Contents codes:\n");
@@ -2381,7 +2386,7 @@ void GridBox::GridLoad()
 
 	WriteVDU("Reading file...");
 
-	numlines = count(istreambuf_iterator<char>(readfile), istreambuf_iterator<char>(), '\n');
+	numlines = count(std::istreambuf_iterator<char>(readfile), std::istreambuf_iterator<char>(), '\n');
 	if(!numlines) {
 		WriteVDU("File empty\n");
 		return;
@@ -2401,7 +2406,7 @@ void GridBox::GridLoad()
 	readfile.seekg(0, readfile.beg);
 	readfile.read(&contents[0], contents.size());
 	readfile.close();
-	istringstream infile(contents);
+	std::istringstream infile(contents);
 
 	/*
 	diagbox->Write("Contents codes:\n");

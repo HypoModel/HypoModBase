@@ -16,7 +16,7 @@
 
 // Quicksort 
 
-int EvoFit::partition(vector<EvoChrome> *a, int low, int high, int pivotindex)
+int EvoFit::partition(std::vector<EvoChrome> *a, int low, int high, int pivotindex)
 {
 	int storeindex, i;
 	double pivotvalue;
@@ -35,7 +35,7 @@ int EvoFit::partition(vector<EvoChrome> *a, int low, int high, int pivotindex)
 }
 
 
-void EvoFit::quicksort(vector<EvoChrome> *a, int low, int high)
+void EvoFit::quicksort(std::vector<EvoChrome> *a, int low, int high)
 {
 	int pivot;
 	wxString text;
@@ -437,22 +437,7 @@ void SpikeFitDat::Select(int index)
 }
 
 
-void SpikeFitDat::DeAllocate()
-{
-	//if(Ints) delete[] Ints;
-	//if(ISIs) delete[] ISIs;
-	//if(ExtraFreq) delete[] ExtraFreq;
-	//if(IntraFreq) delete[] IntraFreq;
-	//if(Bursts) delete[] Bursts;
-	//if(BurstMean) delete[] BurstMean;
-	//if(BurstSD) delete[] BurstSD;
-	//if(SilenceMean) delete[] SilenceMean;
-	//if(SilenceSD) delete[] SilenceSD;
-	//if(SpikeCounts) delete[] SpikeCounts;
-}
-
 
 SpikeFitDat::~SpikeFitDat()
 {
-	DeAllocate();
 }

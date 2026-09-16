@@ -2,6 +2,7 @@
 #include "hypomain.h"
 #include "hypograph.h"
 #include "hypodef.h"
+#include "hypocolours.h"
 
 
 //ToolPanel(ToolBox *tbox, const wxPoint& pos, const wxSize& size);
@@ -99,6 +100,8 @@ ScaleBox::ScaleBox(HypoMain *main, const wxSize& size, int gnum, GraphDisp *gdis
 	SetBackgroundColour(backgroundcolour);
 	SetFont(boxfont);                       // //
 	//dc.SetTextBackground(backgroundColour);
+    
+    SetBackgroundColour(HypoColours::Panel());
 
 	panel = this;
 	wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);

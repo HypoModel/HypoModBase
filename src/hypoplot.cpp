@@ -9,6 +9,9 @@
 #include <string>
 #include "wx/filedlg.h"
 
+using std::string;
+using std::ifstream;
+
 
 PlotBox::PlotBox(Mod *modarg, const wxString& title, const wxPoint& pos, const wxSize& size)
 	: ParamBox(modarg, title, pos, size, "plotbox", 0, 1)

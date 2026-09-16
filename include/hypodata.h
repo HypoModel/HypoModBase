@@ -229,15 +229,15 @@ public:
 
 	// NeuroBox links
 	NeuroBox *neurobox;
-	vector<NeuroDat>* celldata;   
+    std::vector<NeuroDat>* celldata;
 
 	// PlotBox link
 	PlotBox *plotbox; 
 
 	// Grid data vectors for large grids, currently not in use 
-	vector<GridNumDat> numdata;
+    std::vector<GridNumDat> numdata;
 	DataGrid numdatagrid;
-	vector<GridTextDat> textdata;
+    std::vector<GridTextDat> textdata;
 	DataGrid textdatagrid;
 
 	// Standard grid links
