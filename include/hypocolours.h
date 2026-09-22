@@ -10,12 +10,18 @@
 
 
 
-
 namespace HypoColours
 {
     inline wxColour Panel()
     {
-        return wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE);
+        //return wxColour(242, 242, 242);
+        //return wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE);
+        return wxColour(236, 236, 236);
+    }
+
+    inline wxColour Group()
+    {
+        return wxColour(235, 235, 235);
     }
 
     inline wxColour Canvas()

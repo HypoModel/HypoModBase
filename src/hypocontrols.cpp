@@ -3,6 +3,7 @@
 #include "hypocontrols.h"
 //#include "hypomain.h"
 #include "hypotools.h"
+#include "hypocolours.h"
 
 
 
@@ -240,6 +241,8 @@ ParamCon::ParamCon(ToolPanel *pan, int tp, wxString pname, wxString labelname, d
 	panel = pan;
 	pad = panel->controlborder;
 	cycle = 0;
+    
+    wxSize spin_size(15, 23);
 
 	//pad = 0;
 	if(ostype == Mac) pad = 0;
@@ -284,11 +287,28 @@ ParamCon::ParamCon(ToolPanel *pan, int tp, wxString pname, wxString labelname, d
 	numbox->SetFont(textfont);
 	sizer->Add(numbox, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, pad);
 
+    
 	if(type == spincon) {
-		spin = new wxSpinButton(this, wxID_ANY, wxDefaultPosition, wxSize(17, 23), wxSP_VERTICAL|wxSP_ARROW_KEYS);  // 21
+		if(ostype == Mac)
+            spin = new wxSpinButton(this, wxID_ANY, wxDefaultPosition, spin_size, wxSP_VERTICAL|wxSP_ARROW_KEYS);  // 21
+        else
+            spin = new wxSpinButton(this, wxID_ANY, wxDefaultPosition, wxSize(17, 23), wxSP_VERTICAL|wxSP_ARROW_KEYS);  // 21
+            
 		spin->SetRange(-1000000, 1000000);
-	}	
+        
+        int spinw, spinh;
+        spin->GetSize(&spinw, &spinh);
 
+        wxSize best = spin->GetBestSize();
+
+        mainwin->diagbox->Write(
+            wxString::Format("Spin actual %d x %d, best %d x %d\n",
+                spinw, spinh,
+                best.GetWidth(), best.GetHeight()));
+	}
+    
+    
+   
 	SetInitialSize(wxDefaultSize);
 	Move(wxDefaultPosition);
 
@@ -360,7 +380,8 @@ wxSize ParamCon::DoGetBestSize() const
 	//return wxSize(spinsize.x + sizenum.x + sizelabel.x + 4, sizenum.y + 4);
 	//return wxSize(spinsize.x + sizenum.x, sizenum.y);
 	if(ostype == Mac) {
-		if(type == spincon) return wxSize(numwidth + labelwidth + pad*2 + 17, 23);
+        //if(type == spincon) return wxSize(numwidth + labelwidth + pad*2 + 17, 23);
+        if(type == spincon) return wxSize(numwidth + labelwidth + pad*2 + 17, 23);
 		else return wxSize(numwidth + labelwidth + pad*2, 20);
 	}
 	//}return wxSize(120, 20);
@@ -714,7 +735,10 @@ ToolPanel::ToolPanel(MainFrame *main, const wxPoint& pos, const wxSize& size, lo
 
 
 void ToolPanel::Init() {
+    
 	controlborder = 2;
+    backgroundcolour = HypoColours::Panel();
+    SetBackgroundColour(backgroundcolour);
 
 	if(GetSystem() == Mac) {
 		buttonheight = 25;

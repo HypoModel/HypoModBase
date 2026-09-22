@@ -198,7 +198,6 @@ class ScaleBox: public ToolPanel
 {
 public:
 	ToolPanel *panel;
-	wxColour backgroundcolour;
 	MainFrame *mainwin;
 	//wxFrame *drawframe;
 	int buttonheight;

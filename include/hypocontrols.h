@@ -332,6 +332,7 @@ public:
 	int controlborder;
 	wxFont boxfont, confont;
 	int buttonheight;
+    wxColour backgroundcolour;
 
 	virtual void OnLeftClick(wxMouseEvent & event);
 	void OnLeftDClick(wxMouseEvent & event);
