@@ -896,6 +896,7 @@ void GraphWindow3::OnMouseMove(wxMouseEvent &event)
 		}
 	}*/
 
+    /*
 	if(selectband) {
 		currentpos = pos;
 
@@ -929,6 +930,42 @@ void GraphWindow3::OnMouseMove(wxMouseEvent &event)
 		//dc.SetBrush(*wxTRANSPARENT_BRUSH);
 		//dc.DrawRectangle(newrect);
 	}
+     */
+    
+    if(selectband) {
+        currentpos = pos;
+
+        if(currentpos.y > ybase + yplot - 1) currentpos.y = ybase + yplot - 1;
+        if(currentpos.y < ybase + 1) currentpos.y = ybase + 1;
+        if(currentpos.x > xbase + xplot - 1) currentpos.x = xbase + xplot - 1;
+        if(currentpos.x < xbase + 1) currentpos.x = xbase + 1;
+
+        anchorpos.y = ybase + 1;
+        currentpos.y = ybase + yplot - 1;
+
+        wxRect newrect(anchorpos, currentpos);
+
+        wxClientDC dc(this);
+        PrepareDC(dc);
+        wxDCOverlay overlaydc(overlay, &dc, xbase, ybase, xplot, yplot);
+        overlaydc.Clear();
+
+        /*
+    #ifdef __WXMAC__
+        dc.SetPen(*wxGREY_PEN);
+        dc.SetBrush(wxBrush(wxColour(192, 192, 192, 64)));
+    #else
+        dc.SetPen(wxPen(*wxLIGHT_GREY, 2));
+        dc.SetBrush(*wxTRANSPARENT_BRUSH);
+    #endif
+        */
+        
+        //dc.SetPen(wxPen(wxColour(80, 120, 200), 1));
+        dc.SetPen(*wxTRANSPARENT_PEN);
+        dc.SetBrush(wxBrush(wxColour(120, 160, 255, 64)));
+
+        dc.DrawRectangle(newrect);
+    }
 	
 }
 
