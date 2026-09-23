@@ -1,8 +1,10 @@
 
 
 #include "hypoplot.h"
-#include "hypomain.h"
+//#include "hypomain.h"
 #include "hyporand.h"
+#include "hypogrid.h"
+#include "hypomain.h"
 
 #include <iostream>
 #include <fstream>

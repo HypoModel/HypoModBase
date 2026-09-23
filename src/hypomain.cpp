@@ -1,5 +1,5 @@
 
-
+#include "hypogrid.h"
 #include "hypomain.h"
 #include "wx/print.h"
 #include "hypodef.h"

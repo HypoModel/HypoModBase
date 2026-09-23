@@ -1,10 +1,15 @@
 
 
-#include "hypomain.h"
+//#include "hypomain.h"
 #include "wx/notebook.h"
 #include "wx/clipbrd.h"
 //#include "hypomain.h"
 //#include "hypopanels.h"
+
+#include "hypomod.h"
+#include "hypopanels.h"
+#include "hypogrid.h"
+#include "hypomain.h"
 
 #ifdef HYPOSOUND
 #include "SineWave.h"

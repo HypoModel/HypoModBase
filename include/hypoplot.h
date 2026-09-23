@@ -16,7 +16,6 @@ enum {
 };
 
 
-
 class PlotBox: public ParamBox
 {
 public:

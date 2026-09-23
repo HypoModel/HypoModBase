@@ -24,54 +24,7 @@ public:
 };
 
 
-class TextGrid : public wxGrid
-{
-public:
-	wxMenu *rightmenu;
-	int ostype;
-	DiagBox *diagbox;
-	Mod *mod;
 
-	int selectcol, selectrow;
-
-	wxGridStringTable *undogrid;
-	wxTextCtrl *vdu;
-	GridBox *gridbox;
-	wxGauge *gauge;
-	wxString text;
-
-	TextGrid(wxWindow *parent, wxSize size);
-	~TextGrid();
-
-	void OnRightClick(wxGridEvent& event);
-	void OnLeftClick(wxGridEvent& event);
-	void OnLabelClick(wxGridEvent& event);
-	void OnKey(wxKeyEvent& event);
-	void OnTypeKey(wxKeyEvent &event);
-	void OnSelectAll(wxCommandEvent& event);
-	void OnCut(wxCommandEvent& event);
-	void OnCopy(wxCommandEvent& event);
-	void Undo();
-	void OnPaste(wxCommandEvent& event);
-	void OnUndo(wxCommandEvent& event);
-	void OnBold(wxCommandEvent& event);
-	void CopyUndo();
-	void Copy();
-	void Paste(int mode=0);  // mode 0 normal, mode 1 transpose
-	void Cut();
-	void Delete();
-	void SetBold();
-	void ClearCol(int);
-	void ParseLine(int row, int col, wxString line);
-	void ParseLabel(int row, int col, wxString line);
-	void SetCell(int row, int col, wxString data);
-	double ReadDouble(int row, int col);
-	bool CheckDouble(int row, int col, double *data);
-	wxString GetCell(int row, int col);
-	void CopyColumn(int source, int dest);
-	void InsertColumn(int currcol);
-	void OnInsertColumn(wxCommandEvent& event);
-};
 
 
 #endif

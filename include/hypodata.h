@@ -88,6 +88,7 @@ public:
 	void SelectLoad();
 	NeuroDat *GetCell(wxString name);  
 	void NextCell();
+    void PrevCell();
 };
 
 
@@ -161,131 +162,5 @@ public:
 };
 
 
-class GridNumDat
-{
-public:
-	int row;
-	int col;
-	double data;
-};
 
 
-class GridTextDat
-{
-public:
-	int row;
-	int col;
-	wxString data;
-};
-
-
-class DataGrid
-{
-public:
-	int count;
-	int grow;      // expansion step for increasing storage
-	int rowmax;
-	int colmax;
-
-	DataGrid() {
-		count = 0;
-		rowmax = 0;
-		colmax = 0;
-	};
-
-	void Clear() {
-		count = 0;
-		rowmax = 0;
-		colmax = 0;
-	}
-};
-
-
-class GridLoadThread : public wxThread
-{
-public:
-	GridBox *gridbox;
-
-	GridLoadThread(GridBox *gridbox);
-	virtual void *Entry();
-};
-
-
-class GridBox: public ParamBox
-{
-public:
-	Mod *mod;
-	wxTextCtrl *textbox;
-	TextGrid *textgrid[10];   // grid store array
-	TagStore gridindex;
-	DiagBox *diagbox;
-	wxNotebook *notebook;
-	//PlotBox *plotbox;
-	bool bookmode, vdumode;
-	bool undomode;
-	bool startshift;
-	int colflag[1000];
-	int numgrids;
-
-	// NeuroBox links
-	NeuroBox *neurobox;
-    std::vector<NeuroDat>* celldata;
-
-	// PlotBox link
-	PlotBox *plotbox; 
-
-	// Grid data vectors for large grids, currently not in use 
-    std::vector<GridNumDat> numdata;
-	DataGrid numdatagrid;
-    std::vector<GridTextDat> textdata;
-	DataGrid textdatagrid;
-
-	// Standard grid links
-	TextGrid *currgrid;   // pointer to selected grid, textgrid[0] by default
-	TextGrid *datagrid;
-	TextGrid *outputgrid;
-	TextGrid *paramgrid;
-	TextGrid *layoutgrid;
-
-	GridBox(Mod *mod, const wxString& title, const wxPoint& pos, const wxSize& size, int rows=100, int cols=20, bool bookmode=true, bool vdumode=true);
-
-	virtual void GridDefault();
-	virtual void TestGrid();
-	void GridStore();
-	void GridStoreAll();
-	void GridLoad();
-	void GridLoadAll();
-	void HistLoad();
-	void HistStore();
-
-	void OnGridStore(wxCommandEvent& event);
-	void OnGridLoad(wxCommandEvent& event);
-	void OnRightClick(wxMouseEvent& event);
-	void OnUndo(wxCommandEvent& event);
-	void OnCopy(wxCommandEvent& event);
-	void OnButton(wxCommandEvent& event);
-
-	int ColumnData(int, datdouble *);
-	int ColumnDataXY(int xcol, int ycol, datdouble *xdata, datdouble *ydata);
-	TextGrid *AddGrid(wxString label, wxSize size);
-	void SetCurrentGrid();
-	void ParamButton();
-	void NeuroButton();
-	void PlotButton();
-
-	void OnParamMode(wxCommandEvent& event);
-	void OnParamScan(wxCommandEvent& event);
-	void OnNeuroScan(wxCommandEvent& event);
-	virtual void OnPlot(wxCommandEvent& event);
-	void OnGridSelect(wxBookCtrlEvent& event);
-
-	void NeuroGridFilter(int mode=0);
-	void NeuroScan();
-
-	virtual void OnCellChange(wxGridEvent& event);
-	virtual void ColumnSelect(int);
-	virtual void RowSelect(int);
-
-	void SetNumCell(int row, int col, double data);
-	void SetTextCell(int row, int col, wxString data);
-};

@@ -143,13 +143,4 @@ public:
 
 
 
-class TextGridMod : public TextGrid
-{
-public:
-    Mod *mod;
-
-    TextGridMod(Mod *mod, wxWindow *parent, wxSize size);
-};
-
-
 #endif

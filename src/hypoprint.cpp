@@ -3,6 +3,7 @@
 #include "wx/graphics.h"
 #include "wx/metafile.h"
 #include "hypoprint.h"
+#include "hypogrid.h"
 #include "hypomain.h"
 
 
