@@ -391,16 +391,17 @@ void GraphWindow3::OnLeftDown(wxMouseEvent &event)
 	//int x, y, xx, yy ;
 	//event.GetPosition(&x,&y);
 	//CalcUnscrolledPosition( x, y, &xx, &yy );
-	/*anchorpos = pos;
+	anchorpos = pos;
 	currentpos = anchorpos;
 	selectband = true;
-	CaptureMouse();*/
-
 	CaptureMouse();
-	anchorpos = pos;
+
+	//CaptureMouse();
+	//anchorpos = pos;
 	if(anchorpos.x < xbase) anchorpos.x = xbase;
 	if(anchorpos.x > xbase + xplot) anchorpos.x = xbase + xplot;
-	if(anchorpos.y < ybase) currentpos.y = ybase;
+	//if(anchorpos.y < ybase) currentpos.y = ybase;
+	if(anchorpos.y < ybase) anchorpos.y = ybase;
 	if(anchorpos.y > ybase + yplot) anchorpos.y = ybase + yplot;
 }
 
@@ -493,20 +494,30 @@ void GraphWindow3::OnLeftUp(wxMouseEvent &event)
 
 	if(mainwin->diagnostic) mainwin->SetStatusText(snum);
 
+	/*
 	if(!HasCapture()) return;
 	ReleaseMouse();
 	//wxRect permRect = wxRect(anchorpos, pos);
 	overlay.Reset();
 	Refresh();
 
-	/*
+	
 	selectband = false;
 	ReleaseMouse();
 	{wxClientDC dc(this);
 	PrepareDC(dc);
 	wxDCOverlay overlaydc(overlay, &dc);
 	overlaydc.Clear();}
-	overlay.Reset();*/
+	overlay.Reset();
+	*/
+
+	selectband = false;
+
+	if(HasCapture())
+		ReleaseMouse();
+
+	overlay.Reset();
+	Refresh();
 }
 
 
@@ -837,6 +848,7 @@ void GraphWindow3::OnMouseMove(wxMouseEvent &event)
 	//anchorpos.y = ybase + 1; // - 10;
 	//currentpos.y = ybase + yplot - 1;
 
+	/*
 	//wxBufferedPaintDC dc(this);
 	wxClientDC dc(this);
 	wxDCOverlay overlaydc(overlay, &dc);
@@ -847,7 +859,7 @@ void GraphWindow3::OnMouseMove(wxMouseEvent &event)
 	ctx->SetBrush(wxBrush(wxColour(192,192,255,64)));
 	wxRect newrect(anchorpos, currentpos);
 	ctx->DrawRectangle(newrect.x, newrect.y, newrect.width, newrect.height);
-	
+	*/
 
 	/*
 	if(selectband) {
@@ -882,8 +894,42 @@ void GraphWindow3::OnMouseMove(wxMouseEvent &event)
 			//dc.SetAlpha(0xA0);
 			dc.DrawRectangle(newrect);
 		}
+	}*/
+
+	if(selectband) {
+		currentpos = pos;
+
+		if(currentpos.y > ybase + yplot - 1) currentpos.y = ybase + yplot - 1;
+		if(currentpos.y < ybase + 1) currentpos.y = ybase + 1;
+		if(currentpos.x > xbase + xplot - 1) currentpos.x = xbase + xplot - 1;
+		if(currentpos.x < xbase + 1) currentpos.x = xbase + 1;
+
+		anchorpos.y = ybase + 1;
+		currentpos.y = ybase + yplot - 1;
+
+		wxRect newrect(anchorpos, currentpos);
+
+		wxClientDC dc(this);
+		wxDCOverlay overlaydc(overlay, &dc);
+		overlaydc.Clear();
+
+		wxGraphicsContext *gc = wxGraphicsContext::Create(dc);
+
+		if(gc) {
+			gc->SetPen(wxPen(wxColour(120, 120, 160, 180), 1));
+			gc->SetBrush(wxBrush(wxColour(192, 192, 255, 64)));
+
+			gc->DrawRectangle(newrect.x, newrect.y,
+				newrect.width, newrect.height);
+
+			delete gc;
+		}
+
+		//dc.SetPen(wxPen(*wxLIGHT_GREY, 2));
+		//dc.SetBrush(*wxTRANSPARENT_BRUSH);
+		//dc.DrawRectangle(newrect);
 	}
-	*/
+	
 }
 
 

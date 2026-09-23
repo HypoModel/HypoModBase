@@ -65,7 +65,7 @@ SoundBox::SoundBox(Mod *mod, const wxString& title, const wxPoint& pos, const wx
 	buttonbox2->AddSpacer(10);
 	AddButton(ID_Stop, "Stop", 60, buttonbox2);
 
-	SetPanel(ID_Data, mod->gridbox);
+	SetPanel(ID_Data, (ToolBox *)mod->gridbox);
 
 	mainbox->AddSpacer(5);
 	mainbox->Add(parambox, 1, wxALIGN_CENTRE_HORIZONTAL|wxALIGN_CENTRE_VERTICAL|wxALL, 0);
