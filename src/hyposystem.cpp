@@ -115,10 +115,15 @@ OptionPanel::OptionPanel(HypoMain *main, const wxString & title)
 	Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(OptionPanel::OnModRadio));
 	Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionPanel::OnOK));
 	Connect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(OptionPanel::OnEnter));
-	Connect(ID_DataBrowse, ID_ModBrowse, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionPanel::OnBrowse));
+	//Connect(ID_DataBrowse, ID_ModBrowse, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionPanel::OnBrowse));
 	//Connect(ID_OutputBrowse, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionPanel::OnBrowse));
 	Connect(ID_ProjectStore, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionPanel::OnProjectStore));
 	Connect(ID_ProjectLoad, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionPanel::OnProjectLoad));
+    
+    Bind(wxEVT_BUTTON, &OptionPanel::OnBrowse, this, ID_DataBrowse);
+    Bind(wxEVT_BUTTON, &OptionPanel::OnBrowse, this, ID_OutputBrowse);
+    Bind(wxEVT_BUTTON, &OptionPanel::OnBrowse, this, ID_ParamBrowse);
+    Bind(wxEVT_BUTTON, &OptionPanel::OnBrowse, this, ID_ModBrowse);
 	
 	//ShowModal();
 	//Destroy(); 
@@ -133,8 +138,11 @@ void OptionPanel::OnProjectStore(wxCommandEvent& event)
 	if(filepath.IsEmpty()) return;
 
 	tag = projecttag->GetValue();
-	mainwin->project->Init(tag);
+	mainwin->project->SetTag(tag);
 	mainwin->project->Store();
+    
+    mainwin->tagset->storeactive = true;
+    mainwin->mod->storeactive = true;
 }
 
 
@@ -148,7 +156,7 @@ void OptionPanel::OnProjectLoad(wxCommandEvent& event)
 
 	tag = projecttag->GetValue();
 	
-	mainwin->project->Init(tag);
+	mainwin->project->SetTag(tag);
 	mainwin->project->Load();
 
 	this->Raise();
@@ -192,7 +200,7 @@ void OptionPanel::OnEnter(wxCommandEvent& event)
 	mainwin->parampath = parampathcon->GetValue();
 	mainwin->datapath = datapathcon->GetValue();
 	mainwin->outpath = outpathcon->GetValue();
-	mainwin->modpath = modpathcon->GetValue();
+	//mainwin->modpath = modpathcon->GetValue();
 	
 	//snum.Printf("ok numdraw %d", mainwin->numdraw);
 	//mainwin->SetStatus(snum);
@@ -215,6 +223,19 @@ void OptionPanel::OnClose(wxCloseEvent& event)
 }
 
 
+void OptionPanel::ModPathChange(wxString newpath)
+{
+    if(newpath != mainwin->modpath) {
+        mainwin->tagset->storeactive = false;
+        mainwin->mod->storeactive = false;
+    }
+    mainwin->modpath = newpath;
+    mainwin->project->GetPath();
+    projecttag->Clear();
+    projecttag->HistLoad();
+}
+
+
 void OptionPanel::OnBrowse(wxCommandEvent& event)
 {
 	if(event.GetId() == ID_DataBrowse) {
@@ -225,14 +246,16 @@ void OptionPanel::OnBrowse(wxCommandEvent& event)
 		wxDirDialog *d = new wxDirDialog(this, "Choose a directory", mainwin->outpath, 0, wxDefaultPosition);
 		if(d->ShowModal() == wxID_OK) outpathcon->textbox->SetLabel(d->GetPath()); 
 	}
-	if(event.GetId() == ID_ParamBrowse) {
-		wxDirDialog *d = new wxDirDialog(this, "Choose a directory", mainwin->parampath, 0, wxDefaultPosition);
-		if(d->ShowModal() == wxID_OK) parampathcon->textbox->SetLabel(d->GetPath()); 
-	}
-	if(event.GetId() == ID_ModBrowse) {
-		wxDirDialog *d = new wxDirDialog(this, "Choose a directory", mainwin->modpath, 0, wxDefaultPosition);
-		if(d->ShowModal() == wxID_OK) modpathcon->textbox->SetLabel(d->GetPath()); 
-	}
+    if(event.GetId() == ID_ParamBrowse) {
+        wxDirDialog *d = new wxDirDialog(this, "Choose a directory", mainwin->parampath, 0, wxDefaultPosition);
+        if(d->ShowModal() == wxID_OK) parampathcon->textbox->SetLabel(d->GetPath());
+    }
+    if(event.GetId() == ID_ModBrowse) {
+        wxDirDialog d(this, "Choose a directory", mainwin->modpath);
+        if(d.ShowModal() == wxID_OK) modpathcon->textbox->SetValue(d.GetPath());
+        mainwin->diagbox->Write("ModPath " + d.GetPath() + "\n");
+        ModPathChange(d.GetPath());
+    }
 }
 
 

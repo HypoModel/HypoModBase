@@ -4,7 +4,8 @@
 //#include "hypomain.h"
 #include "hypotools.h"
 #include "hypocolours.h"
-
+#include "wx/filename.h"
+#include <fstream>
 
 
 ToolButton::ToolButton(wxWindow *par, wxWindowID id, wxString label, const wxPoint& pos, const wxSize& size, DiagBox *db)
@@ -301,10 +302,10 @@ ParamCon::ParamCon(ToolPanel *pan, int tp, wxString pname, wxString labelname, d
 
         wxSize best = spin->GetBestSize();
 
-        mainwin->diagbox->Write(
-            wxString::Format("Spin actual %d x %d, best %d x %d\n",
-                spinw, spinh,
-                best.GetWidth(), best.GetHeight()));
+//        mainwin->diagbox->Write(
+//            wxString::Format("Spin actual %d x %d, best %d x %d\n",
+//                spinw, spinh,
+//                best.GetWidth(), best.GetHeight()));
 	}
     
     
@@ -1291,6 +1292,15 @@ void TagSet::AddTag(wxString boxtag, TagBox *newbox)
 }
 
 
+void TagSet::HistStore()
+{
+    if(storeactive) {
+        for(int i=0; i<numtags; i++)
+            if(tagdata[i].box) tagdata[i].box->HistStore();
+    }
+}
+
+
 TagBox *TagSet::GetBox(wxString tag) 
 {
 	int i;
@@ -1301,12 +1311,12 @@ TagBox *TagSet::GetBox(wxString tag)
 }
 
 
+/*  25/9/26 replaced with TagBox::GetPath()
 void TagSet::UpdatePath() {
     int i;
     
     for(i=0; i<numtags; i++) tagdata[i].box->PathUpdate();
-}
-
+*/
 
 
 TagBox::TagBox(MainFrame *main, ToolPanel *panel, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, wxString boxtag, wxString path)
@@ -1315,37 +1325,13 @@ TagBox::TagBox(MainFrame *main, ToolPanel *panel, wxWindowID id, const wxString&
     mainwin = main;
     boxpath = path;
 	redtag = "";
-	diagnostic = false;
+	diagnostic = true;
     
     mainwin->tagset->AddTag(boxtag, this);
     
-    //if(mainwin->modpath == "") tagpath = mainwin->mainpath + modpath + "/Tags/";
-    //else tagpath = mainwin->modpath + modpath + "/Tags/";
+	//PathUpdate();
+    wxString tagpath = GetPath();
 
-	PathUpdate();
-
-	/*
-	if(boxpath.IsEmpty()) {
-		if(mainwin->modpath.IsEmpty()) tagpath = "Tags";
-		else tagpath = mainwin->modpath + "/Tags";
-	}
-	else {
-		if(mainwin->modpath.IsEmpty()) tagpath = boxpath + "/Tags";
-		else tagpath = mainwin->modpath + "/" + boxpath + "/Tags";
-	}*/
-
-	/*
-	if(mainwin->modpath == "") {
-		if(mainwin->mainpath == "") tagpath = "Tags";
-		else tagpath = mainwin->mainpath + "/Tags";
-	}
-	else {
-		//if(mainwin->ostype == Mac) tagpath = mainwin->modpath + modpath + "/Tags/";
-		//else tagpath = mainwin->modpath + "/" + modpath + "/Tags/";
-		tagpath = mainwin->modpath + "/" + modpath + "/Tags";
-	}
-	*/
-    
     if(diagnostic) mainwin->diagbox->Write(text.Format("TagBox tagpath %s boxpath %s\n", tagpath, boxpath));
 	
 	name = boxtag;
@@ -1354,7 +1340,6 @@ TagBox::TagBox(MainFrame *main, ToolPanel *panel, wxWindowID id, const wxString&
 	bool check;
 	TextFile opfile, tagfile;
 	wxString readline;
-	wxString opfilepath, tagfilepath;
 
 	//tagfilename = "";
 
@@ -1370,7 +1355,7 @@ TagBox::TagBox(MainFrame *main, ToolPanel *panel, wxWindowID id, const wxString&
 		if(readline.IsEmpty()) tagfilename = name + "tags.ini";
 		else tagfilename = readline;
 		opfile.Close();
-	    if(!tagfile.Exists(tagpath + tagfilename)) tagfilename = name + "tags.ini";    // mostly used for update from old version full path opfile
+	    if(!tagfile.Exists(tagpath + "/" + tagfilename)) tagfilename = name + "tags.ini";    // mostly used for update from old version full path opfile
 	}
 
 	mainwin->diagbox->Write("\nTagBox init " + name + "\n");
@@ -1440,7 +1425,7 @@ wxString TagBox::StoreTag(wxString dir, wxString suffix)
 	return filepath;
 }
 
-
+/*
 void TagBox::PathUpdate()
 {
     //if(mainwin->modpath == "") tagpath = mainwin->mainpath + modpath + "/Tags/";
@@ -1458,23 +1443,44 @@ void TagBox::PathUpdate()
 
 	//if(diagnostic)
     mainwin->diagbox->Write(text.Format("TagBox PathUpdate() tagpath %s\n", tagpath));
-}
+}*/
 
 
 TagBox::~TagBox()
 {
-	HistStore();
+	//HistStore();
+}
+
+
+wxString TagBox::GetPath()
+{
+    wxString path;
+
+    if(boxpath.IsEmpty()) {
+        if(mainwin->modpath.IsEmpty()) path = "Tags";
+        else path = mainwin->modpath + "/Tags";
+    }
+    else {
+        if(mainwin->modpath.IsEmpty()) path = boxpath + "/Tags";
+        else path = mainwin->modpath + "/" + boxpath + "/Tags";
+    }
+
+    if(!wxDirExists(path))
+        wxFileName::Mkdir(path, wxS_DIR_DEFAULT, wxPATH_MKDIR_FULL);
+
+    return path;
 }
 
 
 void TagBox::HistStore()
 {
 	int i;
-	wxString filename, filepath, outline, text;
+    wxString outline;
 	TextFile opfile, tagfile;
-
-	if(!wxDirExists(tagpath)) wxMkdir(tagpath);
-
+    
+    wxString tagpath = GetPath();
+	//if(!wxDirExists(tagpath)) wxMkdir(tagpath);
+    
 	// Tag history
 	if(tagfilename == "") return;
 	tagfile.New(tagpath + "/" + tagfilename);
@@ -1483,6 +1489,15 @@ void TagBox::HistStore()
 		tagfile.WriteLine(outline);
 	}
 	tagfile.Close();
+    
+    //mainwin->diagbox->Write("TagBox HistStore " + name + "OK\n");
+    std::ofstream debug("/tmp/hypomod_tag_debug.txt", std::ios::app);
+
+    debug << "HistStore "
+          << name.ToStdString()
+          << " path=[" << tagpath.ToStdString() << "]"
+          << " file=[" << tagfilename.ToStdString() << "]"
+          << std::endl;
 
 	// Fixed location option file, directs to selectable tagfile location
 	opfile.New(tagpath + "/" + name + "op.ini");
@@ -1493,12 +1508,13 @@ void TagBox::HistStore()
 
 void TagBox::HistLoad()
 {
-	wxString filename, filepath;
-	wxString readline, tag, text;
+    wxString filename;
+    wxString readline, tag;
 	TextFile tagfile;
 	bool check;
 
 	tag = "";
+    wxString tagpath = GetPath();
 
 	// tag history load
 	if(tagpath == "") {
@@ -1548,6 +1564,7 @@ void TagBox::OnRClick(wxMouseEvent& event)
 void TagBox::ChooseFile()
 {
 	mainwin->diagbox->Write("TagBox ChooseFile\n");
+    wxString tagpath = GetPath();
 
 	wxFileDialog *filebox = new wxFileDialog(this, "Choose tag file", tagpath, tagfilename, "INI files (*.ini)|*.ini", wxFD_OVERWRITE_PROMPT);
 
@@ -1555,7 +1572,7 @@ void TagBox::ChooseFile()
 	if(filebox->ShowModal() == wxID_OK) {
 		tagfilepath = filebox->GetPath(); 
 		mainwin->diagbox->Write("Selected file path:" + tagfilepath + "\n");
-		if(mainwin->ostype = Windows) tagfilename = tagfilepath.AfterLast('\\');
+		if(mainwin->ostype == Windows) tagfilename = tagfilepath.AfterLast('\\');
 		else tagfilename = tagfilepath.AfterLast('/');
 		mainwin->diagbox->Write("Selected:" + tagfilename + "\n");
 		SetFile(tagfilename);
@@ -1574,14 +1591,30 @@ void TagBox::SetFile(wxString newfilename)
 }
 
 
+void TagBox::FileUpdate()
+{
+    wxString readline;
+    TextFile opfile;
+
+    if(opfile.Open(GetPath() + "/" + name + "op.ini")) {
+        readline = opfile.ReadLine();
+        opfile.Close();
+
+        if(readline.IsEmpty()) SetFile(name + "tags.ini");
+        else SetFile(readline);
+    }
+    else SetFile(name + "tags.ini");
+}
+
+
 void TagBox::SetLabel(wxString label)
 {
-	wxComboBox::SetLabel(label);
 	mainwin->diagbox->Write("TagBox SetLabel " + label + "\n");
 
 	int tagpos = FindString(label);
 	if(tagpos != wxNOT_FOUND) Delete(tagpos);
 	Insert(label, 0);
+    SetValue(label);
 }
 
 
@@ -1605,9 +1638,6 @@ wxBoxSizer *TagBox::TagCon(ToolBox *box, int storeid, int loadid, int orient)
 	return storesizer;
 }
 
-
-
-//ToolStore::ToolStore(ToolBox *toolbox, wxString storetag, wxString path, int width, ToolPanel *toolpanel)
 
 ToolStore::ToolStore(ToolBox *toolbox, TagBox *storetagbox, int storeid, int loadid)
 {

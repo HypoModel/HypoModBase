@@ -39,7 +39,7 @@ public:
 class TagBox: public wxComboBox
 {
 public:
-	wxString name, tagpath, tagfilepath, tagfilename;
+	wxString name, tagfilepath, tagfilename;
     wxString boxpath, text;
 	wxString redtag;
 	bool labelset, histmode;
@@ -54,10 +54,12 @@ public:
 	void HistStore();
 	void SetLabel(wxString);
 	void SetFile(wxString filename);
+    void FileUpdate();
 	void ChooseFile();
 	void OnDClick(wxMouseEvent & event);
 	void OnRClick(wxMouseEvent & event);
-    void PathUpdate();
+    //void PathUpdate();
+    wxString GetPath();
 	wxString LoadTag(wxString path, wxString suffix="");
 	wxString StoreTag(wxString path, wxString suffix="");
 	wxBoxSizer *TagCon(ToolBox *box, int storeid, int loadid, int orient=wxHORIZONTAL);
@@ -159,13 +161,16 @@ class TagSet
 public:
     int numtags;
 	TagDat tagdata[100];
+    bool storeactive;
     
     TagSet() {
         numtags = 0;
+        storeactive = false;
     }
     
     void AddTag(wxString boxtag, TagBox *newbox);
-    void UpdatePath();
+    void HistStore();
+    //void UpdatePath();
 	TagBox *GetBox(wxString tag);
 };
 

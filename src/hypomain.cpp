@@ -254,7 +254,7 @@ HypoMain::HypoMain(const wxString& title, const wxPoint& pos, const wxSize& size
         wxMkdir(hypopath);
         mainpath = hypopath;
         modpath = hypopath;
-        tagset->UpdatePath();
+        //tagset->UpdatePath();
         initpath = hypopath + "/Init/";
         if(mod) {
             wxMkdir(hypopath + "/" + mod->path);
@@ -271,7 +271,8 @@ HypoMain::HypoMain(const wxString& title, const wxPoint& pos, const wxSize& size
 
     if(mod && mod->projmode) {
         project->TagSetDisp();
-        project->Init(tag);
+        project->Init();
+        project->SetTag(tag);
         project->Load();
     }
     
@@ -691,6 +692,7 @@ void HypoMain::GraphOut()
 void HypoMain::OnClose(wxCloseEvent& event)
 {
 	OptionStore();
+    tagset->HistStore();
 	optionpanel->Destroy();
 	//ViewStore();
 	MainStore();
@@ -704,7 +706,6 @@ void HypoMain::OnClose(wxCloseEvent& event)
     if(mod) {
         mod->ModClose();
         mod->ModStore();
-        //mod->GHistStore();
     }
 	CleanUp();
 	Destroy();
@@ -1202,8 +1203,8 @@ void HypoMain::OptionLoad()
 			if(opfile.Eof()) return;
 			readline = opfile.GetNextLine();
 		}
-
-		opfile.Close();
+        
+        opfile.Close();
 
 		startmod = prefstore["startmod"];
 		numdraw = prefstore["numdraw"];
@@ -1238,7 +1239,7 @@ void HypoMain::OptionLoad()
 	readline = infile.ReadLine();
 	modpath = readline.Trim();
 
-	opfile.Close();
+	infile.Close();
 }
 
 

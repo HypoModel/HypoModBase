@@ -37,6 +37,7 @@ public:
 	bool evoflag;
 	int burstmode;
 	int projmode;
+    bool storeactive;
     
     // Threads
     wxMutex *runmute;

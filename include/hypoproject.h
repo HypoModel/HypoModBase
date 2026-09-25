@@ -28,5 +28,7 @@ public:
 	void Load();
 	void Store();
 	void TagSetDisp();
-	void Init(wxString tag, Mod *mod=NULL);
+	void Init(Mod *mod=NULL);
+    void GetPath();
+    void SetTag(wxString tag);
 };

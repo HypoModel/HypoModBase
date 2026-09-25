@@ -835,21 +835,6 @@ ParamBox::ParamBox(Mod *model, const wxString& title, const wxPoint& pos, const 
 }
 
 
-/*
-ParamBox::ParamBox(Mod *model, const wxString& title, const wxPoint& pos, const wxSize& size, bool close)
-: ToolBox(model->mainwin, title, pos, size, close)
-{	
-autorun = 0;
-boxtag = "";
-redtag = "";
-histmode = 0;
-mod = model;
-boxtype = 0;
-
-Initialise();
-}*/
-
-
 ParamBox::~ParamBox()
 {
 	delete modparams;

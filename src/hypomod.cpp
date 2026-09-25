@@ -54,6 +54,7 @@ Mod::Mod(int type, wxString name, HypoMain *main)
 
 	prefstore["numdraw"] = 2;
 	evoflag = false;
+    storeactive = true;
     
     Connect(wxID_ANY, EVT_MODTHREAD_COMPLETED, wxThreadEventHandler(Mod::OnModThreadCompletion));
     Connect(wxID_ANY, EVT_DIAG_WRITE, wxThreadEventHandler(Mod::OnDiagWrite));
@@ -316,7 +317,9 @@ void Mod::ModStore()
 
 	//if(modbox->defstore) 
 		
-  //modbox->StoreParam("default");
+    //modbox->StoreParam("default");
+    
+    if(!storeactive) return;     // protection from overwrite when switching modpath without project
 
 
 	// Prefs                                  February 2018

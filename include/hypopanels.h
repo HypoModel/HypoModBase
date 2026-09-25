@@ -43,6 +43,7 @@ public:
 	void OnProjectLoad(wxCommandEvent& event);
 	void OnProjectStore(wxCommandEvent& event);
 	void OnClose(wxCloseEvent& event);
+    void ModPathChange(wxString newpath);
 };
 
 

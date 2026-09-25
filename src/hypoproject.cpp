@@ -14,23 +14,32 @@ Project::Project(HypoMain *main)
 }
 
 
-void Project::Init(wxString tag, Mod *model)
+void Project::GetPath()
 {
-	wxString text;
+    if(mod) path = mod->GetPath() + "/Projects";
+}
 
+
+void Project::Init(Mod *model)
+{
 	if(!model) mod = mainwin->mod;
 	else mod = model;
+    GetPath();
+}
 
-	protag = tag;
-	path = mod->GetPath() + "/Projects";
 
-	//boxfile = mod->modname + "-" + protag + "-box.ini";
-	//prefsfile = mod->modname + "-" + protag + "-prefs.ini";
-	boxfile = protag + "-box.ini";
-	prefsfile = protag + "-prefs.ini";
-	tagfile = protag + "-tags.ini";
+void Project::SetTag(wxString tag)
+{
+    wxString text;
 
-	mainwin->diagbox->Write(text.Format("Project boxfile %s\n", boxfile));
+    protag = tag;
+    //boxfile = mod->modname + "-" + protag + "-box.ini";
+    //prefsfile = mod->modname + "-" + protag + "-prefs.ini";
+    boxfile = protag + "-box.ini";
+    prefsfile = protag + "-prefs.ini";
+    tagfile = protag + "-tags.ini";
+
+    mainwin->diagbox->Write(text.Format("Project boxfile %s\n", boxfile));
 }
 
 
@@ -47,17 +56,21 @@ void Project::TagSetDisp()
 
 void Project::Store()
 {
-	int i;
+	int i, check = true;
 	TextFile outfile;
-	wxString text, filepath, tagpath;
+    wxString text, filepath;
 	
-	if(!wxDirExists(path)) wxMkdir(path);
-	filepath = path + "/" + projectfile;
+    if(!wxDirExists(path)) check = wxMkdir(path);
+    if(!check) mainwin->diagbox->Write("Mkdir fail path: " + path + "\n");
+       
+       
+	//filepath = path + "/" + projectfile;  - removed 25/9/26, appears old unfinisished code for separate project folders
+    filepath = path;
 
-	outfile.Open(filepath);
-	outfile.WriteLine("box " + boxfile);
-	outfile.WriteLine("box " + boxfile);
-	outfile.WriteLine("box " + boxfile);
+	//outfile.Open(filepath);
+	//outfile.WriteLine("box " + boxfile);
+	//outfile.WriteLine("box " + boxfile);
+	//outfile.WriteLine("box " + boxfile);
 
 	// Prefs Store
 	mod->prefstore["mainsizeX"] = mainwin->GetSize().GetX();
@@ -105,7 +118,8 @@ void Project::Load()
 	TagBox *box;
 	ToolBox *toolbox;
 
-	filepath = path + "/" + projectfile;
+	// filepath = path + "/" + projectfile;  - removed 25/9/26, appears old unfinisished code for project folders
+    filepath = path;
 
 	// Prefs Load
 	check = infile.Open(filepath + "/" + prefsfile);
@@ -131,13 +145,16 @@ void Project::Load()
 	
 	// Box Load
 	check = infile.Open(filepath + "/" + boxfile);
-	if(!check) mainwin->diagbox->Write("Project box file not found\n");
+    if(!check) {
+        mainwin->diagbox->Write("Project box file not found\n");
+        mainwin->diagbox->Write("Bad path: " + filepath + "/" + boxfile + "\n");
+    }
 	else {
 		readline = infile.ReadLine();
 		while(!readline.IsEmpty()) {
 			numstring = readline.BeforeFirst(' ');
 			numstring.ToLong(&numdat);
-			boxindex = numdat;
+			boxindex = (int)numdat;
 			if(boxindex >= mod->modtools.numtools) break;
 			pos.x = ReadNextData(&readline);
 			pos.y = ReadNextData(&readline);
@@ -186,4 +203,7 @@ void Project::Load()
 		}
 	}
 	mainwin->scalebox->GLoad();
+    
+    tagset->storeactive = true;
+    mod->storeactive = true;
 }

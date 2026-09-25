@@ -135,7 +135,7 @@ void MainFrame::MainStore()
 {
 	int i;
 	wxString filename;
-	wxString outline, text;
+	wxString text;
 	TextFile outfile, opfile;
 
 	initpath = mainpath + "/Init/";
