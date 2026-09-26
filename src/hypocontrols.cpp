@@ -1325,7 +1325,7 @@ TagBox::TagBox(MainFrame *main, ToolPanel *panel, wxWindowID id, const wxString&
     mainwin = main;
     boxpath = path;
 	redtag = "";
-	diagnostic = true;
+	diagnostic = false;
     
     mainwin->tagset->AddTag(boxtag, this);
     
@@ -1364,6 +1364,7 @@ TagBox::TagBox(MainFrame *main, ToolPanel *panel, wxWindowID id, const wxString&
 	//Connect(id, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler(TagBox::OnDClick));
 	Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(TagBox::OnDClick));
 	Connect(wxEVT_RIGHT_UP, wxMouseEventHandler(TagBox::OnRClick));
+    Bind(wxEVT_CONTEXT_MENU, &TagBox::OnContext, this);
 }
 
 // LoadTag() checks for existing file using current tag with specified directory and suffix, if found updates tag list and returns file path
@@ -1554,9 +1555,16 @@ void TagBox::OnDClick(wxMouseEvent& event)
 }
 
 
+void TagBox::OnContext(wxContextMenuEvent& event)
+{
+    mainwin->diagbox->Write("\ntag context\n");
+    ChooseFile();
+}
+
+
 void TagBox::OnRClick(wxMouseEvent& event)
 {
-	if(diagbox) diagbox->Write("\ntag rclick\n");
+	mainwin->diagbox->Write("\ntag rclick\n");
 	ChooseFile();
 }
 

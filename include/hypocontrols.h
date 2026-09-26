@@ -58,6 +58,7 @@ public:
 	void ChooseFile();
 	void OnDClick(wxMouseEvent & event);
 	void OnRClick(wxMouseEvent & event);
+    void OnContext(wxContextMenuEvent & event);
     //void PathUpdate();
     wxString GetPath();
 	wxString LoadTag(wxString path, wxString suffix="");

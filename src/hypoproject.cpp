@@ -98,7 +98,7 @@ void Project::Store()
 		outfile.WriteLine(text.Format("%s %s", tagset->tagdata[i].tag, tagset->tagdata[i].box->tagfilename));
 	}
 	outfile.Close();
-
+    tagset->HistStore();
 }
 
 
