@@ -192,7 +192,7 @@ void Mod::GSwitch(GraphDisp *gpos, ParamStore *gflags, int command)
 
 wxString Mod::GetPath()
 {
-	wxString fullpath, text;
+    wxString fullpath;
 
 	if(mainwin->modpath == "") {
 		if(path != "") fullpath = path;
