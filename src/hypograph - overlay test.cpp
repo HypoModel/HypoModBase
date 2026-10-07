@@ -847,8 +847,93 @@ void GraphWindow3::OnMouseMove(wxMouseEvent &event)
 	if(currentpos.y < ybase + 1) currentpos.y = ybase + 1;
 	if(currentpos.x > xbase + xplot - 1) currentpos.x = xbase + xplot - 1;
 	if(currentpos.x < xbase + 1) currentpos.x = xbase + 1;
-	
-	
+	//anchorpos.y = ybase + 1; // - 10;
+	//currentpos.y = ybase + yplot - 1;
+
+	/*
+	//wxBufferedPaintDC dc(this);
+	wxClientDC dc(this);
+	wxDCOverlay overlaydc(overlay, &dc);
+	overlaydc.Clear();
+
+	wxGraphicsContext *ctx = wxGraphicsContext::Create(dc);
+    //ctx->SetPen(*wxGREY_PEN);
+	ctx->SetBrush(wxBrush(wxColour(192,192,255,64)));
+	wxRect newrect(anchorpos, currentpos);
+	ctx->DrawRectangle(newrect.x, newrect.y, newrect.width, newrect.height);
+	*/
+
+	/*
+	if(selectband) {
+		//int x,y, xx, yy;
+		//event.GetPosition(&x,&y);
+		//CalcUnscrolledPosition( x, y, &xx, &yy );
+
+		currentpos = pos;
+		if(currentpos.y > ybase + yplot - 1) currentpos.y = ybase + yplot - 1;
+		if(currentpos.y < ybase + 1) currentpos.y = ybase + 1;
+		if(currentpos.x > xbase + xplot - 1) currentpos.x = xbase + xplot - 1;
+		if(currentpos.x < xbase + 1) currentpos.x = xbase + 1;
+		anchorpos.y = ybase + 1; // - 10;
+		currentpos.y = ybase + yplot - 1;
+
+		wxRect newrect(anchorpos, currentpos);
+		{
+			wxClientDC dc(this);
+			PrepareDC(dc);
+			wxDCOverlay overlaydc(overlay, &dc, xbase, ybase, xplot, yplot);
+			//wxDCOverlay overlaydc(overlay, &dc);
+			overlaydc.Clear();
+#ifdef __WXMAC__
+			dc.SetPen(*wxGREY_PEN);
+			dc.SetBrush(wxColour(192,192,192,64));
+#else
+			//dc.SetPen(wxPen(*wxBLUE, 2));
+			dc.SetPen(wxPen(*wxLIGHT_GREY, 2));
+			dc.SetBrush(*wxTRANSPARENT_BRUSH);
+			//dc.SetBrush( *wxBLUE_BRUSH );
+#endif	
+			//dc.SetAlpha(0xA0);
+			dc.DrawRectangle(newrect);
+		}
+	}*/
+
+    /*
+	if(selectband) {
+		currentpos = pos;
+
+		if(currentpos.y > ybase + yplot - 1) currentpos.y = ybase + yplot - 1;
+		if(currentpos.y < ybase + 1) currentpos.y = ybase + 1;
+		if(currentpos.x > xbase + xplot - 1) currentpos.x = xbase + xplot - 1;
+		if(currentpos.x < xbase + 1) currentpos.x = xbase + 1;
+
+		anchorpos.y = ybase + 1;
+		currentpos.y = ybase + yplot - 1;
+
+		wxRect newrect(anchorpos, currentpos);
+
+		wxClientDC dc(this);
+		wxDCOverlay overlaydc(overlay, &dc);
+		overlaydc.Clear();
+
+		wxGraphicsContext *gc = wxGraphicsContext::Create(dc);
+
+		if(gc) {
+			gc->SetPen(wxPen(wxColour(120, 120, 160, 180), 1));
+			gc->SetBrush(wxBrush(wxColour(192, 192, 255, 64)));
+
+			gc->DrawRectangle(newrect.x, newrect.y,
+				newrect.width, newrect.height);
+
+			delete gc;
+		}
+
+		//dc.SetPen(wxPen(*wxLIGHT_GREY, 2));
+		//dc.SetBrush(*wxTRANSPARENT_BRUSH);
+		//dc.DrawRectangle(newrect);
+	}
+     */
+    
     if(selectband) {
         currentpos = pos;
 
@@ -862,15 +947,16 @@ void GraphWindow3::OnMouseMove(wxMouseEvent &event)
 
         wxRect newrect(anchorpos, currentpos);
 
-#ifndef __WXMAC__
-		overlay.SetOpacity(-1);   // wxWidgets 3.3 MSW: enable per-pixel alpha
-#endif
+		overlay.SetOpacity(-1);
 
         wxClientDC dc(this);
         PrepareDC(dc);
         wxDCOverlay overlaydc(overlay, &dc, xbase, ybase, xplot, yplot);
         overlaydc.Clear();
+
 		
+
+
 #ifdef __WXMAC__
 		dc.SetPen(*wxTRANSPARENT_PEN);
 		dc.SetBrush(wxBrush(wxColour(120, 160, 255, 64)));
@@ -882,6 +968,63 @@ void GraphWindow3::OnMouseMove(wxMouseEvent &event)
 		gcdc.DrawRectangle(newrect);
 #endif
 
+        /*
+    #ifdef __WXMAC__
+        dc.SetPen(*wxGREY_PEN);
+        dc.SetBrush(wxBrush(wxColour(192, 192, 192, 64)));
+    #else
+        dc.SetPen(wxPen(*wxLIGHT_GREY, 2));
+        dc.SetBrush(*wxTRANSPARENT_BRUSH);
+    #endif
+        */
+        
+
+#ifdef __WXMAC__
+		dc.SetPen(*wxTRANSPARENT_PEN);
+		dc.SetBrush(wxBrush(wxColour(120, 160, 255, 64)));
+		dc.DrawRectangle(newrect);
+#else
+		//wxGraphicsContext* gc = wxGraphicsContext::Create(dc);
+
+		//if(gc) {
+		//	//gc->SetPen(wxPen(wxColour(120, 120, 160, 180), 1));
+		//	gc->SetBrush(wxBrush(wxColour(192, 192, 255, 64)));
+
+		//	gc->DrawRectangle(newrect.x, newrect.y, newrect.width, newrect.height);
+
+		//	delete gc;
+		//}
+
+		//wxGraphicsContext* ctx = wxGraphicsContext::Create(dc);
+		////ctx->SetPen(*wxGREY_PEN);
+		//ctx->SetBrush(wxBrush(wxColour(192, 192, 255, 64)));
+		////wxRect newrect(anchorpos, currentpos);
+		//ctx->DrawRectangle(newrect.x, newrect.y, newrect.width, newrect.height);
+#endif
+
+//#ifdef __WXMAC__
+//		dc.SetPen(*wxTRANSPARENT_PEN);
+//		dc.SetBrush(wxBrush(wxColour(120, 160, 255, 64)));
+//		dc.DrawRectangle(newrect);
+//#else
+//		//wxGraphicsContext* ctx = wxGraphicsContext::Create(dc);
+//
+//
+//		wxGraphicsRenderer* renderer = wxGraphicsRenderer::GetGDIPlusRenderer();
+//		wxGraphicsContext* ctx = renderer ? renderer->CreateContext(dc) : nullptr;
+//
+//		if (ctx) {
+//			ctx->SetPen(*wxTRANSPARENT_PEN);
+//			ctx->SetBrush(wxBrush(wxColour(192, 192, 255, 64)));
+//
+//			wxRect newrect(anchorpos, currentpos);
+//			ctx->DrawRectangle(newrect.x, newrect.y, newrect.width, newrect.height);
+//
+//			delete ctx;
+//		}
+//
+//		
+//#endif
     }
 	
 }
