@@ -34,6 +34,9 @@ public:
 
 	virtual bool OnInit();
 	void LoadPrefs();
+#ifdef __WXMAC__
+    void MacReopenApp();
+#endif
 };
 
 
@@ -199,6 +202,7 @@ public:
 	void RemoveGraph(int);
 	void GraphPanelsUpdate();
 	void SizeUpdate();
+    void ShowTools();
 
 	void OnFlag(wxCommandEvent& event);
 	void SetMenuFlag(int, wxString, wxString, int state, wxMenu *menu); 
@@ -206,6 +210,7 @@ public:
 	void OnMove(wxMoveEvent& event);
 	void OnSize(wxSizeEvent& event);
 	void OnClose(wxCloseEvent& event);
+    void OnIconize(wxIconizeEvent& event);
 	void OnDClick(wxMouseEvent& event);
 
 	void OnQuit(wxCommandEvent& event);

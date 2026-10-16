@@ -409,6 +409,7 @@ public:
 	void OnSize(wxSizeEvent& event);
 	void Init();
 	virtual void OnClose(wxCloseEvent& event);
+    void OnIconize(wxIconizeEvent& event);
 	//virtual void OnClick(wxPoint);
 	//void OnDClick(wxMouseEvent & event);
 	//void OnMouseMove(wxMouseEvent & event);

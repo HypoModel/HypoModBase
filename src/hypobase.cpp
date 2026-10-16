@@ -73,6 +73,8 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	else initpath = mainpath + "/Init";
     
     diagbox->Write("MainFrame initpath " + initpath + "\n");
+    
+    //Bind(wxEVT_ICONIZE, &MainFrame::OnIconize, this);
 
 	MainLoad();     // main window tool configuration
 }
@@ -90,7 +92,7 @@ void MainFrame::MainLoad()
 	long numdat;
 	int i, check, boxindex;
 
-	wxString filename, filepath;
+	wxString filepath;
 	wxString readline, numstring;
 
 	TextFile infile;

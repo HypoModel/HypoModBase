@@ -301,6 +301,7 @@ HypoMain::HypoMain(const wxString& title, const wxPoint& pos, const wxSize& size
 	//Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(MainFrame::OnDClick));
 	//Connect(wxEVT_MOTION, wxMouseEventHandler(MainFrame::OnDClick));
 	Connect(wxEVT_LEFT_UP, wxMouseEventHandler(HypoMain::OnDClick));
+    Bind(wxEVT_ICONIZE, &HypoMain::OnIconize, this);
 
 	Connect(ID_Quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(HypoMain::OnQuit));
 	Connect(ID_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(HypoMain::OnAbout));
@@ -338,6 +339,31 @@ HypoMain::~HypoMain()
 	//delete expdata;
 	//delete expdata2;
 	//delete selectdata;
+}
+
+
+void HypoMain::ShowTools()
+{
+    int i;
+    ToolBox *box;
+
+    for(i=0; i<toolset->numtools; i++) {
+        box = toolset->box[i];
+        if(box && box->visible) {
+            box->Show(true);
+            box->SetPosition();
+        }
+    }
+
+    if(mod) {
+        for(i=0; i<mod->modtools.numtools; i++) {
+            box = mod->modtools.box[i];
+            if(box && box->visible) {
+                box->Show(true);
+                box->SetPosition();
+            }
+        }
+    }
 }
 
 
@@ -739,8 +765,46 @@ void HypoMain::OnMove(wxMoveEvent& event)
         //snum.Printf("Move %d modtools", mod->modtools.numtools);
         //if(diagnostic) SetStatusText(snum);
     }
+}
 
-	//gwindow->Refresh();
+
+void HypoMain::OnIconize(wxIconizeEvent& event)
+{
+    int i;
+    ToolBox *box;
+    bool iconized = event.IsIconized();
+
+    for(i=0; i<toolset->numtools; i++) {
+        box = toolset->box[i];
+        if(box) {
+            if(iconized) box->Show(false);
+            else if(box->visible) {
+                box->Show(true);
+                box->SetPosition();
+            }
+        }
+    }
+    
+    diagbox->Write(text.Format("OnIconize %d tools\n", toolset->numtools));
+
+    if(mod) {
+        diagbox->Write(text.Format("OnIconize %d modtools\n", mod->modtools.numtools));
+        for(i=0; i<mod->modtools.numtools; i++) {
+            box = mod->modtools.box[i];
+            if(box) {
+                if(iconized) {
+                    box->Show(false);
+                    diagbox->Write("minimise tool\n");
+                }
+                else if(box->visible) {
+                    box->Show(true);
+                    box->SetPosition();
+                }
+            }
+        }
+    }
+
+    event.Skip();
 }
 
 
@@ -1296,6 +1360,21 @@ bool HypoApp::OnInit()
 	//mainwin->SetDoubleBuffered(true);
 	return TRUE;
 }
+
+
+#ifdef __WXMAC__
+void HypoApp::MacReopenApp()
+{
+    HypoMain *mainwin = dynamic_cast<HypoMain *>(GetTopWindow());
+    if(!mainwin) return;
+
+    mainwin->Show(true);
+    if(mainwin->IsIconized()) mainwin->Iconize(false);
+    mainwin->Raise();
+
+    mainwin->ShowTools();
+}
+#endif
 
 
 void HypoApp::LoadPrefs()

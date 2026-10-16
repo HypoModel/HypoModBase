@@ -947,6 +947,13 @@ ToolBox::ToolBox(MainFrame *main, const wxString& title, const wxPoint& pos, con
 }*/
 
 
+
+void ToolBox::OnIconize(wxIconizeEvent& event)
+{
+    event.Skip();
+}
+
+
 void ToolBox::Init()
 {
 	SetPosition();
@@ -998,6 +1005,7 @@ void ToolBox::Init()
 	Connect(wxEVT_MOVE, wxMoveEventHandler(ToolBox::OnMove));
 	Connect(wxEVT_SIZE, wxSizeEventHandler(ToolBox::OnSize));
 	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ToolBox::OnClose));
+    Bind(wxEVT_ICONIZE, &ToolBox::OnIconize, this);
 }
 
 
